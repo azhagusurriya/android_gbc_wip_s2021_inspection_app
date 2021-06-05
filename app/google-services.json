@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "904747997740",
+    "project_id": "wip2021-b47b2",
+    "storage_bucket": "wip2021-b47b2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:904747997740:android:bb60a7a09e19153cb70f89",
+        "android_client_info": {
+          "package_name": "com.example.wip_android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "904747997740-cbr4ugma41aoof9tsdsnfb1e0fq1j0qu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDV4rtLV9czfqDW0ROidP65YSzzzVykkbY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "904747997740-cbr4ugma41aoof9tsdsnfb1e0fq1j0qu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "904747997740-7dnf9sg5t7q29dgkkac7usb1ujagifr9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Nathan630pm.WIP2021"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
