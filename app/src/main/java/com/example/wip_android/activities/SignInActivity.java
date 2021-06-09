@@ -3,6 +3,7 @@ package com.example.wip_android.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,9 +13,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import com.example.wip_android.MainActivity;
 import com.example.wip_android.R;
+import com.example.wip_android.databinding.ActivityMainBinding;
 import com.example.wip_android.models.User;
 import com.example.wip_android.viewmodels.UserViewModel;
 
@@ -29,6 +35,9 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private UserViewModel userViewModel;
     private User userInfo;
     private String userID;
+
+    private AppBarConfiguration mAppBarConfiguration;
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,5 +137,22 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         this.userViewModel.validateUser(email, password);
 
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+                || super.onSupportNavigateUp();
+    }
+
+
 
 }
