@@ -1,14 +1,18 @@
 package com.example.wip_android;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 
+import com.example.wip_android.activities.SignInActivity;
 import com.example.wip_android.viewmodels.UserViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -71,5 +75,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.action_logout:
+                //add the function to perform here
+                this.logout();
+                return(true);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void logout(){
+        this.userViewModel.getUserRepository().signInStatus.postValue("FAILURE");
+        finish();
+        Intent i=new Intent(getApplicationContext(), SignInActivity.class);
+        startActivity(i);
+    }
 
 }
