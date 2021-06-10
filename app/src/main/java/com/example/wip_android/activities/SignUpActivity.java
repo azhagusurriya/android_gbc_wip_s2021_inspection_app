@@ -164,7 +164,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "Registration successful!", Toast.LENGTH_LONG).show();
-                            goToMain();
+
                         }
                         else {
                             Toast.makeText(getApplicationContext(), "Registration failed! Please try again later", Toast.LENGTH_LONG).show();

@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
@@ -23,6 +24,10 @@ import com.example.wip_android.R;
 import com.example.wip_android.databinding.ActivityMainBinding;
 import com.example.wip_android.models.User;
 import com.example.wip_android.viewmodels.UserViewModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -35,6 +40,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private UserViewModel userViewModel;
     private User userInfo;
     private String userID;
+    private FirebaseAuth mAuth;
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
@@ -43,6 +49,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+        this.mAuth = FirebaseAuth.getInstance();
 
 
         this.userViewModel = UserViewModel.getInstance();
@@ -133,9 +140,26 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private void validateLogin(){
         String email = this.edtEmail.getText().toString();
         String password = this.edtPassword.getText().toString();
-
+        signInAuthUser(email,password);
         this.userViewModel.validateUser(email, password);
 
+    }
+
+    private void signInAuthUser(String email, String password){
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_LONG).show();
+
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "Login failed! Please try again later", Toast.LENGTH_LONG).show();
+
+                        }
+                    }
+                });
     }
 
 
