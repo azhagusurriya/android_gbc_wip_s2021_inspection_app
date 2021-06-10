@@ -152,7 +152,4 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-
-
-
 }

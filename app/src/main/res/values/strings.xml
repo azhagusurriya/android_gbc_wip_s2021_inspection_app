@@ -22,4 +22,9 @@
     <string name="already_a_user">Already a user</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="name">Name</string>
+    <string name="firstName">First Name</string>
+    <string name="lastName">Last Name</string>
+    <string name="EmployeeId">Employee ID</string>
+    <string name="phoneNumber">Mobile Number</string>
+    <string name="spinner_title">Department</string>
 </resources>
