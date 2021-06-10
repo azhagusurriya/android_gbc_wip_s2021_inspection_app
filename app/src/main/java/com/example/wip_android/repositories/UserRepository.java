@@ -27,16 +27,38 @@ public class UserRepository {
     private  final String COLLECTION_NAME = "Users";
     private final FirebaseFirestore db;
     public User newUserInfo = new User();
+    private FirebaseAuth mAuth;
 
 
     public MutableLiveData<String> signInStatus = new MutableLiveData<String>();
     public MutableLiveData<String> userExistStatus = new MutableLiveData<String>();
     public MutableLiveData<String> loggedInUserID = new MutableLiveData<String>();
     public MutableLiveData<String> userDeleteStatus = new MutableLiveData<String>();
+    public MutableLiveData<String> userAuthEmailStatus = new MutableLiveData<String>();
+
 
     public  UserRepository(){
         db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
+    }
+
+    public void createAuthUser(User user,String password){
+        mAuth.createUserWithEmailAndPassword(user.getEmail(), password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "Authentication Success");
+                            addUser(user);
+                            userAuthEmailStatus.postValue("NOT EXIST");
+                        }
+                        else {
+                             Log.d(TAG, "Authentication Failed : " +  task.getException());
+                            userAuthEmailStatus.postValue("EMAIL EXIST");
+                        }
+                    }
+                });
     }
 
     public void addUser(User user){
@@ -60,7 +82,6 @@ public class UserRepository {
             Log.e(TAG, ex.getLocalizedMessage());
         }
     }
-
 
     public void getUser(String email, String password){
 
@@ -125,7 +146,7 @@ public class UserRepository {
         try{
             db.collection(COLLECTION_NAME)
                     .whereEqualTo("email", email)
-                     //.whereEqualTo("empID",employeeID)
+                     .whereEqualTo("empID",employeeID)
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -133,10 +154,19 @@ public class UserRepository {
                             if (task.isSuccessful()){
 
                                 if (task.getResult().getDocuments().size() != 0){
-                                    if(task.getResult().getDocuments().get(0).toObject(User.class).getEmail().equals(email)) {
-                                        userExistStatus.postValue("EMAIL EXIST");
+                                    if(task.getResult().getDocuments().get(0).toObject(User.class).getEmpID().equals(employeeID)) {
+                                        userExistStatus.postValue("EMPLOYEEID EXIST");
                                     }
+
+                                    else{
+                                        if(task.getResult().getDocuments().get(0).toObject(User.class).getEmail().equals(email)) {
+                                            userExistStatus.postValue("EMAIL EXIST");
+                                        }
+                                    }
+
+
                                 }
+
                                 else{
                                     userExistStatus.postValue("NOT EXIST");
                                 }

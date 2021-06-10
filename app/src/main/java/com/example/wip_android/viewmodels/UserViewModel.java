@@ -20,11 +20,17 @@ public class UserViewModel extends ViewModel {
     private UserViewModel(){
     }
 
+
+    public UserRepository getUserRepository(){
+        return userRepository;
+    }
+
     public void addUser(User user){
         this.userRepository.addUser(user);
     }
-    public UserRepository getUserRepository(){
-        return userRepository;
+
+    public void createAuthUser(User user, String password){
+        this.userRepository.createAuthUser(user,password);
     }
 
 

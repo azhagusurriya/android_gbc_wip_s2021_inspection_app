@@ -91,15 +91,37 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
                     //save data to database
                     saveUserToDB();
-
-                    goToMain();
-                    userViewModel.getUserRepository().userExistStatus.postValue("");
+                    //goToMain();
+                    //userViewModel.getUserRepository().userExistStatus.postValue("");
 
                 }else if (status.equals("EMAIL EXIST")){
 
                     Log.d(TAG, "onChanged: Email Already Exist");
                     edtEmail.setError("Email Already Exist");
                     userViewModel.getUserRepository().userExistStatus.postValue("");
+                }
+                else if (status.equals("EMPLOYEEID EXIST")){
+
+                    Log.d(TAG, "onChanged: Employee ID Already Exist");
+                    edtEmployeeID.setError("Employee ID Already Exist");
+                    userViewModel.getUserRepository().userExistStatus.postValue("");
+                }
+            }
+        });
+
+        this.userViewModel.getUserRepository().userAuthEmailStatus.observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String status) {
+                if(status.equals("NOT EXIST")){
+                    goToMain();
+                    userViewModel.getUserRepository().userExistStatus.postValue("");
+                    userViewModel.getUserRepository().userAuthEmailStatus.postValue("");
+                }
+                else if (status.equals("EMAIL EXIST")){
+
+                    Log.d(TAG, "onChanged: Auth Email Already Exist");
+                    edtEmail.setError("Email Already Exist");
+                    userViewModel.getUserRepository().userAuthEmailStatus.postValue("");
                 }
             }
         });
@@ -144,11 +166,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         newUser.setLastName(this.edtLastName.getText().toString());
         newUser.setEmpID(this.edtEmployeeID.getText().toString());
         newUser.setPhone(this.edtPhone.getText().toString());
-        newUser.setDepartment(this.selectedDepartment);
-        newUser.setPassword(this.edtPassword.getText().toString());
 
-        createAuthUser(this.edtEmail.getText().toString(),this.edtPassword.getText().toString());
-        this.userViewModel.addUser(newUser);
+        newUser.setDepartment(this.selectedDepartment);
+
+       // createAuthUser(this.edtEmail.getText().toString(),this.edtPassword.getText().toString());
+        this.userViewModel.createAuthUser(newUser,this.edtPassword.getText().toString());
     }
 
     private void goToMain(){
@@ -174,8 +196,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 });
     }
-
-
 
     private Boolean validateData(){
         if (this.edtEmail.getText().toString().isEmpty()){
