@@ -12,12 +12,19 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
+
+import com.example.wip_android.MainActivity;
 import com.example.wip_android.R;
 
 import com.example.wip_android.models.User;
 import com.example.wip_android.viewmodels.UserViewModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +44,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private UserViewModel userViewModel;
     private Spinner spnDepartment;
     private String selectedDepartment;
+    private FirebaseAuth mAuth;
 
 
 
@@ -45,8 +53,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        this.userViewModel = UserViewModel.getInstance();
 
+
+        this.userViewModel = UserViewModel.getInstance();
+        this.mAuth = FirebaseAuth.getInstance();
 
         this.edtEmail = findViewById(R.id.edtEmail);
         this.edtPassword = findViewById(R.id.edtPassword);
@@ -78,6 +88,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onChanged(String status) {
                 if(status.equals("NOT EXIST")){
+
                     //save data to database
                     saveUserToDB();
 
@@ -136,7 +147,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         newUser.setDepartment(this.selectedDepartment);
         newUser.setPassword(this.edtPassword.getText().toString());
 
-
+        createAuthUser(this.edtEmail.getText().toString(),this.edtPassword.getText().toString());
         this.userViewModel.addUser(newUser);
     }
 
@@ -144,6 +155,23 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         this.finish();
         Intent mainIntent = new Intent(this, SignInActivity.class);
         startActivity(mainIntent);
+    }
+
+    private void createAuthUser(String email, String password){
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(), "Registration successful!", Toast.LENGTH_LONG).show();
+                            goToMain();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "Registration failed! Please try again later", Toast.LENGTH_LONG).show();
+
+                        }
+                    }
+                });
     }
 
 
