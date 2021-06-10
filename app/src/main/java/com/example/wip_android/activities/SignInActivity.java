@@ -151,11 +151,11 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Authentication Login successful!", Toast.LENGTH_LONG).show();
 
                         }
                         else {
-                            Toast.makeText(getApplicationContext(), "Login failed! Please try again later", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Authentication Login failed! Please try again later", Toast.LENGTH_LONG).show();
 
                         }
                     }

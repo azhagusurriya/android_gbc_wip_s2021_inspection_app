@@ -163,11 +163,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(), "Registration successful!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Authentication successful!", Toast.LENGTH_LONG).show();
 
                         }
                         else {
-                            Toast.makeText(getApplicationContext(), "Registration failed! Please try again later", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Authentication failed!", Toast.LENGTH_LONG).show();
 
                         }
                     }
