@@ -27,7 +27,7 @@ public class UserRepository {
     private  final String COLLECTION_NAME = "Users";
     private final FirebaseFirestore db;
     public User newUserInfo = new User();
-    private final FirebaseAuth mAuth;
+
 
     public MutableLiveData<String> signInStatus = new MutableLiveData<String>();
     public MutableLiveData<String> userExistStatus = new MutableLiveData<String>();
@@ -36,7 +36,7 @@ public class UserRepository {
 
     public  UserRepository(){
         db = FirebaseFirestore.getInstance();
-        mAuth = FirebaseAuth.getInstance();
+
     }
 
     public void addUser(User user){

@@ -164,10 +164,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "Authentication successful!", Toast.LENGTH_LONG).show();
-
+                           // this.userViewModel.addUser(newUser);
                         }
                         else {
                             Toast.makeText(getApplicationContext(), "Authentication failed!", Toast.LENGTH_LONG).show();
+                            Log.d(TAG, "onComplete: " +  task.getException());
 
                         }
                     }
