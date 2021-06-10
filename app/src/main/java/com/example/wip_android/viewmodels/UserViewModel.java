@@ -40,8 +40,8 @@ public class UserViewModel extends ViewModel {
         this.userRepository.deleteUser(userID);
     }
 
-    public void checkUser(String email){
-        this.userRepository.checkUser(email);
+    public void checkUser(String email, String employeeID){
+        this.userRepository.checkUser(email,employeeID);
     }
 
     public User getUpdateUserInfo(String userID){

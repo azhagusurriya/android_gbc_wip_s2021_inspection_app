@@ -110,14 +110,14 @@ public class UserRepository {
         }
     }
 
-    public void checkUser(String email){
+    public void checkUser(String email, String employeeID){
 
         this.userExistStatus.postValue("LOADING");
 
         try{
             db.collection(COLLECTION_NAME)
                     .whereEqualTo("email", email)
-                    // .whereEqualTo("password",password)
+                     //.whereEqualTo("empID",employeeID)
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -125,7 +125,9 @@ public class UserRepository {
                             if (task.isSuccessful()){
 
                                 if (task.getResult().getDocuments().size() != 0){
-                                    userExistStatus.postValue("EXIST");
+                                    if(task.getResult().getDocuments().get(0).toObject(User.class).getEmail().equals(email)) {
+                                        userExistStatus.postValue("EMAIL EXIST");
+                                    }
                                 }
                                 else{
                                     userExistStatus.postValue("NOT EXIST");

@@ -84,10 +84,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     goToMain();
                     userViewModel.getUserRepository().userExistStatus.postValue("");
 
-                }else if (status.equals("EXIST")){
+                }else if (status.equals("EMAIL EXIST")){
 
-                    Log.d(TAG, "onChanged: User Already Exist");
-                    edtEmail.setError("User Already Exist");
+                    Log.d(TAG, "onChanged: Email Already Exist");
+                    edtEmail.setError("Email Already Exist");
                     userViewModel.getUserRepository().userExistStatus.postValue("");
                 }
             }
@@ -122,7 +122,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void checkUser(){
-        this.userViewModel.checkUser(this.edtEmail.getText().toString());
+        this.userViewModel.checkUser(this.edtEmail.getText().toString(),this.edtEmployeeID.getText().toString());
     }
 
     private void saveUserToDB(){
@@ -151,6 +151,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private Boolean validateData(){
         if (this.edtEmail.getText().toString().isEmpty()){
             this.edtEmail.setError("Please enter email");
+            return false;
+        }
+
+        if (this.edtEmployeeID.getText().toString().isEmpty()){
+            this.edtEmployeeID.setError("Please enter a employee Id");
             return false;
         }
 
