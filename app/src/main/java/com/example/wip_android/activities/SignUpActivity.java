@@ -4,9 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -15,7 +19,10 @@ import com.example.wip_android.R;
 import com.example.wip_android.models.User;
 import com.example.wip_android.viewmodels.UserViewModel;
 
-public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
+import java.util.ArrayList;
+import java.util.List;
+
+public class SignUpActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     private final String TAG = this.getClass().getCanonicalName();
     private Button btnCreateAccount;
@@ -23,9 +30,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private EditText edtEmail;
     private EditText edtPassword;
     private EditText edtConfirmPassword;
-    private EditText edtName;
+    private EditText edtFirstName;
+    private EditText edtLastName;
+    private EditText edtEmployeeID;
+    private EditText edtPhone;
     private UserViewModel userViewModel;
-
+    private Spinner spnDepartment;
+    private String selectedDepartment;
 
 
 
@@ -40,11 +51,28 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         this.edtEmail = findViewById(R.id.edtEmail);
         this.edtPassword = findViewById(R.id.edtPassword);
         this.edtConfirmPassword = findViewById(R.id.edtConfirmPassword);
-        this.edtName = findViewById(R.id.edtName);
+        this.edtFirstName = findViewById(R.id.edtFirstName);
+        this.edtLastName = findViewById(R.id.edtLastName);
+        this.edtEmployeeID = findViewById(R.id.edtEmpId);
+        this.edtPhone = findViewById(R.id.edtPhone);
         this.btnCreateAccount = findViewById(R.id.btnCreateAccount);
         this.btnCreateAccount.setOnClickListener(this);
         this.tvLogin = findViewById(R.id.tvLogin);
         this.tvLogin.setOnClickListener(this);
+        this.spnDepartment = findViewById(R.id.spnDepartment);
+        this.spnDepartment.setOnItemSelectedListener(this);
+
+        List<String> departments = new ArrayList<String>();
+        departments.add("Cladding");
+        departments.add("Glazing");
+        departments.add("Service");
+        departments.add("Waterproof");
+
+
+        ArrayAdapter<String> departmentAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, departments);
+        departmentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnDepartment.setAdapter(departmentAdapter);
+
 
         this.userViewModel.getUserRepository().userExistStatus.observe(this, new Observer<String>() {
             @Override
@@ -95,14 +123,17 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     private void checkUser(){
         this.userViewModel.checkUser(this.edtEmail.getText().toString());
-
     }
 
     private void saveUserToDB(){
         User newUser = new User();
 
         newUser.setEmail(this.edtEmail.getText().toString());
-        newUser.setName(this.edtName.getText().toString());
+        newUser.setFirstName(this.edtFirstName.getText().toString());
+        newUser.setLastName(this.edtLastName.getText().toString());
+        newUser.setEmpID(this.edtEmployeeID.getText().toString());
+        newUser.setPhone(this.edtPhone.getText().toString());
+        newUser.setDepartment(this.selectedDepartment);
         newUser.setPassword(this.edtPassword.getText().toString());
 
 
@@ -150,4 +181,14 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+         this.selectedDepartment = parent.getItemAtPosition(position).toString();
+        Toast.makeText(parent.getContext(), "Selected: " + selectedDepartment, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 }

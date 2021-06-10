@@ -19,7 +19,7 @@ public class UserRepository {
 
 
     private  final String TAG = this.getClass().getCanonicalName();
-    private  final String COLLECTION_NAME = "users";
+    private  final String COLLECTION_NAME = "Users";
     private final FirebaseFirestore db;
     public User newUserInfo = new User();
 
@@ -48,7 +48,6 @@ public class UserRepository {
                             Log.e(TAG, "Error adding document to the store " + e);
                         }
                     });
-
         }catch (Exception ex){
             Log.e(TAG, ex.toString());
             Log.e(TAG, ex.getLocalizedMessage());
@@ -81,6 +80,7 @@ public class UserRepository {
 
                                 if (task.getResult().getDocuments().size() != 0){
                                     if(task.getResult().getDocuments().get(0).toObject(User.class).getPassword().equals(password)){
+
                                         signInStatus.postValue("SUCCESS");
 
 
@@ -150,7 +150,7 @@ public class UserRepository {
             db.collection(COLLECTION_NAME)
                     .document(loggedInUserID.getValue())
                     .update(
-                            "name", user.getName(),
+                            "name", user.getFirstName(),
                             "password", user.getPassword()
                     ).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override

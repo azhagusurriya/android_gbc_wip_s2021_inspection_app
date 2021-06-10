@@ -2,13 +2,14 @@ package com.example.wip_android.models;
 
 public class User {
     String email;
-    String name;
+    String firstName;
+    String lastName;
+    String empID;
+    String phone;
+    String department;
     String password;
 
-    public User() {
-        this.email = email;
-        this.name = name;
-        this.password = password;
+    public User(){
     }
 
     public String getEmail() {
@@ -19,12 +20,44 @@ public class User {
         this.email = email;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmpID() {
+        return empID;
+    }
+
+    public void setEmpID(String empID) {
+        this.empID = empID;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
     public String getPassword() {
@@ -35,12 +68,15 @@ public class User {
         this.password = password;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "email='" + email + '\'' +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+    public User(String email, String firstName, String lastName, String empID, String phone, String department, String password) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.empID = empID;
+        this.phone = phone;
+        this.department = department;
+        this.password = password;
     }
+
+
 }
