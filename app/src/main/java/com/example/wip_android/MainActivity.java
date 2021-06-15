@@ -21,6 +21,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.wip_android.databinding.ActivityMainBinding;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -87,7 +88,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void logout(){
-        this.userViewModel.getUserRepository().signInStatus.postValue("FAILURE");
+        FirebaseAuth.getInstance().signOut();
+        this.userViewModel.getUserRepository().signInStatus.postValue("NOTHING");
         finish();
         Intent i=new Intent(getApplicationContext(), SignInActivity.class);
         startActivity(i);

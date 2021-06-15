@@ -94,11 +94,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     //goToMain();
                     //userViewModel.getUserRepository().userExistStatus.postValue("");
 
-                }else if (status.equals("EMAIL EXIST")){
-
-                    Log.d(TAG, "onChanged: Email Already Exist");
-                    edtEmail.setError("Email Already Exist");
-                    userViewModel.getUserRepository().userExistStatus.postValue("");
                 }
                 else if (status.equals("EMPLOYEEID EXIST")){
 
@@ -121,6 +116,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
                     Log.d(TAG, "onChanged: Auth Email Already Exist");
                     edtEmail.setError("Email Already Exist");
+                    userViewModel.getUserRepository().userAuthEmailStatus.postValue("");
+                }
+                else if (status.equals("WEAK PASSWORD")){
+
+                    Log.d(TAG, "onChanged: Weak password (minimum 6 characters)");
+                    edtPassword.setError("Weak Password (Min 6 characters)");
                     userViewModel.getUserRepository().userAuthEmailStatus.postValue("");
                 }
             }
@@ -159,6 +160,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void saveUserToDB(){
+
         User newUser = new User();
 
         newUser.setEmail(this.edtEmail.getText().toString());
@@ -166,7 +168,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         newUser.setLastName(this.edtLastName.getText().toString());
         newUser.setEmpID(this.edtEmployeeID.getText().toString());
         newUser.setPhone(this.edtPhone.getText().toString());
-
         newUser.setDepartment(this.selectedDepartment);
 
        // createAuthUser(this.edtEmail.getText().toString(),this.edtPassword.getText().toString());

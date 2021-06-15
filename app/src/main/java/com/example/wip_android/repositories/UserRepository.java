@@ -14,6 +14,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -55,10 +59,20 @@ public class UserRepository {
                         }
                         else {
                              Log.d(TAG, "Authentication Failed : " +  task.getException());
-                            userAuthEmailStatus.postValue("EMAIL EXIST");
                         }
                     }
-                });
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                if (e instanceof FirebaseAuthWeakPasswordException) {
+                    userAuthEmailStatus.postValue("WEAK PASSWORD");
+                } else if (e instanceof FirebaseAuthUserCollisionException) {
+                    userAuthEmailStatus.postValue("EMAIL EXIST");
+                } else {
+                    Log.d(TAG, "onFailure: " + e.getLocalizedMessage());
+                }
+            }
+        });;
     }
 
     public void addUser(User user){
@@ -81,6 +95,63 @@ public class UserRepository {
             Log.e(TAG, ex.toString());
             Log.e(TAG, ex.getLocalizedMessage());
         }
+    }
+
+    public void signInAuthUser(String email, String password){
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            try{
+                                db.collection(COLLECTION_NAME)
+                                        .whereEqualTo("email", email)
+                                        // .whereEqualTo("password",password)
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()){
+                                                    if (task.getResult().getDocuments().size() != 0){
+
+                                                            //get the id of the current user logged in
+                                                            loggedInUserID.postValue(task.getResult().getDocuments().get(0).getId());
+                                                            Log.d(TAG, "Logged in user document ID: " +loggedInUserID);
+                                                    }
+                                                    else{
+                                                        signInStatus.postValue("FAILURE");
+                                                    }
+                                                }else{
+                                                    Log.e(TAG, "Error fetching document" + task.getException());
+                                                    signInStatus.postValue("FAILURE");
+                                                }
+                                            }
+                                        });
+                            }catch (Exception ex){
+                                Log.e(TAG, ex.toString());
+                                Log.e(TAG, ex.getLocalizedMessage());
+                                signInStatus.postValue("FAILURE");
+                            }
+                            Log.d(TAG, "Login Success");
+                            signInStatus.postValue("SUCCESS");
+                        }
+                        else {
+                            Log.d(TAG, "Login Failed");
+                            signInStatus.postValue("FAILURE");
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                    signInStatus.postValue("INVALID PASSWORD");
+                } else if (e instanceof FirebaseAuthInvalidUserException) {
+                    signInStatus.postValue("INCORRECT EMAIL");
+                } else {
+                    Log.d(TAG, "onFailure: " + e.getLocalizedMessage());
+                }
+            }
+        });
     }
 
     public void getUser(String email, String password){
@@ -157,13 +228,6 @@ public class UserRepository {
                                     if(task.getResult().getDocuments().get(0).toObject(User.class).getEmpID().equals(employeeID)) {
                                         userExistStatus.postValue("EMPLOYEEID EXIST");
                                     }
-
-                                    else{
-                                        if(task.getResult().getDocuments().get(0).toObject(User.class).getEmail().equals(email)) {
-                                            userExistStatus.postValue("EMAIL EXIST");
-                                        }
-                                    }
-
 
                                 }
 

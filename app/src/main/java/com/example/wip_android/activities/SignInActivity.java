@@ -77,9 +77,19 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                     progressBar.setVisibility(View.VISIBLE);
                 }else if(status.equals("FAILURE")){
                     progressBar.setVisibility(View.GONE);
-                    Log.d(TAG, "onChanged: Error Login User");
-                    Toast.makeText(getApplication(),"Login Failed", Toast.LENGTH_LONG).show();
-                    edtEmail.setError("Please enter a valid email");
+                    Log.d(TAG, "onChanged: Error Login (Might be document load issue)");
+                }else if(status.equals("Nothing")){
+                    Log.d(TAG, "onChanged: Successfully Logged Out");
+                }
+                else if(status.equals("INVALID PASSWORD")){
+                    progressBar.setVisibility(View.GONE);
+                    Log.d(TAG, "onChanged: password invalid");
+                    edtPassword.setError("Incorrect Password");
+                }
+                else if(status.equals("INCORRECT EMAIL")){
+                    progressBar.setVisibility(View.GONE);
+                    Log.d(TAG, "onChanged: Email invalid");
+                    edtEmail.setError("Incorrect Email address");
                 }
 
             }
@@ -140,8 +150,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private void validateLogin(){
         String email = this.edtEmail.getText().toString();
         String password = this.edtPassword.getText().toString();
-        signInAuthUser(email,password);
-        this.userViewModel.validateUser(email, password);
+        this.userViewModel.signInAuthUser(email,password);
+        //this.userViewModel.validateUser(email, password);
 
     }
 

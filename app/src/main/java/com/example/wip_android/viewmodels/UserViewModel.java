@@ -37,6 +37,9 @@ public class UserViewModel extends ViewModel {
     public void validateUser(String email, String password){
         this.userRepository.getUser(email, password);
     }
+    public void signInAuthUser(String email, String password){
+        this.userRepository.signInAuthUser(email, password);
+    }
 
     public void updateUser(User user){
         this.userRepository.updateUser(user);
