@@ -51,7 +51,7 @@ public class GalleryFragment extends Fragment {
     Button cameraBtn, galleryBtn;
     String currentPhotoPath;
     StorageReference storageReference;
-    
+
     // Camera Settings
     public static final int CAMERA_PERM_CODE = 101;
     public static final int CAMERA_REQUEST_CODE = 102;
