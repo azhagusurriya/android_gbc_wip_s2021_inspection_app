@@ -13,10 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Android_gbc_wip_s2021_inspection_app">
-        <activity android:name=".activities.SplashActivity">
+        <activity android:name=".activities.SplashActivity"
+            android:theme="@style/Theme.Android_gbc_wip_s2021_inspection_app.Splash">>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -27,12 +27,11 @@
             android:theme="@style/Theme.Android_gbc_wip_s2021_inspection_app.NoActionBar">
 
         </activity>
-        <activity android:name=".activities.SignUpActivity" />
-        <activity android:name=".activities.SignInActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        <activity android:name=".activities.SignUpActivity"
+            android:label="Create Account" />
+
+        <activity android:name=".activities.SignInActivity"
+            android:label="Login">
         </activity>
     </application>
 
