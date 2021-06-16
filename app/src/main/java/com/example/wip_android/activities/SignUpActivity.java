@@ -12,12 +12,19 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
+
+import com.example.wip_android.MainActivity;
 import com.example.wip_android.R;
 
 import com.example.wip_android.models.User;
 import com.example.wip_android.viewmodels.UserViewModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +44,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private UserViewModel userViewModel;
     private Spinner spnDepartment;
     private String selectedDepartment;
+    private FirebaseAuth mAuth;
 
 
 
@@ -45,8 +53,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        this.userViewModel = UserViewModel.getInstance();
 
+
+        this.userViewModel = UserViewModel.getInstance();
+        this.mAuth = FirebaseAuth.getInstance();
 
         this.edtEmail = findViewById(R.id.edtEmail);
         this.edtPassword = findViewById(R.id.edtPassword);
@@ -78,17 +88,41 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onChanged(String status) {
                 if(status.equals("NOT EXIST")){
+
                     //save data to database
                     saveUserToDB();
+                    //goToMain();
+                    //userViewModel.getUserRepository().userExistStatus.postValue("");
 
+                }
+                else if (status.equals("EMPLOYEEID EXIST")){
+
+                    Log.d(TAG, "onChanged: Employee ID Already Exist");
+                    edtEmployeeID.setError("Employee ID Already Exist");
+                    userViewModel.getUserRepository().userExistStatus.postValue("");
+                }
+            }
+        });
+
+        this.userViewModel.getUserRepository().userAuthEmailStatus.observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String status) {
+                if(status.equals("NOT EXIST")){
                     goToMain();
                     userViewModel.getUserRepository().userExistStatus.postValue("");
+                    userViewModel.getUserRepository().userAuthEmailStatus.postValue("");
+                }
+                else if (status.equals("EMAIL EXIST")){
 
-                }else if (status.equals("EMAIL EXIST")){
-
-                    Log.d(TAG, "onChanged: Email Already Exist");
+                    Log.d(TAG, "onChanged: Auth Email Already Exist");
                     edtEmail.setError("Email Already Exist");
-                    userViewModel.getUserRepository().userExistStatus.postValue("");
+                    userViewModel.getUserRepository().userAuthEmailStatus.postValue("");
+                }
+                else if (status.equals("WEAK PASSWORD")){
+
+                    Log.d(TAG, "onChanged: Weak password (minimum 6 characters)");
+                    edtPassword.setError("Weak Password (Min 6 characters)");
+                    userViewModel.getUserRepository().userAuthEmailStatus.postValue("");
                 }
             }
         });
@@ -126,6 +160,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void saveUserToDB(){
+
         User newUser = new User();
 
         newUser.setEmail(this.edtEmail.getText().toString());
@@ -134,10 +169,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         newUser.setEmpID(this.edtEmployeeID.getText().toString());
         newUser.setPhone(this.edtPhone.getText().toString());
         newUser.setDepartment(this.selectedDepartment);
-        newUser.setPassword(this.edtPassword.getText().toString());
 
-
-        this.userViewModel.addUser(newUser);
+       // createAuthUser(this.edtEmail.getText().toString(),this.edtPassword.getText().toString());
+        this.userViewModel.createAuthUser(newUser,this.edtPassword.getText().toString());
     }
 
     private void goToMain(){
@@ -146,7 +180,23 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         startActivity(mainIntent);
     }
 
+    private void createAuthUser(String email, String password){
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(), "Authentication successful!", Toast.LENGTH_LONG).show();
+                           // this.userViewModel.addUser(newUser);
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "Authentication failed!", Toast.LENGTH_LONG).show();
+                            Log.d(TAG, "onComplete: " +  task.getException());
 
+                        }
+                    }
+                });
+    }
 
     private Boolean validateData(){
         if (this.edtEmail.getText().toString().isEmpty()){

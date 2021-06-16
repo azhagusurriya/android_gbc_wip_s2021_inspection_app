@@ -68,15 +68,24 @@ public class User {
         this.password = password;
     }
 
-    public User(String email, String firstName, String lastName, String empID, String phone, String department, String password) {
+    public User(String email, String firstName, String lastName, String empID, String phone, String department) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.empID = empID;
         this.phone = phone;
         this.department = department;
-        this.password = password;
     }
+
+//    public User(String email, String firstName, String lastName, String empID, String phone, String department, String password) {
+//        this.email = email;
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//        this.empID = empID;
+//        this.phone = phone;
+//        this.department = department;
+//        this.password = password;
+//    }
 
 
 }

@@ -1,16 +1,20 @@
 package com.example.wip_android.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
@@ -23,6 +27,10 @@ import com.example.wip_android.R;
 import com.example.wip_android.databinding.ActivityMainBinding;
 import com.example.wip_android.models.User;
 import com.example.wip_android.viewmodels.UserViewModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -35,14 +43,20 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private UserViewModel userViewModel;
     private User userInfo;
     private String userID;
+    private FirebaseAuth mAuth;
 
-    private AppBarConfiguration mAppBarConfiguration;
-    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null){
+            actionBar.setTitle("Login");
+        }
+
+
         setContentView(R.layout.activity_sign_in);
+        this.mAuth = FirebaseAuth.getInstance();
 
 
         this.userViewModel = UserViewModel.getInstance();
@@ -70,9 +84,19 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                     progressBar.setVisibility(View.VISIBLE);
                 }else if(status.equals("FAILURE")){
                     progressBar.setVisibility(View.GONE);
-                    Log.d(TAG, "onChanged: Error Login User");
-                    Toast.makeText(getApplication(),"Login Failed", Toast.LENGTH_LONG).show();
-                    edtEmail.setError("Please enter a valid email");
+                    Log.d(TAG, "onChanged: Error Login (Might be document load issue)");
+                }else if(status.equals("Nothing")){
+                    Log.d(TAG, "onChanged: Successfully Logged Out");
+                }
+                else if(status.equals("INVALID PASSWORD")){
+                    progressBar.setVisibility(View.GONE);
+                    Log.d(TAG, "onChanged: password invalid");
+                    edtPassword.setError("Incorrect Password");
+                }
+                else if(status.equals("INCORRECT EMAIL")){
+                    progressBar.setVisibility(View.GONE);
+                    Log.d(TAG, "onChanged: Email invalid");
+                    edtEmail.setError("Incorrect Email address");
                 }
 
             }
@@ -133,23 +157,28 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private void validateLogin(){
         String email = this.edtEmail.getText().toString();
         String password = this.edtPassword.getText().toString();
-
-        this.userViewModel.validateUser(email, password);
+        this.userViewModel.signInAuthUser(email,password);
+        //this.userViewModel.validateUser(email, password);
 
     }
 
+    private void signInAuthUser(String email, String password){
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(), "Authentication Login successful!", Toast.LENGTH_LONG).show();
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "Authentication Login failed! Please try again later", Toast.LENGTH_LONG).show();
+
+                        }
+                    }
+                });
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
-    }
+
+
 }
