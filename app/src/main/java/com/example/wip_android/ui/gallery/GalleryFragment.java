@@ -44,19 +44,18 @@ import java.util.Date;
 
 public class GalleryFragment extends Fragment {
 
+    // Variables
     private GalleryViewModel galleryViewModel;
     private FragmentGalleryBinding binding;
-
-    // Camera Settings
-    public static final int CAMERA_PERM_CODE = 101;
-    public static final int CAMERA_REQUEST_CODE = 102;
-    public static final int GALLERY_REQUEST_CODE = 105;
-
-    // Variables
     ImageView selectedImage;
     Button cameraBtn, galleryBtn;
     String currentPhotoPath;
     StorageReference storageReference;
+    
+    // Camera Settings
+    public static final int CAMERA_PERM_CODE = 101;
+    public static final int CAMERA_REQUEST_CODE = 102;
+    public static final int GALLERY_REQUEST_CODE = 105;
 
     // Default Function
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -111,6 +110,7 @@ public class GalleryFragment extends Fragment {
         }
     }
 
+    // Camera and Gallery buttons
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(requestCode == CAMERA_REQUEST_CODE){
@@ -135,11 +135,11 @@ public class GalleryFragment extends Fragment {
                 String imageFileName = "JPEG_" + timeStamp +"."+getFileExt(contentUri);
                 Log.d("tag", "onActivityResult: Gallery Image Uri:  " +  imageFileName);
                 selectedImage.setImageURI(contentUri);
+
 //                uploadImageToFirebase(imageFileName,contentUri);
             }
         }
     }
-
 
     // Take a picture
     private void dispatchTakePictureIntent() {
@@ -165,8 +165,6 @@ public class GalleryFragment extends Fragment {
         }
     }
 
-
-    // FIREBASE METHODS
     // Upload image to Firebase
     private void uploadImageToFirebase(String name, Uri contentUri) {
         final StorageReference image = storageReference.child("android_pictures/" + name);
@@ -204,22 +202,21 @@ public class GalleryFragment extends Fragment {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
 //        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 //        File storageDir = Environment.getExternalStorageDirectory();
+        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         Log.d("tag", "Storage:" + storageDir);
         File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
+                imageFileName,
+                ".jpg",
+                storageDir
         );
         Log.d("tag", "Image:" + image);
-
-        // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
+
         return image;
     }
 
-
+    // Other
     @Override
     public void onDestroyView() {
         super.onDestroyView();
