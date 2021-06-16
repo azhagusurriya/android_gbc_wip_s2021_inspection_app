@@ -6,10 +6,18 @@
     tools:context=".fragments.MapFragment">
 
     <com.google.android.gms.maps.MapView
-        android:id="@+id/map_view"
+        android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
     </com.google.android.gms.maps.MapView>
 
 </FrameLayout>
+
+<!--<fragment xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:id="@+id/map"-->
+<!--    class="com.google.android.gms.maps.SupportMapFragment"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    tools:context=".fragments.MapFragment" />-->
