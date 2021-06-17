@@ -6,8 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".activities.SignUpActivity">
 
-
-
     <EditText
         android:id="@+id/edtFirstName"
         android:layout_width="0dp"

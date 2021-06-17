@@ -30,4 +30,9 @@
     <string name="google_map_api_key">AIzaSyBlM-zTH0mk3k_98fZqsuyKPkJ7GxEejb4</string>
     <string name="logo_image">Logo Image</string>
     <string name="department">Department:</string>
+    <string name="firstname">First Name</string>
+    <string name="lastname">Last Name</string>
+    <string name="contact_number">Phone Number</string>
+    <string name="update_account">Update Account</string>
+    <string name="delete_account">Delete Account</string>
 </resources>

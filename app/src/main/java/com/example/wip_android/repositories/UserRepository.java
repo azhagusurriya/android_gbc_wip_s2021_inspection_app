@@ -254,7 +254,9 @@ public class UserRepository {
             db.collection(COLLECTION_NAME)
                     .document(loggedInUserID.getValue())
                     .update(
-                            "name", user.getFirstName(),
+                            "firstname", user.getFirstName(),
+                            "lastname", user.getLastName(),
+                            "phone", user.getPhone(),
                             "password", user.getPassword()
                     ).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
