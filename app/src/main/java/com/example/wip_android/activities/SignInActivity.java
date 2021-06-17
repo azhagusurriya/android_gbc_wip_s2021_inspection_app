@@ -2,7 +2,10 @@ package com.example.wip_android.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -45,13 +48,19 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private String userID;
     private FirebaseAuth mAuth;
 
+    private AppBarConfiguration mAppBarConfiguration;
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null){
-            actionBar.setTitle("Login");
+//            actionBar.setTitle("Login");
+//            ColorDrawable colorDrawable
+//                    = new ColorDrawable(Color.parseColor("#ffffff"));
+//            actionBar.setBackgroundDrawable(colorDrawable);
+            actionBar.setTitle(Html.fromHtml("<font color='#ffffff'>Login </font>"));
         }
 
 
