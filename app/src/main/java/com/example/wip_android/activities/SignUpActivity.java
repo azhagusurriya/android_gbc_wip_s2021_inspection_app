@@ -2,6 +2,7 @@ package com.example.wip_android.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 
@@ -52,6 +54,15 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null){
+//            actionBar.setTitle("Login");
+//            ColorDrawable colorDrawable
+//                    = new ColorDrawable(Color.parseColor("#ffffff"));
+//            actionBar.setBackgroundDrawable(colorDrawable);
+            actionBar.setTitle(Html.fromHtml("<font color='#ffffff'>Create Account </font>"));
+        }
 
 
 

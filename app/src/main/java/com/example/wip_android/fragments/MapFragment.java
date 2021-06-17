@@ -1,5 +1,6 @@
 package com.example.wip_android.fragments;
 
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -50,8 +51,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private LocationManager locationManager;
     private LocationCallback locationCallback;
     private LatLng currentLocation;
-    static final LatLng HAMBURG = new LatLng(53.558, 9.927);
-    static final LatLng KIEL = new LatLng(53.551, 9.993);
+
 
     private MapViewModel mViewModel;
 
@@ -88,18 +88,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mMap = googleMap;
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
-        LatLng sydney = new LatLng(-33.852, 151.211);
+        LatLng waterloo = new LatLng(43.4643, -80.516670);
+        LatLng address = getLocationFromAddress(getActivity(),"43 melbourne crescent,waterloo,ontario,canada");
         googleMap.addMarker(new MarkerOptions()
-                .position(sydney)
-                .title("Marker in Sydney").snippet("My Favt place"));
+                .position(address)
+                .title("Marker in Address").snippet("My Home"));
 
-        CameraPosition cSydney = CameraPosition.builder().target(new LatLng(-33.852, 151.211)).zoom(16).bearing(0).tilt(45).build();
+        googleMap.addMarker(new MarkerOptions()
+                .position(waterloo)
+                .title("Marker in Waterloo").snippet("My Home"));
+
+        CameraPosition cPosition = CameraPosition.builder().target(address).zoom(16).bearing(0).tilt(45).build();
 
         // Move the camera to the marker
-        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cSydney));
+        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cPosition));
 
         // Zoom in, animating the camera.
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+       // googleMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
 
     }
 
@@ -111,6 +116,26 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
+    public LatLng getLocationFromAddress(FragmentActivity context, String strAddress) {
+        Geocoder coder = new Geocoder(context);
+        List<Address> address;
+        LatLng p1 = null;
+
+        try {
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null) {
+                return null;
+            }
+            Address location = address.get(0);
+            location.getLatitude();
+            location.getLongitude();
+
+            p1 = new LatLng(location.getLatitude(), location.getLongitude());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return p1;
 
 
+    }
 }
