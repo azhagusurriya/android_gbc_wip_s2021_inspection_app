@@ -27,6 +27,8 @@ import com.example.wip_android.ui.home.HomeFragment;
 import com.example.wip_android.viewmodels.ProfileViewModel;
 import com.example.wip_android.viewmodels.UserViewModel;
 
+import java.util.Objects;
+
 public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private ProfileViewModel mViewModel;

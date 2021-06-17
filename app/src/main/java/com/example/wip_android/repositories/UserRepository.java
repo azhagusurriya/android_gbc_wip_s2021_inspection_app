@@ -32,6 +32,7 @@ public class UserRepository {
     private final FirebaseFirestore db;
     public User newUserInfo = new User();
     private FirebaseAuth mAuth;
+    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
 
     public MutableLiveData<String> signInStatus = new MutableLiveData<String>();
@@ -306,24 +307,54 @@ public class UserRepository {
     }
 
     public void deleteUser(String userID){
-        db.collection(COLLECTION_NAME)
-                .document(userID)
-                .delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
+        currentUser.delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.e(TAG, "Document deleted successfully");
-                        userDeleteStatus.postValue("DELETED");
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
 
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.e(TAG, "Failure deleting document");
+                            Log.d(TAG, "User account deleted.");
+
+                            db.collection(COLLECTION_NAME)
+                                    .document(userID)
+                                    .delete()
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.e(TAG, "Document deleted successfully");
+                                            userDeleteStatus.postValue("DELETED");
+
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.e(TAG, "Failure deleting document");
+                                }
+                            });
+                        }
                     }
                 });
     }
+
+//    public void deleteUser(String userID){
+//        db.collection(COLLECTION_NAME)
+//                .document(userID)
+//                .delete()
+//                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        Log.e(TAG, "Document deleted successfully");
+//                        userDeleteStatus.postValue("DELETED");
+//
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Log.e(TAG, "Failure deleting document");
+//                    }
+//                });
+//    }
 
 
 }
