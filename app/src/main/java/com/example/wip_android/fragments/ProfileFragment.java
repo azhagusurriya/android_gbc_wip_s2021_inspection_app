@@ -61,8 +61,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         this.userViewModel = UserViewModel.getInstance();
 
         this.tvEmail = root.findViewById(R.id.tvUEmail);
-        this.edtPassword = root.findViewById(R.id.edtUPassword);
-        this.edtConfirmPassword = root.findViewById(R.id.edtUConfirmPassword);
+        this.tvEmployeeID = root.findViewById(R.id.tvUEmployeeID);
+//        this.edtPassword = root.findViewById(R.id.edtUPassword);
+//        this.edtConfirmPassword = root.findViewById(R.id.edtUConfirmPassword);
         this.edtFirstname = root.findViewById(R.id.edtUFirstname);
         this.edtLastname = root.findViewById(R.id.edtULastname);
         this.edtContactNumber = root.findViewById(R.id.edtUContactNumber);
@@ -105,8 +106,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private void clearFields(){
         edtFirstname.setText("");
-        edtPassword.setText("");
-        edtConfirmPassword.setText("");
+//        edtPassword.setText("");
+//        edtConfirmPassword.setText("");
         edtContactNumber.setText("");
         edtLastname.setText("");
     }
@@ -151,22 +152,22 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private Boolean validateData(){
 
 
-
-        if (this.edtPassword.getText().toString().isEmpty()){
-            this.edtPassword.setError("Password cannot be empty");
-            return false;
-        }
-
-        if (this.edtConfirmPassword.getText().toString().isEmpty()){
-            this.edtConfirmPassword.setError("Please provide confirm password");
-            return false;
-        }
-
-        if (!edtPassword.getText().toString().equals(this.edtConfirmPassword.getText().toString())){
-            this.edtPassword.setError("Both passwords must be same");
-            this.edtConfirmPassword.setError("Both passwords must be same");
-            return false;
-        }
+//
+//        if (this.edtPassword.getText().toString().isEmpty()){
+//            this.edtPassword.setError("Password cannot be empty");
+//            return false;
+//        }
+//
+//        if (this.edtConfirmPassword.getText().toString().isEmpty()){
+//            this.edtConfirmPassword.setError("Please provide confirm password");
+//            return false;
+//        }
+//
+//        if (!edtPassword.getText().toString().equals(this.edtConfirmPassword.getText().toString())){
+//            this.edtPassword.setError("Both passwords must be same");
+//            this.edtConfirmPassword.setError("Both passwords must be same");
+//            return false;
+//        }
 
         if (this.edtContactNumber.getText().toString().isEmpty()){
             this.edtContactNumber.setError("Contact Number cannot be empty");
@@ -189,10 +190,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         Log.d(TAG, "onCreateView: user info in the profile fragment: " +userInfo.getEmail());
 
         if(userInfo != null) {
+            this.tvEmployeeID.setText("Employee ID: " + this.userViewModel.getUserRepository().newUserInfo.getEmpID());
             this.tvEmail.setText("E-mail: " + this.userViewModel.getUserRepository().newUserInfo.getEmail());
             this.edtFirstname.setText(this.userViewModel.getUserRepository().newUserInfo.getFirstName());
-            this.edtConfirmPassword.setText(this.userViewModel.getUserRepository().newUserInfo.getPassword());
-            this.edtPassword.setText(this.userViewModel.getUserRepository().newUserInfo.getPassword());
+//            this.edtConfirmPassword.setText(this.userViewModel.getUserRepository().newUserInfo.getPassword());
+//            this.edtPassword.setText(this.userViewModel.getUserRepository().newUserInfo.getPassword());
             this.edtLastname.setText(this.userViewModel.getUserRepository().newUserInfo.getLastName());
             this.edtContactNumber.setText(this.userViewModel.getUserRepository().newUserInfo.getPhone());
         }
@@ -204,7 +206,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         newUser.setEmail(this.tvEmail.getText().toString());
         newUser.setFirstName(this.edtFirstname.getText().toString());
         newUser.setLastName(this.edtLastname.getText().toString());
-        newUser.setPassword(this.edtPassword.getText().toString());
+       // newUser.setPassword(this.edtPassword.getText().toString());
         newUser.setPhone(this.edtContactNumber.getText().toString());
 
         this.userViewModel.updateUser(newUser);

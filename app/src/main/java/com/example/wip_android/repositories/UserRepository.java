@@ -255,10 +255,9 @@ public class UserRepository {
             db.collection(COLLECTION_NAME)
                     .document(loggedInUserID.getValue())
                     .update(
-                            "firstname", user.getFirstName(),
-                            "lastname", user.getLastName(),
-                            "phone", user.getPhone(),
-                            "password", user.getPassword()
+                            "firstName", user.getFirstName(),
+                            "lastName", user.getLastName(),
+                            "phone", user.getPhone()
                     ).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
@@ -336,25 +335,7 @@ public class UserRepository {
                 });
     }
 
-//    public void deleteUser(String userID){
-//        db.collection(COLLECTION_NAME)
-//                .document(userID)
-//                .delete()
-//                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//                        Log.e(TAG, "Document deleted successfully");
-//                        userDeleteStatus.postValue("DELETED");
-//
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Log.e(TAG, "Failure deleting document");
-//                    }
-//                });
-//    }
+
 
 
 }

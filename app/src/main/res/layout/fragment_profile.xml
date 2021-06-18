@@ -8,34 +8,6 @@
     android:padding="16dp"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="#000000"
-            android:text="Profile">
-
-        </TextView>
-
-        <Button
-            android:id="@+id/btnGetAccountInfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Get Info"
-            android:textSize="10sp"
-            android:layout_marginLeft="18dp"
-
-            />
-
-
-    </LinearLayout>
 
     <TextView
         android:id="@+id/tvUEmployeeID"
@@ -72,26 +44,26 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"/>
 
-    <EditText
-        android:id="@+id/edtUPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="8dp"
-        />
-    <EditText
-        android:id="@+id/edtUConfirmPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/confirm_password"
-        android:inputType="textPassword"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="8dp"
-        />
+<!--    <EditText-->
+<!--        android:id="@+id/edtUPassword"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="@string/password"-->
+<!--        android:inputType="textPassword"-->
+<!--        android:layout_marginStart="8dp"-->
+<!--        android:layout_marginTop="12dp"-->
+<!--        android:layout_marginEnd="8dp"-->
+<!--        />-->
+<!--    <EditText-->
+<!--        android:id="@+id/edtUConfirmPassword"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="@string/confirm_password"-->
+<!--        android:inputType="textPassword"-->
+<!--        android:layout_marginStart="8dp"-->
+<!--        android:layout_marginTop="12dp"-->
+<!--        android:layout_marginEnd="8dp"-->
+<!--        />-->
 
     <EditText
         android:id="@+id/edtUContactNumber"
@@ -103,7 +75,15 @@
         android:hint="@string/contact_number"
         android:inputType="textPhonetic"
         />
-
+    <Button
+        android:id="@+id/btnGetAccountInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/load_data"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="8dp"
+        />
 
     <Button
         android:id="@+id/btnUpdateAccount"

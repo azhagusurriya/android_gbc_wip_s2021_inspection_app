@@ -86,7 +86,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady( GoogleMap googleMap) {
         MapsInitializer.initialize(getContext());
         mMap = googleMap;
-        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
         LatLng waterloo = new LatLng(43.4643, -80.516670);
         LatLng address = getLocationFromAddress(getActivity(),"43 melbourne crescent,waterloo,ontario,canada");
