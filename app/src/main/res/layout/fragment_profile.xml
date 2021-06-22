@@ -25,24 +25,60 @@
         android:hint="@string/email"
         android:layout_marginTop="12dp"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"/>
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="18dp"/>
 
-    <EditText
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:id="@+id/edtUFirstname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/firstname"
-        android:layout_marginTop="12dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"/>
-    <EditText
+        android:layout_marginBottom="12dp"
+        android:hint="@string/firstName"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/black"
+        tools:ignore="MissingConstraints">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:id="@+id/edtULastname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/lastname"
-        android:layout_marginTop="12dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"/>
+        android:layout_marginBottom="12dp"
+        android:hint="@string/lastName"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/black"
+        tools:ignore="MissingConstraints">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:id="@+id/edtUContactNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:hint="@string/phoneNumber"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/black"
+        tools:ignore="MissingConstraints">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 <!--    <EditText-->
 <!--        android:id="@+id/edtUPassword"-->
@@ -65,16 +101,6 @@
 <!--        android:layout_marginEnd="8dp"-->
 <!--        />-->
 
-    <EditText
-        android:id="@+id/edtUContactNumber"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginStart="8dp"
-        android:hint="@string/contact_number"
-        android:inputType="textPhonetic"
-        />
     <Button
         android:id="@+id/btnGetAccountInfo"
         android:layout_width="match_parent"

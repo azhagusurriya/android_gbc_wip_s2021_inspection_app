@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -25,6 +26,7 @@ import com.example.wip_android.models.User;
 import com.example.wip_android.viewmodels.UserViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -36,15 +38,16 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private final String TAG = this.getClass().getCanonicalName();
     private Button btnCreateAccount;
     private TextView tvLogin;
-    private EditText edtEmail;
-    private EditText edtPassword;
-    private EditText edtConfirmPassword;
-    private EditText edtFirstName;
-    private EditText edtLastName;
-    private EditText edtEmployeeID;
-    private EditText edtPhone;
+    private TextInputLayout edtEmail;
+    private TextInputLayout edtPassword;
+    private TextInputLayout edtConfirmPassword;
+    private TextInputLayout edtFirstName;
+    private TextInputLayout edtLastName;
+    private TextInputLayout edtEmployeeID;
+    private TextInputLayout tfDepartment;
+    private TextInputLayout edtPhone;
     private UserViewModel userViewModel;
-    private Spinner spnDepartment;
+    private AutoCompleteTextView spnDepartment;
     private String selectedDepartment;
     private FirebaseAuth mAuth;
 
@@ -76,6 +79,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         this.edtLastName = findViewById(R.id.edtLastName);
         this.edtEmployeeID = findViewById(R.id.edtEmpId);
         this.edtPhone = findViewById(R.id.edtPhone);
+        this.tfDepartment = findViewById(R.id.tfDepartment);
         this.btnCreateAccount = findViewById(R.id.btnCreateAccount);
         this.btnCreateAccount.setOnClickListener(this);
         this.tvLogin = findViewById(R.id.tvLogin);
@@ -90,8 +94,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         departments.add("Waterproof");
 
 
-        ArrayAdapter<String> departmentAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, departments);
-        departmentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> departmentAdapter = new ArrayAdapter<String>(this, R.layout.department_dropdown_item, departments);
         spnDepartment.setAdapter(departmentAdapter);
 
 
@@ -167,22 +170,22 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void checkUser(){
-        this.userViewModel.checkUser(this.edtEmail.getText().toString(),this.edtEmployeeID.getText().toString());
+        this.userViewModel.checkUser(this.edtEmail.getEditText().getText().toString(),this.edtEmployeeID.getEditText().getText().toString());
     }
 
     private void saveUserToDB(){
 
         User newUser = new User();
 
-        newUser.setEmail(this.edtEmail.getText().toString());
-        newUser.setFirstName(this.edtFirstName.getText().toString());
-        newUser.setLastName(this.edtLastName.getText().toString());
-        newUser.setEmpID(this.edtEmployeeID.getText().toString());
-        newUser.setPhone(this.edtPhone.getText().toString());
-        newUser.setDepartment(this.selectedDepartment);
+        newUser.setEmail(this.edtEmail.getEditText().getText().toString());
+        newUser.setFirstName(this.edtFirstName.getEditText().getText().toString());
+        newUser.setLastName(this.edtLastName.getEditText().getText().toString());
+        newUser.setEmpID(this.edtEmployeeID.getEditText().getText().toString());
+        newUser.setPhone(this.edtPhone.getEditText().getText().toString());
+        newUser.setDepartment(this.spnDepartment.getText().toString());
 
        // createAuthUser(this.edtEmail.getText().toString(),this.edtPassword.getText().toString());
-        this.userViewModel.createAuthUser(newUser,this.edtPassword.getText().toString());
+        this.userViewModel.createAuthUser(newUser,this.edtPassword.getEditText().getText().toString());
     }
 
     private void goToMain(){
@@ -210,36 +213,41 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private Boolean validateData(){
-        if (this.edtEmail.getText().toString().isEmpty()){
+        if (this.edtEmail.getEditText().getText().toString().isEmpty()){
             this.edtEmail.setError("Please enter email");
             return false;
         }
 
-        if (this.edtEmployeeID.getText().toString().isEmpty()){
+        if (this.edtEmployeeID.getEditText().getText().toString().isEmpty()){
             this.edtEmployeeID.setError("Please enter a employee Id");
             return false;
         }
 
 
-        if(!android.util.Patterns.EMAIL_ADDRESS.matcher(this.edtEmail.getText().toString()).matches()) {
+        if(!android.util.Patterns.EMAIL_ADDRESS.matcher(this.edtEmail.getEditText().getText().toString()).matches()) {
             this.edtEmail.setError("Please enter a valid email");
             return false;
         }
 
 
-        if (this.edtPassword.getText().toString().isEmpty()){
+        if (this.edtPassword.getEditText().getText().toString().isEmpty()){
             this.edtPassword.setError("Password cannot be empty");
             return false;
         }
 
-        if (this.edtConfirmPassword.getText().toString().isEmpty()){
+        if (this.edtConfirmPassword.getEditText().getText().toString().isEmpty()){
             this.edtConfirmPassword.setError("Please provide confirm password");
             return false;
         }
 
-        if (!edtPassword.getText().toString().equals(this.edtConfirmPassword.getText().toString())){
+        if (!edtPassword.getEditText().getText().toString().equals(this.edtConfirmPassword.getEditText().getText().toString())){
             this.edtPassword.setError("Both passwords must be same");
             this.edtConfirmPassword.setError("Both passwords must be same");
+            return false;
+        }
+
+        if (this.edtConfirmPassword.getEditText().getText().toString().isEmpty()){
+            this.edtConfirmPassword.setError("Please provide confirm password");
             return false;
         }
 

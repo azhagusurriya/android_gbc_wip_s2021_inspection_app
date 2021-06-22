@@ -26,6 +26,7 @@ import com.example.wip_android.models.User;
 import com.example.wip_android.ui.home.HomeFragment;
 import com.example.wip_android.viewmodels.ProfileViewModel;
 import com.example.wip_android.viewmodels.UserViewModel;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Objects;
 
@@ -40,9 +41,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private TextView tvEmployeeID;
     private EditText edtPassword;
     private EditText edtConfirmPassword;
-    private EditText edtFirstname;
-    private EditText edtLastname;
-    private EditText edtContactNumber;
+    private TextInputLayout edtFirstname;
+    private TextInputLayout edtLastname;
+    private TextInputLayout edtContactNumber;
     private UserViewModel userViewModel;
     private User userInfo;
     private String userID;
@@ -105,11 +106,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
 
     private void clearFields(){
-        edtFirstname.setText("");
+        edtFirstname.getEditText().setText("");
 //        edtPassword.setText("");
 //        edtConfirmPassword.setText("");
-        edtContactNumber.setText("");
-        edtLastname.setText("");
+        edtContactNumber.getEditText().setText("");
+        edtLastname.getEditText().setText("");
     }
 
     @Override
@@ -169,16 +170,16 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 //            return false;
 //        }
 
-        if (this.edtContactNumber.getText().toString().isEmpty()){
+        if (this.edtContactNumber.getEditText().getText().toString().isEmpty()){
             this.edtContactNumber.setError("Contact Number cannot be empty");
             return false;
         }
-        if (this.edtFirstname.getText().toString().isEmpty()){
+        if (this.edtFirstname.getEditText().getText().toString().isEmpty()){
             this.edtFirstname.setError("First Name cannot be empty");
             return false;
         }
 
-        if (this.edtLastname.getText().toString().isEmpty()){
+        if (this.edtLastname.getEditText().getText().toString().isEmpty()){
             this.edtLastname.setError("Last Name cannot be empty");
             return false;
         }
@@ -192,11 +193,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         if(userInfo != null) {
             this.tvEmployeeID.setText("Employee ID: " + this.userViewModel.getUserRepository().newUserInfo.getEmpID());
             this.tvEmail.setText("E-mail: " + this.userViewModel.getUserRepository().newUserInfo.getEmail());
-            this.edtFirstname.setText(this.userViewModel.getUserRepository().newUserInfo.getFirstName());
+            this.edtFirstname.getEditText().setText(this.userViewModel.getUserRepository().newUserInfo.getFirstName());
 //            this.edtConfirmPassword.setText(this.userViewModel.getUserRepository().newUserInfo.getPassword());
 //            this.edtPassword.setText(this.userViewModel.getUserRepository().newUserInfo.getPassword());
-            this.edtLastname.setText(this.userViewModel.getUserRepository().newUserInfo.getLastName());
-            this.edtContactNumber.setText(this.userViewModel.getUserRepository().newUserInfo.getPhone());
+            this.edtLastname.getEditText().setText(this.userViewModel.getUserRepository().newUserInfo.getLastName());
+            this.edtContactNumber.getEditText().setText(this.userViewModel.getUserRepository().newUserInfo.getPhone());
         }
     }
 
@@ -204,10 +205,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         User newUser = new User();
 
         newUser.setEmail(this.tvEmail.getText().toString());
-        newUser.setFirstName(this.edtFirstname.getText().toString());
-        newUser.setLastName(this.edtLastname.getText().toString());
+        newUser.setFirstName(this.edtFirstname.getEditText().getText().toString());
+        newUser.setLastName(this.edtLastname.getEditText().getText().toString());
        // newUser.setPassword(this.edtPassword.getText().toString());
-        newUser.setPhone(this.edtContactNumber.getText().toString());
+        newUser.setPhone(this.edtContactNumber.getEditText().getText().toString());
 
         this.userViewModel.updateUser(newUser);
     }
