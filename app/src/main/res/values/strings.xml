@@ -38,4 +38,11 @@
     <string name="load_data">Load Data</string>
     <string name="tvCreateAccount">Don\'t have an account ?</string>
     <string name="Signup">Sign up</string>
+    <string name="addProject">Add Project</string>
+    <string name="Address">Address</string>
+    <string name="ClientName">Client Name</string>
+    <string name="StreetAddress">Street Address</string>
+    <string name="province">Province</string>
+    <string name="city">City</string>
+    <string name="SaveClientInfo">Save</string>
 </resources>

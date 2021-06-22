@@ -45,6 +45,9 @@
         <activity android:name=".activities.SignUpActivity"
             android:label="Create Account" />
 
+        <activity android:name=".activities.AddProjectActivity"
+            android:label="Add Project" />
+
         <activity android:name=".activities.SignInActivity">
         </activity>
 

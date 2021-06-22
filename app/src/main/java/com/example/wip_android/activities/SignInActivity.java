@@ -85,12 +85,16 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
         this.progressBar = findViewById(R.id.progressBar);
 
+        this.clearFields();
+
         this.userViewModel.getUserRepository().signInStatus.observe(this, new Observer<String>() {
             @Override
             public void onChanged(String status) {
                 if(status.equals("SUCCESS")){
                     progressBar.setVisibility(View.INVISIBLE);
                     goToHome();
+                    userViewModel.getUserRepository().signInStatus.postValue("");
+
                 }else if (status.equals("LOADING")){
                     progressBar.setVisibility(View.VISIBLE);
                 }else if(status.equals("FAILURE")){
@@ -103,11 +107,13 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                     progressBar.setVisibility(View.GONE);
                     Log.d(TAG, "onChanged: password invalid");
                     edtPassword.setError("Incorrect Password");
+                    userViewModel.getUserRepository().signInStatus.postValue("");
                 }
                 else if(status.equals("INCORRECT EMAIL")){
                     progressBar.setVisibility(View.GONE);
                     Log.d(TAG, "onChanged: Email invalid");
                     edtEmail.setError("Incorrect Email address");
+                    userViewModel.getUserRepository().signInStatus.postValue("");
                 }
 
             }
@@ -121,6 +127,11 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         Intent mainIntent = new Intent(this, MainActivity.class);
         startActivity(mainIntent);
 
+    }
+
+    private void clearFields(){
+        edtEmail.getEditText().setText("");
+        edtPassword.getEditText().setText("");
     }
 
     @Override

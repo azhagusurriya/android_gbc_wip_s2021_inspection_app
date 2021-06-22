@@ -1,5 +1,6 @@
 package com.example.wip_android.repositories;
 
+import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -7,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.wip_android.MainActivity;
+import com.example.wip_android.activities.SignInActivity;
 import com.example.wip_android.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -314,6 +316,7 @@ public class UserRepository {
 
                             Log.d(TAG, "User account deleted.");
 
+
                             db.collection(COLLECTION_NAME)
                                     .document(userID)
                                     .delete()
@@ -322,7 +325,7 @@ public class UserRepository {
                                         public void onSuccess(Void aVoid) {
                                             Log.e(TAG, "Document deleted successfully");
                                             userDeleteStatus.postValue("DELETED");
-
+                                            Log.d(TAG, "onSuccess Delete: "+ userDeleteStatus.getValue());
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
                                 @Override

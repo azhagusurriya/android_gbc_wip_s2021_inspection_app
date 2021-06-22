@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,11 +23,14 @@ import android.widget.Toast;
 
 import com.example.wip_android.MainActivity;
 import com.example.wip_android.R;
+import com.example.wip_android.activities.AddProjectActivity;
+import com.example.wip_android.activities.SignInActivity;
 import com.example.wip_android.models.User;
-import com.example.wip_android.ui.home.HomeFragment;
+import com.example.wip_android.fragments.HomeFragment;
 import com.example.wip_android.viewmodels.ProfileViewModel;
 import com.example.wip_android.viewmodels.UserViewModel;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
 
@@ -84,9 +88,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onChanged(String status) {
                 if(status.equals("DELETED")){
-                    mainActivity.logout();
-                    /*Intent i=new Intent((DashboardMainActivity) getActivity(),SignInActivity.class);
-                    startActivity(i);*/
+//                   Intent intent = new Intent(getActivity(), SignInActivity.class);
+//                   startActivity(intent);
+                   userViewModel.getUserRepository().userDeleteStatus.postValue("");
                 }
 
             }
@@ -138,16 +142,21 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     break;
                 }
                 case R.id.btnDeleteAccount:{
+                    Log.d(TAG, "onDelete: looged--In User ID" + userViewModel.getUserRepository().loggedInUserID.getValue() );
                     this.userViewModel.deleteUser(userID);
-                    //System.exit(0);
-
-                    //dashboardMainActivity.logout();
+                    this.navigateToHome();
+                    break;
                 }
                 default:
                     break;
             }
         }
 
+    }
+
+    private void navigateToHome(){
+        Intent intent = new Intent(getActivity(), SignInActivity.class);
+        startActivity(intent);
     }
 
     private Boolean validateData(){
