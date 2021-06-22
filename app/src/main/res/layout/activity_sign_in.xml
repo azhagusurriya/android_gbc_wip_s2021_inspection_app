@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:gravity="center"
     android:padding="35dp"
+    android:orientation="vertical"
     tools:context=".activities.SignInActivity">
 
     <ImageView
@@ -14,7 +15,7 @@
         android:layout_height="wrap_content"
         android:scaleType="centerInside"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="8dp"
         android:src="@drawable/logo"
         android:id="@+id/logo"
@@ -23,77 +24,84 @@
         app:layout_constraintTop_toTopOf="parent"
         android:contentDescription="@string/logo_image" />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:id="@+id/edtEmail"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:hint="@string/email"
-        android:inputType="textEmailAddress"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logo"
-        android:autofillHints="" />
+        android:layout_marginBottom="12dp"
+        android:hint="E-mail"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/black"
+        tools:ignore="MissingConstraints">
 
-    <EditText
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:id="@+id/edtPassword"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edtEmail"
-        android:autofillHints="" />
+        android:layout_marginBottom="12dp"
+        android:hint="Enter password"
+        app:endIconMode="password_toggle"
+        tools:ignore="MissingConstraints">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btnSignIn"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtPassword"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:text="@string/sign_in"/>
-
-    <TextView
-        android:id="@+id/tvCreateAccount"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textColor="#3351fc"
-        android:text="@string/create__account"
-        android:textAlignment="textEnd"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSignIn" />
+        android:text="@string/sign_in"
+        />
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/swtRemember"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCreateAccount"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:checked="true"
         android:text="@string/remember_me"
         android:textAlignment="textEnd"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1.6"
+            android:textAlignment="textEnd"
+            android:text="@string/tvCreateAccount" />
+
+        <TextView
+            android:id="@+id/tvCreateAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_weight="0.4"
+            android:layout_marginEnd="8dp"
+            android:textColor="#3351fc"
+            android:text="@string/Signup"
+            android:textAlignment="textEnd" />
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -110,4 +118,4 @@
 
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

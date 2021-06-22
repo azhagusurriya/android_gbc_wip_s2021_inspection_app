@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -6,16 +7,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:gravity="center"
     android:padding="35dp"
-    android:orientation="vertical">
-
+    android:orientation="vertical"
+    tools:context=".activities.SignUpActivity">
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:id="@+id/edtFirstName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
-        android:hint="Enter password"
-        app:endIconMode="password_toggle"
+        android:hint="@string/firstName"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/black"
         tools:ignore="MissingConstraints">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -26,12 +29,29 @@
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:id="@+id/edtLastName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
-        android:hint="Enter password"
-        app:endIconMode="password_toggle"
-        app:endIconTint="@color/logo"
+        android:hint="@string/lastName"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/black"
+        tools:ignore="MissingConstraints">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:id="@+id/edtEmpId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:hint="@string/EmployeeId"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/black"
         tools:ignore="MissingConstraints">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -42,10 +62,11 @@
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:id="@+id/edtEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
-        android:hint="Clear text"
+        android:hint="@string/email"
         app:endIconMode="clear_text"
         app:endIconTint="@color/black"
         tools:ignore="MissingConstraints">
@@ -59,14 +80,60 @@
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:id="@+id/edtPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
-        android:hint="Custom end icon"
-        app:endIconCheckable="true"
-        android:id="@+id/custom_end_icon"
-        app:endIconDrawable="@android:drawable/ic_input_add"
-        app:endIconMode="custom"
+        android:hint="@string/password"
+        app:endIconMode="password_toggle"
+        tools:ignore="MissingConstraints">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:id="@+id/edtConfirmPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:hint="@string/confirm_password"
+        app:endIconMode="password_toggle"
+        tools:ignore="MissingConstraints">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:id="@+id/spnDepartment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:hint="@string/spinner_title"
+        app:endIconMode="dropdown_menu"
+        app:endIconTint="@color/black"
+        tools:ignore="MissingConstraints">
+
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:id="@+id/edtPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:hint="@string/phoneNumber"
+        app:endIconMode="clear_text"
         app:endIconTint="@color/black"
         tools:ignore="MissingConstraints">
 
@@ -76,9 +143,40 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <Button
+        android:id="@+id/btnCreateAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/create__account"
+        />
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        android:orientation="horizontal">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1.6"
+        android:textAlignment="textEnd"
+        android:text="@string/already_a_user" />
+
+    <TextView
+        android:id="@+id/tvCreateAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_weight="0.4"
+        android:layout_marginEnd="8dp"
+        android:textColor="#3351fc"
+        android:text="@string/log_in"
+        android:textAlignment="textEnd" />
+    </LinearLayout>
 
 
 </LinearLayout>

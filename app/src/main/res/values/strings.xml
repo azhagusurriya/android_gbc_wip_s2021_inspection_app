@@ -19,7 +19,7 @@
     <string name="create__account">Create Account</string>
     <string name="remember_me">Remember Me</string>
     <string name="log_in">Log-In</string>
-    <string name="already_a_user">Already a user</string>
+    <string name="already_a_user">Already a user ?</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="name">Name</string>
     <string name="firstName">First Name</string>
@@ -36,4 +36,6 @@
     <string name="update_account">Update Account</string>
     <string name="delete_account">Delete Account</string>
     <string name="load_data">Load Data</string>
+    <string name="tvCreateAccount">Don\'t have an account ?</string>
+    <string name="Signup">Sign up</string>
 </resources>

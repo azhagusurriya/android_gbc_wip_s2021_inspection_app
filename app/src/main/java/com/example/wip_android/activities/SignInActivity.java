@@ -32,6 +32,8 @@ import com.example.wip_android.models.User;
 import com.example.wip_android.viewmodels.UserViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -39,8 +41,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
     private final String TAG = this.getClass().getCanonicalName();
     private TextView tvCreateAccount;
-    private EditText edtEmail;
-    private EditText edtPassword;
+    private TextInputLayout edtEmail;
+    private TextInputLayout edtPassword;
     private Button btnSignIn;
     private ProgressBar progressBar;
     private UserViewModel userViewModel;
@@ -148,24 +150,24 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
 
     private Boolean validateData() {
-        if (this.edtEmail.getText().toString().isEmpty()) {
+        if (this.edtEmail.getEditText().getText().toString().isEmpty()) {
             this.edtEmail.setError("Please enter email");
             return false;
         }
 
-        if(!android.util.Patterns.EMAIL_ADDRESS.matcher(this.edtEmail.getText().toString()).matches()) {
+        if(!android.util.Patterns.EMAIL_ADDRESS.matcher(this.edtEmail.getEditText().getText().toString()).matches()) {
             this.edtEmail.setError("Please enter a valid email");
         }
 
-        if (this.edtPassword.getText().toString().isEmpty()){
+        if (this.edtPassword.getEditText().getText().toString().isEmpty()){
             this.edtPassword.setError("Password cannot be empty");
         }
         return true;
     }
 
     private void validateLogin(){
-        String email = this.edtEmail.getText().toString();
-        String password = this.edtPassword.getText().toString();
+        String email = this.edtEmail.getEditText().getText().toString();
+        String password = this.edtPassword.getEditText().getText().toString();
         this.userViewModel.signInAuthUser(email,password);
         //this.userViewModel.validateUser(email, password);
 
