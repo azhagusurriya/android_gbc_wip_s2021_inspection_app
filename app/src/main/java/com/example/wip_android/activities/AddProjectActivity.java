@@ -1,13 +1,21 @@
 package com.example.wip_android.activities;
 
+import static com.example.wip_android.ui.gallery.GalleryFragment.GALLERY_REQUEST_CODE;
+
+import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,8 +28,15 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.wip_android.R;
 import com.example.wip_android.fragments.MapFragment;
+import com.example.wip_android.models.ClientInfo;
+import com.example.wip_android.models.User;
 import com.example.wip_android.ui.gallery.GalleryFragment;
+import com.example.wip_android.viewmodels.AddProjectViewModel;
+import com.example.wip_android.viewmodels.UserViewModel;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class AddProjectActivity extends AppCompatActivity implements View.OnClickListener{
@@ -33,16 +48,21 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
     private TextView apGalleryBtn;
     private TextInputLayout edtClientName,edtStreetAddress,edtCity,edtProvince,edtClientPhone;
     private Button btnSaveInfo ;
+    private AddProjectViewModel addProjectViewModel;
+    private ImageView ivClientImage;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_add_project);
 
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null){
             actionBar.setTitle(Html.fromHtml("<font color='#ffffff'>Add Project</font>"));
         }
-        setContentView(R.layout.activity_add_project);
+
+
+        this.addProjectViewModel = AddProjectViewModel.getInstance();
         this.apGalleryBtn = findViewById(R.id.apGalleryBtn);
         this.apGalleryBtn.setOnClickListener(this);
         this.btnSaveInfo = findViewById(R.id.btnSaveInfo);
@@ -53,6 +73,7 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
         this.edtCity = findViewById(R.id.edtCity);
         this.edtProvince = findViewById(R.id.edtProvince);
         this.edtClientPhone = findViewById(R.id.edtClientPhone);
+        this.ivClientImage = findViewById(R.id.ivClientImage);
 
 
     }
@@ -96,7 +117,7 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
         if(view != null){
             switch (view.getId()){
                 case R.id.apGalleryBtn:{
-
+                    pickImage(view);
                     Log.d(TAG, "onClick: Gallery Button clicked");
                     break;
                 }
@@ -104,6 +125,7 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
                     if(this.validateData()) {
                         Log.d(TAG, "onClick: Save Button clicked");
                         this.validateAddProject();
+
 
                     }
                     break;
@@ -113,6 +135,32 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
             }
         }
 
+    }
+
+    public void pickImage(View view) {
+        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(gallery, GALLERY_REQUEST_CODE);
+    }
+
+    // Gallery methods
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GALLERY_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                Uri contentUri = data.getData();
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                String imageFileName = "JPEG_" + timeStamp + "." + getFileExt(contentUri);
+                ivClientImage.setImageURI(contentUri);
+            }
+        }
+    }
+
+    // Get file
+    private String getFileExt(Uri contentUri) {
+        ContentResolver c = this.getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(c.getType(contentUri));
     }
 
     private Boolean validateData() {
@@ -140,10 +188,17 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void validateAddProject(){
-//        String email = this.edtEmail.getEditText().getText().toString();
-//        String password = this.edtPassword.getEditText().getText().toString();
-//        this.userViewModel.signInAuthUser(email,password);
-//        //this.userViewModel.validateUser(email, password);
+        ClientInfo newClient = new ClientInfo();
+
+        newClient.setClientName(this.edtClientName.getEditText().getText().toString());
+        newClient.setClientStreetAddress(this.edtStreetAddress.getEditText().getText().toString());
+        newClient.setClientCity(this.edtCity.getEditText().getText().toString());
+        newClient.setClientProvince(this.edtProvince.getEditText().getText().toString());
+        newClient.setClientPhoneNumber(this.edtClientPhone.getEditText().getText().toString());
+
+
+        // createAuthUser(this.edtEmail.getText().toString(),this.edtPassword.getText().toString());
+        this.addProjectViewModel.createNewClient(newClient);
 
     }
 }
