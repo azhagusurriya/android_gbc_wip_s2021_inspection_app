@@ -10,7 +10,9 @@
         <entry key="app/src/main/res/drawable/ic_menu_gallery.xml" value="0.17916666666666667" />
         <entry key="app/src/main/res/drawable/ic_menu_slideshow.xml" value="0.10092592592592593" />
         <entry key="app/src/main/res/layout/activity_add_project.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_deficiency.xml" value="0.1625" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1381340579710145" />
+        <entry key="app/src/main/res/layout/activity_project.xml" value="0.11927083333333334" />
         <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_sign_upp.xml" value="0.25" />

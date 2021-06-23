@@ -126,6 +126,7 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
                         Log.d(TAG, "onClick: Save Button clicked");
                         this.validateAddProject();
 
+                        this.goToProjectDeficiencyList();
 
                     }
                     break;
@@ -200,5 +201,11 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
         // createAuthUser(this.edtEmail.getText().toString(),this.edtPassword.getText().toString());
         this.addProjectViewModel.createNewClient(newClient);
 
+    }
+
+    private void goToProjectDeficiencyList(){
+        this.finish();
+        Intent mainIntent = new Intent(this, ProjectActivity.class);
+        startActivity(mainIntent);
     }
 }
