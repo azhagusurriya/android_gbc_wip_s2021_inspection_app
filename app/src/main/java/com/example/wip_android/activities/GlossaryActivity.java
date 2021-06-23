@@ -19,7 +19,7 @@ import java.util.List;
 public class GlossaryActivity extends AppCompatActivity {
 
     // Variables
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
     GlossaryAdapter recyclerAdapter;
     List<String> glossaryList;
     TextView txtLineOne;

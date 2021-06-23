@@ -22,10 +22,10 @@ import java.util.Date;
 public class ProjectActivity extends AppCompatActivity {
 
     // Gallery Settings
-    public static final int GALLERY_REQUEST_CODE = 105;
+    private static final int GALLERY_REQUEST_CODE = 105;
 
     // Variables
-    ImageView selectedImage;
+    private ImageView selectedImage;
 
     // Default Functions
     @Override
@@ -37,7 +37,7 @@ public class ProjectActivity extends AppCompatActivity {
     }
 
     public void addDeficiency(View view) {
-        
+        System.out.println("test");
     }
 
 
