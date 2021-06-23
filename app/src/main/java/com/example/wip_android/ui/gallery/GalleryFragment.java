@@ -46,6 +46,7 @@ import java.util.Date;
 public class GalleryFragment extends Fragment {
 
     // Variables
+    private final String TAG = this.getClass().getCanonicalName();
     private GalleryViewModel galleryViewModel;
     private FragmentGalleryBinding binding;
     ImageView selectedImage;
@@ -155,6 +156,7 @@ public class GalleryFragment extends Fragment {
             Uri photoURI = FileProvider.getUriForFile(getContext(),
                     "com.example.android.fileprovider",
                     photoFile);
+            Log.d(TAG, "dispatchTakePictureIntent: " + photoURI);
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
             startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
             }
@@ -197,6 +199,8 @@ public class GalleryFragment extends Fragment {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+
+
 //        File storageDir = Environment.getExternalStorageDirectory();
 //        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
@@ -205,7 +209,7 @@ public class GalleryFragment extends Fragment {
                 storageDir
         );
         currentPhotoPath = image.getAbsolutePath();
-
+        Log.d(TAG, "createImageFile: " + image.getAbsolutePath());
         return image;
     }
 

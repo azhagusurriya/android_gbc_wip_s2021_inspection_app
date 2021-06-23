@@ -26,6 +26,15 @@
         android:src="@drawable/logo">
 
     </ImageView>
+    <TextView
+        android:id="@+id/apGalleryBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="#3351fc"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/Choose_picture" />
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
