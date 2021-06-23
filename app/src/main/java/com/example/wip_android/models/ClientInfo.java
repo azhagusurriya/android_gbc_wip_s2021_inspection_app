@@ -1,6 +1,9 @@
 package com.example.wip_android.models;
 
+import android.widget.ImageView;
+
 public class ClientInfo {
+    ImageView clientImage;
     String clientName;
     String clientStreetAddress;
     String clientCity;
@@ -16,7 +19,23 @@ public class ClientInfo {
         this.clientCity = clientCity;
         this.clientProvince = clientProvince;
         this.clientPhoneNumber = clientPhoneNumber;
+    }
 
+    public ClientInfo(ImageView clientImage, String clientName, String clientStreetAddress, String clientCity, String clientProvince, String clientPhoneNumber) {
+        this.clientImage = clientImage;
+        this.clientName = clientName;
+        this.clientStreetAddress = clientStreetAddress;
+        this.clientCity = clientCity;
+        this.clientProvince = clientProvince;
+        this.clientPhoneNumber = clientPhoneNumber;
+    }
+
+    public ImageView getClientImage() {
+        return clientImage;
+    }
+
+    public void setClientImage(ImageView clientImage) {
+        this.clientImage = clientImage;
     }
 
     public String getClientName() {
@@ -62,11 +81,13 @@ public class ClientInfo {
     @Override
     public String toString() {
         return "ClientInfo{" +
-                "clientName='" + clientName + '\'' +
+                "clientImage=" + clientImage +
+                ", clientName='" + clientName + '\'' +
                 ", clientStreetAddress='" + clientStreetAddress + '\'' +
                 ", clientCity='" + clientCity + '\'' +
                 ", clientProvince='" + clientProvince + '\'' +
                 ", clientPhoneNumber='" + clientPhoneNumber + '\'' +
                 '}';
     }
+
 }
