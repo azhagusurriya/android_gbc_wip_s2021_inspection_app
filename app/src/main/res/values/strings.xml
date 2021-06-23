@@ -45,4 +45,7 @@
     <string name="province">Province</string>
     <string name="city">City</string>
     <string name="SaveClientInfo">Save</string>
+    <string name="action_camera">Camera</string>
+    <string name="action_map">Map</string>
+    <string name="Choose_picture">Pick a photo from gallery</string>
 </resources>
