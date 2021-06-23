@@ -5,6 +5,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,13 +17,14 @@ import com.example.wip_android.adapters.GlossaryAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GlossaryActivity extends AppCompatActivity {
+public class GlossaryActivity extends AppCompatActivity implements GlossaryAdapter.onNoteListener {
 
     // Variables
     private RecyclerView recyclerView;
     GlossaryAdapter recyclerAdapter;
     List<String> glossaryList;
     TextView txtLineOne;
+    String chosenItem;
 
     // Default Function
     @Override
@@ -38,13 +40,18 @@ public class GlossaryActivity extends AppCompatActivity {
         glossaryList.add("Wall Cracks");
 
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerAdapter = new GlossaryAdapter(glossaryList);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerAdapter = new GlossaryAdapter(glossaryList, this);
         recyclerView.setAdapter(recyclerAdapter);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
 
+        chosenItem = recyclerAdapter.getChosenItem();
+        System.out.println(chosenItem);
+//        Intent intent = new Intent(this, DeficiencyActivity.class);
+//        intent.putExtra("chosenItem", chosenItem);
+//        intent.putExtra("FROM_ACTIVITY", "GlossaryActivity");
+//        startActivity(intent);
     }
 
     public void addButtonPressed(MenuItem item) {
@@ -73,4 +80,12 @@ public class GlossaryActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onNoteClick(int position) {
+        String test = glossaryList.get(position);
+        Intent intent = new Intent(this, DeficiencyActivity.class);
+        intent.putExtra("test", test);
+        intent.putExtra("FROM_ACTIVITY", "GlossaryActivity");
+        startActivity(intent);
+    }
 }

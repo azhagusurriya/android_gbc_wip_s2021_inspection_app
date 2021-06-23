@@ -1,5 +1,6 @@
 package com.example.wip_android.adapters;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wip_android.R;
+import com.example.wip_android.activities.DeficiencyActivity;
+import com.example.wip_android.activities.GlossaryActivity;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,12 +26,15 @@ public class GlossaryAdapter extends RecyclerView.Adapter<GlossaryAdapter.ViewHo
     // Variables
     List<String> glossaryList;
     List<String> glossaryListAll;
+    String chosenItem;
+    onNoteListener mOnNoteListener;
 
     // Adapter
-    public GlossaryAdapter(List<String> moviesList) {
-        this.glossaryList = moviesList;
+    public GlossaryAdapter(List<String> glossaryList, onNoteListener onNoteListener) {
+        this.glossaryList = glossaryList;
         glossaryListAll = new ArrayList<>();
-        glossaryListAll.addAll(moviesList);
+        glossaryListAll.addAll(glossaryList);
+        this.mOnNoteListener = onNoteListener;
     }
 
     // Recycler View Settings
@@ -37,7 +43,7 @@ public class GlossaryAdapter extends RecyclerView.Adapter<GlossaryAdapter.ViewHo
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.row_glossary_item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
+        ViewHolder viewHolder = new ViewHolder(view, mOnNoteListener);
         return viewHolder;
     }
 
@@ -90,13 +96,15 @@ public class GlossaryAdapter extends RecyclerView.Adapter<GlossaryAdapter.ViewHo
 
         ImageView imageView;
         TextView textView, rowCountTextView;
+        onNoteListener onNoteListener;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, onNoteListener onNoteListener) {
             super(itemView);
 
             imageView = itemView.findViewById(R.id.imageView);
             textView = itemView.findViewById(R.id.textView);
             rowCountTextView = itemView.findViewById(R.id.textView);
+            this.onNoteListener = onNoteListener;
 
             itemView.setOnClickListener(this);
 
@@ -104,8 +112,18 @@ public class GlossaryAdapter extends RecyclerView.Adapter<GlossaryAdapter.ViewHo
 
         @Override
         public void onClick(View view) {
-            Toast.makeText(view.getContext(), glossaryList.get(getAdapterPosition()), Toast.LENGTH_SHORT).show();
+            chosenItem = glossaryList.get(getAdapterPosition());
+            onNoteListener.onNoteClick(getAdapterPosition());
+//            Toast.makeText(view.getContext(), glossaryList.get(getAdapterPosition()), Toast.LENGTH_SHORT).show();
         }
+
     }
 
+        public interface onNoteListener {
+            void onNoteClick(int position);
+        }
+
+    public String getChosenItem() {
+        return chosenItem;
+    }
 }

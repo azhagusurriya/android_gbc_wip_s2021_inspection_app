@@ -47,6 +47,7 @@ public class ProjectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project);
 
+        // Bar title
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null){
             actionBar.setTitle(Html.fromHtml("<font color='#ffffff'>Deficiency List</font>"));
@@ -127,6 +128,7 @@ public class ProjectActivity extends AppCompatActivity {
     private void goToAddDeficiency(){
         this.finish();
         Intent mainIntent = new Intent(this, DeficiencyActivity.class);
+        mainIntent.putExtra("FROM_ACTIVITY", "ProjectActivity");
         startActivity(mainIntent);
     }
 
