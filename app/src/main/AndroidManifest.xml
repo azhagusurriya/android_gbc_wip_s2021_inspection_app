@@ -55,7 +55,10 @@
         <activity
             android:name=".activities.AddProjectActivity"
             android:label="Add Project" />
+
         <activity android:name=".activities.SignInActivity" />
+
+        <activity android:name=".activities.AddImagePinActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
