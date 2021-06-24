@@ -39,13 +39,14 @@ public class GlossaryActivity extends AppCompatActivity implements GlossaryAdapt
         glossaryList.add("Sump Pump Problems");
         glossaryList.add("Wall Cracks");
 
+        // Recycler View
         recyclerView = findViewById(R.id.recyclerView);
         recyclerAdapter = new GlossaryAdapter(glossaryList, this);
         recyclerView.setAdapter(recyclerAdapter);
-
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
 
+        // Get item from glossary
         chosenItem = recyclerAdapter.getChosenItem();
         System.out.println(chosenItem);
 //        Intent intent = new Intent(this, DeficiencyActivity.class);
@@ -54,6 +55,7 @@ public class GlossaryActivity extends AppCompatActivity implements GlossaryAdapt
 //        startActivity(intent);
     }
 
+    // Add a new item to glossary
     public void addButtonPressed(MenuItem item) {
         System.out.println("Pressed");
     }
@@ -79,7 +81,7 @@ public class GlossaryActivity extends AppCompatActivity implements GlossaryAdapt
         return super.onCreateOptionsMenu(menu);
     }
 
-
+    // Choose item and come back to DeficiencyActivity
     @Override
     public void onNoteClick(int position) {
         String test = glossaryList.get(position);

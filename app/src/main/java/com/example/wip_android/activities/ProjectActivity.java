@@ -5,6 +5,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -23,6 +26,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.wip_android.R;
+import com.example.wip_android.adapters.GlossaryAdapter;
+import com.example.wip_android.adapters.ProjectAdapter;
 import com.example.wip_android.fragments.AddImagePin;
 import com.example.wip_android.fragments.DeficiencyFragment;
 import com.example.wip_android.fragments.MapFragment;
@@ -30,9 +35,11 @@ import com.example.wip_android.ui.gallery.GalleryFragment;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public class ProjectActivity extends AppCompatActivity {
+public class ProjectActivity extends AppCompatActivity implements ProjectAdapter.onNoteListener {
 
     // Gallery Settings
     private static final int GALLERY_REQUEST_CODE = 105;
@@ -43,8 +50,11 @@ public class ProjectActivity extends AppCompatActivity {
     String stringUri;
 
     // Variables
+    private RecyclerView recyclerView;
     private ImageView selectedImage;
     private TextView addDeficiency;
+    ProjectAdapter recyclerAdapter;
+    List<String> deficiencyList;
 
     // Default Functions
     @Override
@@ -58,9 +68,24 @@ public class ProjectActivity extends AppCompatActivity {
             actionBar.setTitle(Html.fromHtml("<font color='#ffffff'>Deficiency List</font>"));
         }
 
+        // UI Components
         selectedImage = findViewById(R.id.projectImage);
         addDeficiency = findViewById(R.id.addDeficiency);
 
+        // Deficiency List
+        deficiencyList = new ArrayList<>();
+        deficiencyList.add("Foundation Wall Cracks");
+        deficiencyList.add("Faulty Roofs");
+        deficiencyList.add("Sump Pump Problems");
+        deficiencyList.add("Wall Cracks");
+
+        // Deficiency Recycler View
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerAdapter = new ProjectAdapter(deficiencyList, this);
+        recyclerView.setAdapter(recyclerAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
     }
 
     public void addDeficiency(View view) {
@@ -155,6 +180,13 @@ public class ProjectActivity extends AppCompatActivity {
         Intent mainIntent = new Intent(this, DeficiencyActivity.class);
         mainIntent.putExtra("FROM_ACTIVITY", "ProjectActivity");
         startActivity(mainIntent);
+    }
+
+    // When Recycler View item is clicked do something
+    @Override
+    public void onNoteClick(int position) {
+        String test = deficiencyList.get(position);
+        System.out.println("pressed");
     }
 
 }
