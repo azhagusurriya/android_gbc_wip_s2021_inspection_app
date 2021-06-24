@@ -59,10 +59,10 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
 
         // Home List
         homeList = new ArrayList<>();
-        homeList.add("Foundation Wall Cracks");
-        homeList.add("Faulty Roofs");
-        homeList.add("Sump Pump Problems");
-        homeList.add("Wall Cracks");
+        homeList.add("Project 1");
+        homeList.add("Project 2");
+        homeList.add("Project 3");
+        homeList.add("Project 4");
 
         // Home Recycler View
         recyclerView = root.findViewById(R.id.recyclerView);
