@@ -136,8 +136,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         fabTakeScreenshot = (FloatingActionButton) mView.findViewById(R.id.fabTakeScreenshot);
 
-
-
         fabTakeScreenshot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -257,6 +255,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
+
+//    check location permission
     private void checkMyPermission() {
         Dexter.withContext(getActivity())
                 .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)

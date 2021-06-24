@@ -72,8 +72,7 @@
         android:textSize="15dp"
         android:padding="20dp"
         android:text="Select Glossary"
-        android:clickable="true"
-        android:onClick="selectGlossary"/>
+        android:clickable="true" />
 
     </LinearLayout>
 

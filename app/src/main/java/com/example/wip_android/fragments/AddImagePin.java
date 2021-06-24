@@ -1,5 +1,7 @@
 package com.example.wip_android.fragments;
 
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.graphics.Bitmap;
@@ -21,6 +23,7 @@ import android.widget.Toast;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.example.wip_android.PinView;
 import com.example.wip_android.R;
+import com.example.wip_android.ui.gallery.GalleryFragment;
 import com.example.wip_android.viewmodels.AddImagePinViewModel;
 
 public class AddImagePin extends Fragment {
@@ -29,6 +32,8 @@ public class AddImagePin extends Fragment {
     private View view;
     private final String TAG = this.getClass().getCanonicalName();
     private PinView imageView;
+    private Fragment switchFragment;
+    FragmentTransaction transaction;
     Uri contentUri;
 
     public static AddImagePin newInstance() {
@@ -61,6 +66,13 @@ public class AddImagePin extends Fragment {
                 Log.d(TAG, "onClick: Long Clicked");
                 Toast.makeText(v.getContext(), "Long clicked", Toast.LENGTH_SHORT).show();
 
+                switchFragment = new DeficiencyFragment();
+                transaction = getActivity().getSupportFragmentManager().beginTransaction();
+
+//                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                transaction.replace(R.id.project_layout, switchFragment).addToBackStack(null).commit();
                 return true; }
         });
 

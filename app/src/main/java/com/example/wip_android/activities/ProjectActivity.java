@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.example.wip_android.R;
 import com.example.wip_android.fragments.AddImagePin;
+import com.example.wip_android.fragments.DeficiencyFragment;
 import com.example.wip_android.fragments.MapFragment;
 import com.example.wip_android.ui.gallery.GalleryFragment;
 
@@ -65,12 +66,8 @@ public class ProjectActivity extends AppCompatActivity {
     public void addDeficiency(View view) {
         System.out.println("test");
 
-
-
-
         switchFragment = new AddImagePin();
         transaction = getSupportFragmentManager().beginTransaction();
-
 
         Bundle bundle = new Bundle();
         bundle.putString("photo", stringUri);

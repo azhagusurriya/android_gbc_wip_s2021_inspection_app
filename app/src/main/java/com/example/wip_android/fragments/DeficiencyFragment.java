@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.wip_android.R;
 import com.example.wip_android.activities.GlossaryActivity;
@@ -33,6 +34,8 @@ public class DeficiencyFragment extends Fragment implements AdapterView.OnItemSe
     ArrayAdapter<String> adapter;
     String selected;
     TextInputLayout edtIssue;
+    View view;
+    TextView selectGlossary;
 
     public static DeficiencyFragment newInstance() {
         return new DeficiencyFragment();
@@ -43,13 +46,27 @@ public class DeficiencyFragment extends Fragment implements AdapterView.OnItemSe
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_deficiency, container, false);
+         view = inflater.inflate(R.layout.fragment_deficiency, container, false);
 
         // Bar Title
         ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
         if(actionBar != null){
             actionBar.setTitle(Html.fromHtml("<font color='#ffffff'>Add Deficiency</font>"));
         }
+
+
+        this.selectGlossary = view.findViewById(R.id.selectGlossary);
+
+        selectGlossary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                navigateToGlossary();
+            }
+        });
+
+
+
 
         // Spinner Department List
         listItems.add("Foundation Wall Cracks");
@@ -81,12 +98,11 @@ public class DeficiencyFragment extends Fragment implements AdapterView.OnItemSe
             System.out.println(yourText);
         }
 
-        return inflater.inflate(R.layout.fragment_deficiency, container, false);
+        return view;
     }
 
     // Go to glossary screen
-    public void selectGlossary(View view) {
-        getActivity().finish();
+    public void navigateToGlossary() {
         Intent mainIntent = new Intent(getActivity(), GlossaryActivity.class);
         startActivity(mainIntent);
     }
