@@ -23,11 +23,7 @@
         android:theme="@style/Theme.Android_gbc_wip_s2021_inspection_app">
         <activity android:name=".activities.DeficiencyActivity"></activity>
         <activity android:name=".activities.ProjectActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activities.GlossaryActivity"></activity>
 
@@ -42,7 +38,11 @@
             android:name=".activities.SplashActivity"
             android:theme="@style/Theme.Android_gbc_wip_s2021_inspection_app.Splash">
             >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
