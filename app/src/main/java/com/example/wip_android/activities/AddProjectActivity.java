@@ -122,13 +122,14 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
                     break;
                 }
                 case R.id.btnSaveInfo:{
-                    if(this.validateData()) {
-                        Log.d(TAG, "onClick: Save Button clicked");
-                        this.validateAddProject();
-
-                        this.goToProjectDeficiencyList();
-
-                    }
+                    this.goToProjectDeficiencyList();
+//                    if(this.validateData()) {
+//                        Log.d(TAG, "onClick: Save Button clicked");
+//                        this.validateAddProject();
+//
+//                        this.goToProjectDeficiencyList();
+//
+//                    }
                     break;
                 }
 

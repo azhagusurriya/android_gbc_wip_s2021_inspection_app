@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Picture;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -22,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.wip_android.R;
+import com.example.wip_android.fragments.AddImagePin;
 import com.example.wip_android.fragments.MapFragment;
 import com.example.wip_android.ui.gallery.GalleryFragment;
 
@@ -36,6 +38,8 @@ public class ProjectActivity extends AppCompatActivity {
     private final String TAG = this.getClass().getCanonicalName();
     private Fragment switchFragment;
     FragmentTransaction transaction;
+    Uri contentUri;
+    String stringUri;
 
     // Variables
     private ImageView selectedImage;
@@ -60,7 +64,23 @@ public class ProjectActivity extends AppCompatActivity {
 
     public void addDeficiency(View view) {
         System.out.println("test");
-        goToAddDeficiency();
+
+
+
+
+        switchFragment = new AddImagePin();
+        transaction = getSupportFragmentManager().beginTransaction();
+
+
+        Bundle bundle = new Bundle();
+        bundle.putString("photo", stringUri);
+        switchFragment.setArguments(bundle);
+
+        transaction.replace(R.id.project_layout, switchFragment).addToBackStack(null).commit();
+
+
+//        goToAddDeficiency();
+//        goToAddMarker();
     }
 
 
@@ -76,10 +96,12 @@ public class ProjectActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GALLERY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                Uri contentUri = data.getData();
+                contentUri = data.getData();
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                 String imageFileName = "JPEG_" + timeStamp + "." + getFileExt(contentUri);
                 selectedImage.setImageURI(contentUri);
+                Log.d(TAG, "onActivityResult: Image " + contentUri );
+                stringUri = contentUri.toString();
             }
         }
     }
@@ -123,6 +145,12 @@ public class ProjectActivity extends AppCompatActivity {
 
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void goToAddMarker(){
+        this.finish();
+        Intent mainIntent = new Intent(this, AddImagePinActivity.class);
+        startActivity(mainIntent);
     }
 
     private void goToAddDeficiency(){
