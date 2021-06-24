@@ -42,8 +42,7 @@ public class DeficiencyFragment extends Fragment implements AdapterView.OnItemSe
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
          view = inflater.inflate(R.layout.fragment_deficiency, container, false);
@@ -64,9 +63,6 @@ public class DeficiencyFragment extends Fragment implements AdapterView.OnItemSe
                 navigateToGlossary();
             }
         });
-
-
-
 
         // Spinner Department List
         listItems.add("Foundation Wall Cracks");
