@@ -57,6 +57,8 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
         // Inflate fragment
         View root =  inflater.inflate(R.layout.fragment_home, container, false);
 
+
+        
         // Home List
         homeList = new ArrayList<>();
         homeList.add("Project 1");
