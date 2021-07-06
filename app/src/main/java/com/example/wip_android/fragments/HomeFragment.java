@@ -1,12 +1,11 @@
 package com.example.wip_android.fragments;
 
-
-
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -15,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -41,9 +43,9 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
     private HomeViewModel mViewModel;
     private FloatingActionButton fabAddProject;
     private final String TAG = this.getClass().getCanonicalName();
-    private RecyclerView recyclerView;
-    HomeAdapter recyclerAdapter;
-    List<String> homeList;
+    private RecyclerView homeRecyclerView;
+    private HomeAdapter homeRecyclerAdapter;
+    private List<String> homeList;
 
     // Default function
     public static HomeFragment newInstance() {
@@ -52,30 +54,32 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+            @Nullable Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
         // Inflate fragment
-        View root =  inflater.inflate(R.layout.fragment_home, container, false);
+        View root = inflater.inflate(R.layout.fragment_home, container, false);
 
-
-        
         // Home List
-        homeList = new ArrayList<>();
-        homeList.add("Project 1");
-        homeList.add("Project 2");
-        homeList.add("Project 3");
-        homeList.add("Project 4");
+        this.homeList = new ArrayList<>();
+        this.homeList.add("Project 1");
+        this.homeList.add("Project 2");
+        this.homeList.add("Project 3");
+        this.homeList.add("Project 4");
 
         // Home Recycler View
-        recyclerView = root.findViewById(R.id.recyclerView);
-        recyclerAdapter = new HomeAdapter(homeList, this);
-        recyclerView.setAdapter(recyclerAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(dividerItemDecoration);
+        this.homeRecyclerView = root.findViewById(R.id.homeRecyclerView);
+        this.homeRecyclerAdapter = new HomeAdapter(this.homeList, this);
+        this.homeRecyclerView.setAdapter(this.homeRecyclerAdapter);
+        this.homeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),
+                DividerItemDecoration.VERTICAL);
+        this.homeRecyclerView.addItemDecoration(dividerItemDecoration);
 
         // Floating Button
-       fabAddProject = (FloatingActionButton) root.findViewById(R.id.fabAddProject);
+        fabAddProject = (FloatingActionButton) root.findViewById(R.id.fabAddProject);
         fabAddProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,7 +88,7 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
         });
 
         return root;
-        }
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -94,7 +98,7 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
     }
 
     // Add Project Floating Button
-    private void navigateToAddProject(){
+    private void navigateToAddProject() {
         Log.d(TAG, "onClick Add Project: Intend to addproject activity ");
         Intent intent = new Intent(getActivity(), AddProjectActivity.class);
         startActivity(intent);
@@ -107,6 +111,31 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
         System.out.println(test);
     }
 
+    // SearchView settings
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        menu.findItem(R.id.home_action_search).setVisible(true);
+        MenuItem menuItem = menu.findItem(R.id.home_action_search);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                homeRecyclerAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+    }
 
 }
-

@@ -5,10 +5,15 @@
 * Create logic for telephone
 * Create logic for password
 
+## Tab Bar
+
+* Keep only two tabs: Projects and Setting
+
 ## HomeFragment
 
 * Load projects to HomeFragment
 * Improve RecyclerView UI
+* All/Ongoing/Done on the search bar
 
 ## FragmentDeficiency
 
