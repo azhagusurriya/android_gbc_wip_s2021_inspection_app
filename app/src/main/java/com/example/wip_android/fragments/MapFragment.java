@@ -149,7 +149,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         return mView;
     }
 
-
     // Initializing Snapshot Method
     public void captureScreenshot(){
         GoogleMap.SnapshotReadyCallback callback=new GoogleMap.SnapshotReadyCallback () {

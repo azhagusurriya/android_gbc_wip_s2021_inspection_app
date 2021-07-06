@@ -61,6 +61,9 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
             actionBar.setTitle(Html.fromHtml("<font color='#ffffff'>Add Project</font>"));
         }
 
+        assert getSupportActionBar() != null;   //null check
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);   //show back button
+
 
         this.addProjectViewModel = AddProjectViewModel.getInstance();
         this.apGalleryBtn = findViewById(R.id.apGalleryBtn);
@@ -77,6 +80,14 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
 
 
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.camera_map, menu);
@@ -122,14 +133,14 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
                     break;
                 }
                 case R.id.btnSaveInfo:{
-                    //this.goToProjectDeficiencyList();
-                    if(this.validateData()) {
-                        Log.d(TAG, "onClick: Save Button clicked");
-                        this.validateAddProject();
-
-                        this.goToProjectDeficiencyList();
-
-                    }
+                    this.goToProjectDeficiencyList();
+//                    if(this.validateData()) {
+//                        Log.d(TAG, "onClick: Save Button clicked");
+//                        this.validateAddProject();
+//
+//                        this.goToProjectDeficiencyList();
+//
+//                    }
                     break;
                 }
 

@@ -64,4 +64,5 @@ dependencies {
     implementation 'com.github.ganfra:material-spinner:1.1.1'
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
     implementation 'com.google.android.material:material:1.1.0-alpha09'
+    implementation 'com.burhanrashid52:photoeditor:1.1.4'
 }

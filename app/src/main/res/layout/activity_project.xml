@@ -77,7 +77,7 @@
         android:orientation="vertical">
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:scaleType="centerInside"
                 android:layout_weight="3"
@@ -97,6 +97,7 @@
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
                     android:textSize="20dp"
+                    android:textColor="#3351fc"
                     android:layout_weight="1"
                     android:text="Pick Image"
                     android:clickable="true"
@@ -110,6 +111,7 @@
                     android:layout_margin="10dp"
                     android:textSize="18dp"
                     android:layout_weight="1"
+                    android:textColor="#3351fc"
                     android:text="+ Add Deficiency"
                     android:onClick="addDeficiency"
                     android:clickable="true" />
