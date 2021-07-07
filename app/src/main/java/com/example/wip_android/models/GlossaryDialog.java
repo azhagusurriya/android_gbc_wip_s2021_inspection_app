@@ -19,51 +19,57 @@ import org.jetbrains.annotations.NotNull;
 
 public class GlossaryDialog extends AppCompatDialogFragment {
 
-//    GlossaryDialogInterface glossaryDialogInterface;
-    EditText edtGlossaryContent, edtGlossaryDescription;
+    // Variables
+    private GlossaryDialogInterface glossaryDialogInterface;
+    private EditText edtGlossaryContent, edtGlossaryDescription;
+    private GlossaryItem newGlossaryItem;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstance) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
+        // Inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.layout_dialog_glossary, null);
 
-        builder.setView(view)
-                .setTitle("Test Custom Dialog")
+        // UI Components
+        edtGlossaryContent = view.findViewById(R.id.edtGlossaryContent);
+        edtGlossaryDescription = view.findViewById(R.id.edtGlossaryDescription);
+
+        // Dialog
+        builder.setView(view).setTitle("Test Custom Dialog")
+                // Negative button
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
                     }
-                })
-                .setPositiveButton("Oke", new DialogInterface.OnClickListener() {
+                // Positive button
+                }).setPositiveButton("Done", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-//                        String textOne = edtGlossaryContent.getText().toString();
-//                        String textTwo = edtGlossaryContent.getText().toString();
-//                        glossaryDialogInterface.applyTexts(textOne, textTwo);
+                        String glossaryContent = edtGlossaryContent.getText().toString();
+                        String glossaryDescription = edtGlossaryDescription.getText().toString();
+                        String glossarySection = (glossaryContent.charAt(0) + "").toUpperCase();
+                        newGlossaryItem = new GlossaryItem("Test Category", glossaryContent, "Admin",
+                                glossaryDescription, glossarySection);
+                        glossaryDialogInterface.addNewGlossaryItem(newGlossaryItem);
 
                     }
                 });
 
-
-        edtGlossaryContent = view.findViewById(R.id.edtGlossaryContent);
-        edtGlossaryDescription = view.findViewById(R.id.edtGlossaryDescription);
-
         return builder.create();
     }
 
-//    @Override
-//    public void onAttach(@NonNull @NotNull Context context) {
-//        super.onAttach(context);
-//
-//        glossaryDialogInterface = (GlossaryDialogInterface) context;
-//    }
-//
-//    public interface GlossaryDialogInterface {
-//        void applyTexts(String textOne, String textTwo);
-//    }
+    @Override
+    public void onAttach(@NonNull @NotNull Context context) {
+        super.onAttach(context);
+        glossaryDialogInterface = (GlossaryDialogInterface) context;
+    }
+
+    public interface GlossaryDialogInterface {
+        void addNewGlossaryItem(GlossaryItem newGlossaryItem);
+    }
 
 }

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.wip_android.R;
 import com.example.wip_android.adapters.GlossaryAdapter;
+import com.example.wip_android.models.GlossaryDeleteDialog;
 import com.example.wip_android.models.GlossaryDialog;
 import com.example.wip_android.models.GlossaryItem;
 import com.example.wip_android.viewmodels.AddProjectViewModel;
@@ -24,7 +25,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GlossaryActivity extends AppCompatActivity implements GlossaryAdapter.onNoteListener {
+public class GlossaryActivity extends AppCompatActivity implements GlossaryAdapter.onNoteListener,
+        GlossaryDialog.GlossaryDialogInterface, GlossaryDeleteDialog.GlossaryDeleteDialogInterface {
 
     // Variables
     private RecyclerView glossaryRecyclerView;
@@ -32,8 +34,9 @@ public class GlossaryActivity extends AppCompatActivity implements GlossaryAdapt
     private List<String> glossaryList;
     private List<String> glossaryContentList;
     private List<String> glossaryCategoryList;
-    private String chosenItem;
-    private TextView txtLineOne, txtLineTwo;
+    private GlossaryItem chosenItem;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private String COLLECTION_NAME = "Glossary";
 
     // Default Function
     @Override
@@ -41,9 +44,20 @@ public class GlossaryActivity extends AppCompatActivity implements GlossaryAdapt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_glossary);
 
+        // Get glossary data from Firebase
+        this.refreshRecyclerView();
+    }
+
+    // Add a new item to glossary
+    public void addButtonPressed(MenuItem item) {
+        GlossaryDialog glossaryDialog = new GlossaryDialog();
+        glossaryDialog.show(getSupportFragmentManager(), "Test Dialog");
+    }
+
+    // Grab and refresh data from Firebase
+    public void refreshRecyclerView() {
         // Get glossary from Firebase
-        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
-        rootRef.collection("Glossary").get().addOnCompleteListener(task -> {
+        db.collection(COLLECTION_NAME).get().addOnCompleteListener(task -> {
             // Check task
             if (task.isSuccessful()) {
                 // Check if there is any document
@@ -57,8 +71,7 @@ public class GlossaryActivity extends AppCompatActivity implements GlossaryAdapt
                         this.glossaryCategoryList.add(glossaryList.get(i).getCategory());
                     }
                     // Display on recycler view
-                    this.recyclerAdapter = new GlossaryAdapter(this.glossaryContentList, this.glossaryCategoryList,
-                            this);
+                    this.recyclerAdapter = new GlossaryAdapter(this, glossaryList);
                     this.glossaryRecyclerView = findViewById(R.id.glossaryRecyclerView);
                     this.glossaryRecyclerView.setAdapter(this.recyclerAdapter);
                     DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,
@@ -69,14 +82,6 @@ public class GlossaryActivity extends AppCompatActivity implements GlossaryAdapt
                 }
             }
         });
-
-    }
-
-    // Add a new item to glossary
-    public void addButtonPressed(MenuItem item) {
-        System.out.println("Pressed");
-        GlossaryDialog glossaryDialog = new GlossaryDialog();
-        glossaryDialog.show(getSupportFragmentManager(), "Test Dialog");
     }
 
     // Search view
@@ -104,17 +109,28 @@ public class GlossaryActivity extends AppCompatActivity implements GlossaryAdapt
     // Choose item and come back to DeficiencyActivity
     @Override
     public void onNoteClick(int position) {
-        String test = this.glossaryList.get(position);
+        String test = this.recyclerAdapter.getGlossaryList().get(position).getContent();
         Intent intent = new Intent(this, DeficiencyActivity.class);
         intent.putExtra("test", test);
         intent.putExtra("FROM_ACTIVITY", "GlossaryActivity");
         startActivity(intent);
     }
 
-//    @Override
-//    public void applyTexts(String textOne, String textTwo) {
-//        txtLineOne.setText(textOne);
-//        txtLineTwo.setText(textTwo);
-//    }
+    // Add new item to glossary
+    @Override
+    public void addNewGlossaryItem(GlossaryItem newGlossaryItem) {
+        String id = newGlossaryItem.getContent() + " - " + newGlossaryItem.getCategory();
+        System.out.println(id);
+        db.collection(COLLECTION_NAME).document(id).set(newGlossaryItem);
+        this.refreshRecyclerView();
+    }
+
+    // Delete an item from glossary
+    @Override
+    public void deleteGlossaryItem(GlossaryItem glossaryItem) {
+        String id = glossaryItem.getContent() + " - " + glossaryItem.getCategory();
+        db.collection(COLLECTION_NAME).document(id).delete();
+        this.refreshRecyclerView();
+    }
 
 }
