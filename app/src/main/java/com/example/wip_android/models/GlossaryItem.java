@@ -5,11 +5,11 @@ import android.widget.ImageView;
 public class GlossaryItem {
 
     // Variables
-    String category;
-    String content;
-    String department;
-    String description;
-    String section;
+    private String category;
+    private String content;
+    private String department;
+    private String description;
+    private String section;
 
     // Constructors
     public GlossaryItem() {
@@ -21,6 +21,11 @@ public class GlossaryItem {
         this.department = department;
         this.description = description;
         this.section = section;
+    }
+
+    public GlossaryItem(String category, String content) {
+        this.category = category;
+        this.content = content;
     }
 
     // Getter and Setters

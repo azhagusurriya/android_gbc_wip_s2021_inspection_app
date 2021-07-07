@@ -24,6 +24,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
+import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
@@ -94,7 +95,7 @@ import okhttp3.MultipartBody;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback {
+public class MapFragment extends Fragment implements OnMapReadyCallback  {
 
     private GoogleMap mMap;
     LinearLayout linearLayout;
@@ -120,8 +121,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_map, container, false);
 
         mMapView = (MapView) mView.findViewById(R.id.map);
@@ -324,19 +324,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mFusedLocationClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
-                // GPS location can be null if GPS is switched off
-               double currentLat = location.getLatitude();
-               double  currentLong = location.getLongitude();
+                if(location!= null) {
+                    // GPS location can be null if GPS is switched off
+                    double currentLat = location.getLatitude();
+                    double currentLong = location.getLongitude();
 
-                LatLng address = new LatLng(currentLat, currentLong);
-                googleMap.addMarker(new MarkerOptions()
-                        .position(address)
-                        .title("Marker in Address").snippet("My Home"));
+                    LatLng address = new LatLng(currentLat, currentLong);
+                    googleMap.addMarker(new MarkerOptions()
+                            .position(address)
+                            .title("Marker in Address").snippet("My Home"));
 
-                CameraPosition cPosition = CameraPosition.builder().target(address).zoom(24).bearing(0).tilt(45).build();
-                // Move the camera to the marker
-                googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cPosition));
-
+                    CameraPosition cPosition = CameraPosition.builder().target(address).zoom(24).bearing(0).tilt(45).build();
+                    // Move the camera to the marker
+                    googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cPosition));
+                }
             }
         })
                 .addOnFailureListener(new OnFailureListener() {
