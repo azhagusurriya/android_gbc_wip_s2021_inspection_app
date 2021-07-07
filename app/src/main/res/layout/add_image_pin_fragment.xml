@@ -13,12 +13,19 @@
 <!--        android:clickable="true"-->
 <!--        android:focusable="true" />-->
 
-    <ja.burhanrashid52.photoeditor.PhotoEditorView
+
+    <com.example.wip_android.DrawView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:longClickable="true"
-        android:clickable="true"
-        android:focusable="true"/>
+        android:scaleType="fitXY" />
+
+<!--    <ja.burhanrashid52.photoeditor.PhotoEditorView-->
+<!--        android:id="@+id/imageView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:longClickable="true"-->
+<!--        android:clickable="true"-->
+<!--        android:focusable="true"/>-->
 
 </LinearLayout>
