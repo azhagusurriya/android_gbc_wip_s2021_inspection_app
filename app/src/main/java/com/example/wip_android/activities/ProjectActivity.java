@@ -25,6 +25,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.wip_android.MainActivity;
 import com.example.wip_android.R;
 import com.example.wip_android.adapters.GlossaryAdapter;
 import com.example.wip_android.adapters.ProjectAdapter;
@@ -187,6 +188,15 @@ public class ProjectActivity extends AppCompatActivity implements ProjectAdapter
     public void onNoteClick(int position) {
         String test = deficiencyList.get(position);
         System.out.println("pressed");
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        startActivity(new Intent(ProjectActivity.this, MainActivity.class));
+        finish();
+
     }
 
 }

@@ -36,6 +36,7 @@ import com.example.wip_android.PinView;
 import com.example.wip_android.R;
 import com.example.wip_android.ui.gallery.GalleryFragment;
 import com.example.wip_android.viewmodels.AddImagePinViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -56,6 +57,7 @@ public class AddImagePin extends Fragment {
     private int radius=20;
     private int numberOfCircles;
     ArrayList<Circle> arrayListCircle = new ArrayList<>();
+    private FloatingActionButton fabSaveMarker;
 
 
 
@@ -94,6 +96,17 @@ public class AddImagePin extends Fragment {
 //      imageView.setImage(ImageSource.uri(contentUri));
 //        imageView.getSource().setImageURI(contentUri);
         drawView.setImageURI(contentUri);
+
+        fabSaveMarker = (FloatingActionButton) view.findViewById(R.id.fabSaveMarker);
+
+        fabSaveMarker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                saveMarkerButtonPressed();
+            }
+        });
+
 
 //        mPhotoEditor.setBrushDrawingMode(true);
 //        mPhotoEditor.setBrushSize(70);
@@ -146,6 +159,14 @@ public class AddImagePin extends Fragment {
 
 
         return view;
+    }
+
+
+
+    public void saveMarkerButtonPressed(){
+        switchFragment = new DeficiencyFragment();
+        transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.project_layout, switchFragment).addToBackStack(null).commit();
     }
 
     public void navigateToDeficiencyPage(){
