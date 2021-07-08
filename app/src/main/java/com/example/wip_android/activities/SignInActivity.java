@@ -2,6 +2,7 @@ package com.example.wip_android.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -36,9 +37,12 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener{
 
+    private static final String CURRENT_USER_EMAIL = "CurrentUserEmail";
     private final String TAG = this.getClass().getCanonicalName();
     private TextView tvCreateAccount;
     private TextInputLayout edtEmail;
@@ -46,6 +50,10 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private Button btnSignIn;
     private ProgressBar progressBar;
     private UserViewModel userViewModel;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final String COLLECTION_NAME_USER = "Users";
+    private String signInUserId;
+    private String signInUserDept;
 
     private FirebaseAuth mAuth;
 
@@ -117,7 +125,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                     edtEmail.setError("Incorrect Email address");
                     userViewModel.getUserRepository().signInStatus.postValue("");
                 }
-
             }
         });
 
@@ -125,9 +132,56 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
 
     private void goToHome(){
+        String emailIntent =  edtEmail.getEditText().getText().toString();
+        getUser(emailIntent);
+//        SharedPreferences.Editor editor = getSharedPreferences(CURRENT_USER_EMAIL, MODE_PRIVATE).edit();
+//        editor.putString("email", emailIntent);
+//        editor.putString("department",signInUserDept);
+//        editor.apply();
         this.finish();
         Intent mainIntent = new Intent(this, MainActivity.class);
+        mainIntent.putExtra("EmailId", emailIntent);
+
         startActivity(mainIntent);
+
+    }
+
+    public void getUser(String email){
+
+        try{
+            db.collection(COLLECTION_NAME_USER)
+                    .whereEqualTo("email", email)
+                    // .whereEqualTo("password",password)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()){
+
+                                if (task.getResult().getDocuments().size() != 0){
+
+                                    //get the id of the current user logged in
+                                    signInUserId = task.getResult().getDocuments().get(0).getId();
+                                    signInUserDept = task.getResult().getDocuments().get(0).getString("department");
+                                    Log.d(TAG, "Logged in user document ID: " +signInUserId);
+                                    Log.d(TAG, "Logged in user department : " +signInUserDept);
+                                    SharedPreferences.Editor editor = getSharedPreferences(CURRENT_USER_EMAIL, MODE_PRIVATE).edit();
+                                    editor.putString("department",signInUserDept);
+                                    editor.apply();
+                                }
+                                else{
+                                    Log.d(TAG, "onComplete: Document generation failed in Home fragment");
+                                }
+                            }else{
+                                Log.e(TAG, "Error fetching document" + task.getException());
+
+                            }
+                        }
+                    });
+        }catch (Exception ex){
+            Log.e(TAG, ex.toString());
+            Log.e(TAG, ex.getLocalizedMessage());
+        }
 
     }
 

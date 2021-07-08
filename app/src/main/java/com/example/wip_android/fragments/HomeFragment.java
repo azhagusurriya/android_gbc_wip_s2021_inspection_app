@@ -1,6 +1,10 @@
 package com.example.wip_android.fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -49,6 +53,7 @@ import com.example.wip_android.viewmodels.ProfileViewModel;
 import com.example.wip_android.viewmodels.UserViewModel;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -67,6 +72,7 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
     private String department = "Admin";
     public List<ClientInfo> clientInfoList;
     private final String COLLECTION_NAME = "Client";
+    private final String COLLECTION_NAME_USER = "Users";
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private List<String> homeTitleList;
     private List<String> homeSubtitleList;
@@ -75,6 +81,9 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
      User LoggedInUserInfo;
      String logInUserID;
      String loggedInUserDepartment;
+     String currentUserId;
+     String currentUserEmail;
+     String currentUserDepartment;
 
     // Default function
     @Override
@@ -106,6 +115,23 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
 
         // Home Recycler View
         this.homeRecyclerView = root.findViewById(R.id.homeRecyclerView);
+
+        SharedPreferences preferences = this.getActivity().getSharedPreferences("CurrentUserEmail", Context.MODE_PRIVATE);
+        currentUserEmail = preferences.getString("email", "No email defined");//"No name defined" is the default value.
+        currentUserDepartment = preferences.getString("department", "No department defined");
+
+
+        Log.d(TAG, "onCreateView: email from sign in page:" + currentUserEmail);
+
+//        this.getUser(currentUserEmail);
+
+//        Log.d(TAG, "onCreateView: logged in user id :" + logInUserID);
+
+       Log.d(TAG, "onCreateView: Current user department in Home" + currentUserDepartment);
+
+//        this.getUpdateUserInfo(logInUserID);
+//        Log.d(TAG, "onCreateView: department of logged in user" + LoggedInUserInfo.getDepartment());
+
         this.refreshHomeRecyclerView();
 
         // Floating Button
@@ -182,7 +208,7 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
     public void refreshHomeRecyclerView() {
         // Get glossary from Firebase
         db.collection(COLLECTION_NAME)
-                .whereEqualTo("department", department)
+                .whereEqualTo("department", currentUserDepartment)
                 .get()
                 .addOnCompleteListener(task -> {
                 // Check task
@@ -208,6 +234,73 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
             }
         });
     }
+
+    public void getUser(String email){
+
+        try{
+            db.collection(COLLECTION_NAME_USER)
+                    .whereEqualTo("email", email)
+                    // .whereEqualTo("password",password)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()){
+
+                                if (task.getResult().getDocuments().size() != 0){
+
+                                    //get the id of the current user logged in
+                                    logInUserID = task.getResult().getDocuments().get(0).getId();
+                                    currentUserDepartment = task.getResult().getDocuments().get(0).getString("department");
+                                    Log.d(TAG, "Logged in user document ID: " +logInUserID);
+                                    Log.d(TAG, "Logged in user department : " +currentUserDepartment);
+
+                                }
+                                else{
+                                    Log.d(TAG, "onComplete: Document generation failed in Home fragment");
+                                }
+                            }else{
+                                Log.e(TAG, "Error fetching document" + task.getException());
+
+                            }
+                        }
+                    });
+        }catch (Exception ex){
+            Log.e(TAG, ex.toString());
+            Log.e(TAG, ex.getLocalizedMessage());
+        }
+
+    }
+
+//    Get user info
+    public void getUpdateUserInfo(String userID){
+
+        db.collection(COLLECTION_NAME_USER)
+                .document(userID)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()){
+
+                            DocumentSnapshot documentSnapshot = task.getResult();
+                            if(documentSnapshot !=null){
+
+                                LoggedInUserInfo = documentSnapshot.toObject(User.class);
+
+
+                            }
+
+                        }
+                        else{
+                            Log.d(TAG, "onComplete: some error retreiving user info");
+                        }
+                    }
+                });
+
+//        return LoggedInUserInfo;
+    }
+
 
 
 }
