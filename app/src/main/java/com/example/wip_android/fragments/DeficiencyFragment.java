@@ -83,6 +83,7 @@ public class DeficiencyFragment extends Fragment implements AdapterView.OnItemSe
 
         this.edtIssue = view.findViewById(R.id.edtIssue);
 
+//        String previousActivity= mIntent.getStringExtra("FROM_ACTIVITY");
 //        if (previousActivity.equals("GlossaryActivity")) {
 //            Bundle bundle = getActivity().getIntent().getExtras();
 //            String chosenItem = bundle.getString("test");

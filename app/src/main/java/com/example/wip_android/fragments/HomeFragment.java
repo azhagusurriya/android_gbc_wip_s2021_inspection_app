@@ -26,13 +26,24 @@ import android.widget.Toast;
 
 import com.example.wip_android.R;
 import com.example.wip_android.activities.AddProjectActivity;
+import com.example.wip_android.activities.DeficiencyActivity;
+import com.example.wip_android.activities.ProjectActivity;
 import com.example.wip_android.activities.SignInActivity;
 import com.example.wip_android.activities.SignUpActivity;
+import com.example.wip_android.adapters.GlossaryAdapter;
 import com.example.wip_android.adapters.HomeAdapter;
 import com.example.wip_android.adapters.ProjectAdapter;
+import com.example.wip_android.models.ClientInfo;
+import com.example.wip_android.models.GlossaryItem;
+import com.example.wip_android.viewmodels.HomeListViewModel;
 import com.example.wip_android.viewmodels.HomeViewModel;
 import com.example.wip_android.viewmodels.ProfileViewModel;
+import com.example.wip_android.viewmodels.UserViewModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,12 +57,15 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
     private RecyclerView homeRecyclerView;
     private HomeAdapter homeRecyclerAdapter;
     private List<String> homeList;
+    private String department = "Admin";
+    public List<ClientInfo> clientInfoList;
+    private final String COLLECTION_NAME = "Client";
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private List<String> homeTitleList;
+    private List<String> homeSubtitleList;
+    private ClientInfo chosenItem;
 
     // Default function
-    public static HomeFragment newInstance() {
-        return new HomeFragment();
-    }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
@@ -62,21 +76,9 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
         // Inflate fragment
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
-        // Home List
-        this.homeList = new ArrayList<>();
-        this.homeList.add("Project 1");
-        this.homeList.add("Project 2");
-        this.homeList.add("Project 3");
-        this.homeList.add("Project 4");
-
-        // Home Recycler View
+        // Get glossary data from Firebase
         this.homeRecyclerView = root.findViewById(R.id.homeRecyclerView);
-        this.homeRecyclerAdapter = new HomeAdapter(this.homeList, this);
-        this.homeRecyclerView.setAdapter(this.homeRecyclerAdapter);
-        this.homeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),
-                DividerItemDecoration.VERTICAL);
-        this.homeRecyclerView.addItemDecoration(dividerItemDecoration);
+        this.refreshHomeRecyclerView();
 
         // Floating Button
         fabAddProject = (FloatingActionButton) root.findViewById(R.id.fabAddProject);
@@ -88,6 +90,10 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
         });
 
         return root;
+    }
+
+    public static HomeFragment newInstance() {
+        return new HomeFragment();
     }
 
     @Override
@@ -107,8 +113,13 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
     // When Recycler View item is clicked do something
     @Override
     public void onNoteClick(int position) {
-        String test = homeList.get(position);
-        System.out.println(test);
+        String address = this.homeRecyclerAdapter.getHomeList().get(position).getClientStreetAddress();
+        String name = this.homeRecyclerAdapter.getHomeList().get(position).getClientName();
+        Intent intent = new Intent(getActivity(), ProjectActivity.class);
+        intent.putExtra("address", address);
+        intent.putExtra("name", name);
+        intent.putExtra("FROM_ACTIVITY", "HomeFragment");
+        startActivity(intent);
     }
 
     // SearchView settings
@@ -137,5 +148,37 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
             }
         });
     }
+
+    // Grab and refresh data from Firebase
+    public void refreshHomeRecyclerView() {
+        // Get glossary from Firebase
+        db.collection(COLLECTION_NAME)
+                .whereEqualTo("department", department)
+                .get()
+                .addOnCompleteListener(task -> {
+                // Check task
+                if (task.isSuccessful()){
+                    if (task.getResult().getDocuments().size() != 0) {
+                        List<ClientInfo> clientInfoList = task.getResult().toObjects(ClientInfo.class);
+                    // Convert list to custom class
+                    this.homeTitleList = new ArrayList<>();
+                    this.homeSubtitleList = new ArrayList<>();
+                    for (int i = 0; i < clientInfoList.size(); i++) {
+                        this.homeTitleList.add(clientInfoList.get(i).getClientStreetAddress());
+                        this.homeSubtitleList.add(clientInfoList.get(i).getClientName());
+                    }
+                    // Display on recycler view
+                    this.homeRecyclerAdapter = new HomeAdapter(this, clientInfoList);
+                    this.homeRecyclerView.setAdapter(this.homeRecyclerAdapter);
+                    this.homeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+                    this.homeRecyclerView.addItemDecoration(dividerItemDecoration);
+                    this.chosenItem = this.homeRecyclerAdapter.getChosenItem();
+                    this.homeList = this.homeTitleList;
+                }
+            }
+        });
+    }
+
 
 }

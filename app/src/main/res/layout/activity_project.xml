@@ -28,6 +28,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
                 android:layout_weight="3"
+                android:id="@+id/projectName"
                 android:gravity="center"/>
 
             <TextView
@@ -52,6 +53,7 @@
                 android:text="6675 Rexwood Rd., Missisauga, Ontario"
                 android:layout_weight="3"
                 android:layout_width="0dp"
+                android:id="@+id/projectAddress"
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
                 android:gravity="center"/>

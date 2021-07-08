@@ -33,6 +33,8 @@ import com.example.wip_android.fragments.DeficiencyFragment;
 import com.example.wip_android.fragments.MapFragment;
 import com.example.wip_android.ui.gallery.GalleryFragment;
 
+import org.w3c.dom.Text;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -48,6 +50,8 @@ public class ProjectActivity extends AppCompatActivity implements ProjectAdapter
     FragmentTransaction transaction;
     Uri contentUri;
     String stringUri;
+    private TextView projectName;
+    private TextView projectAddress;
 
     // Variables
     private RecyclerView recyclerView;
@@ -71,7 +75,25 @@ public class ProjectActivity extends AppCompatActivity implements ProjectAdapter
         // UI Components
         selectedImage = findViewById(R.id.projectImage);
         addDeficiency = findViewById(R.id.addDeficiency);
+        this.projectName = findViewById(R.id.projectName);
+        this.projectAddress = findViewById(R.id.projectAddress);
 
+        // Getting values
+        Intent mIntent = getIntent();
+
+        String previousActivity= mIntent.getStringExtra("FROM_ACTIVITY");
+        String address;
+        String name;
+        if (previousActivity.equals("HomeFragment")) {
+            address = mIntent.getStringExtra("address");
+            name = mIntent.getStringExtra("name");
+        } else {
+            address = mIntent.getStringExtra("newAddress");
+            name = mIntent.getStringExtra("newName");
+        }
+        this.projectName.setText(name);
+        this.projectAddress.setText(address);
+        
         // Deficiency List
         deficiencyList = new ArrayList<>();
         deficiencyList.add("Foundation Wall Cracks");

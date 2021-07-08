@@ -217,7 +217,15 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
 
     private void goToProjectDeficiencyList(){
         this.finish();
+
         Intent mainIntent = new Intent(this, ProjectActivity.class);
+        String address = this.edtClientName.getEditText().getText().toString();
+        String name = this.edtStreetAddress.getEditText().getText().toString();
+
+        mainIntent.putExtra("newName", name);
+        mainIntent.putExtra("newAddress", address);
+        mainIntent.putExtra("FROM_ACTIVITY", "AddProjectActivity");
+
         startActivity(mainIntent);
     }
 }

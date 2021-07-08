@@ -2,39 +2,46 @@ package com.example.wip_android.models;
 
 import android.widget.ImageView;
 
+import java.security.Timestamp;
+
 public class ClientInfo {
-    ImageView clientImage;
-    String clientName;
-    String clientStreetAddress;
-    String clientCity;
-    String clientProvince;
-    String clientPhoneNumber;
+    private String clientImage;
+    private String clientName;
+    private String clientStreetAddress;
+    private String clientCity;
+    private String clientProvince;
+    private String clientPhoneNumber;
+    private boolean completion;
+//    private Timestamp dateOfRegistration;
+    private String department;
 
     public ClientInfo() {
     }
 
-    public ClientInfo(String clientName, String clientStreetAddress, String clientCity, String clientProvince, String clientPhoneNumber) {
-        this.clientName = clientName;
-        this.clientStreetAddress = clientStreetAddress;
-        this.clientCity = clientCity;
-        this.clientProvince = clientProvince;
-        this.clientPhoneNumber = clientPhoneNumber;
-    }
-
-    public ClientInfo(ImageView clientImage, String clientName, String clientStreetAddress, String clientCity, String clientProvince, String clientPhoneNumber) {
+    public ClientInfo(String clientImage, String clientName, String clientStreetAddress, String clientCity,
+                      String clientProvince, String clientPhoneNumber, boolean completion,
+                      String department) {
         this.clientImage = clientImage;
         this.clientName = clientName;
         this.clientStreetAddress = clientStreetAddress;
         this.clientCity = clientCity;
         this.clientProvince = clientProvince;
         this.clientPhoneNumber = clientPhoneNumber;
+        this.completion = completion;
+//        this.dateOfRegistration = dateOfRegistration;
+        this.department = department;
     }
 
-    public ImageView getClientImage() {
-        return clientImage;
-    }
+//    public ClientInfo(String clientImage, String clientName, String clientStreetAddress, String clientCity, String clientProvince, String clientPhoneNumber) {
+//        this.clientImage = clientImage;
+//        this.clientName = clientName;
+//        this.clientStreetAddress = clientStreetAddress;
+//        this.clientCity = clientCity;
+//        this.clientProvince = clientProvince;
+//        this.clientPhoneNumber = clientPhoneNumber;
+//    }
 
-    public void setClientImage(ImageView clientImage) {
+    public void setClientImage(String clientImage) {
         this.clientImage = clientImage;
     }
 
@@ -76,6 +83,34 @@ public class ClientInfo {
 
     public void setClientPhoneNumber(String clientPhoneNumber) {
         this.clientPhoneNumber = clientPhoneNumber;
+    }
+
+    public String getClientImage() {
+        return clientImage;
+    }
+
+    public boolean isCompletion() {
+        return completion;
+    }
+
+    public void setCompletion(boolean completion) {
+        this.completion = completion;
+    }
+
+//    public Timestamp getDateOfRegistration() {
+//        return dateOfRegistration;
+//    }
+//
+//    public void setDateOfRegistration(Timestamp dateOfRegistration) {
+//        this.dateOfRegistration = dateOfRegistration;
+//    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
     @Override
