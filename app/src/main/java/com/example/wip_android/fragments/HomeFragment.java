@@ -33,6 +33,7 @@ import com.example.wip_android.activities.SignUpActivity;
 import com.example.wip_android.adapters.GlossaryAdapter;
 import com.example.wip_android.adapters.HomeAdapter;
 import com.example.wip_android.adapters.ProjectAdapter;
+
 import com.example.wip_android.models.ClientInfo;
 import com.example.wip_android.models.GlossaryItem;
 import com.example.wip_android.viewmodels.HomeListViewModel;
@@ -41,6 +42,12 @@ import com.example.wip_android.viewmodels.ProfileViewModel;
 import com.example.wip_android.viewmodels.UserViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
+import com.example.wip_android.models.User;
+import com.example.wip_android.viewmodels.HomeViewModel;
+import com.example.wip_android.viewmodels.ProfileViewModel;
+import com.example.wip_android.viewmodels.UserViewModel;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -64,6 +71,10 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
     private List<String> homeTitleList;
     private List<String> homeSubtitleList;
     private ClientInfo chosenItem;
+     UserViewModel userViewModel;
+     User LoggedInUserInfo;
+     String logInUserID;
+     String loggedInUserDepartment;
 
     // Default function
     @Override
@@ -77,6 +88,23 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
         // Get glossary data from Firebase
+        this.userViewModel = UserViewModel.getInstance();
+
+//        logInUserID = this.userViewModel.getUserRepository().loggedInUserID.getValue();
+//        Log.d(TAG, "onCreateView: LoggediN USER id: " + logInUserID);
+//
+//        LoggedInUserInfo =  this.userViewModel.getUpdateUserInfo(logInUserID);
+//        loggedInUserDepartment = LoggedInUserInfo.getDepartment();
+//        Log.d(TAG, "onCreate: logged In user department :" + loggedInUserDepartment);
+
+        // Home List
+//        this.homeList = new ArrayList<>();
+//        this.homeList.add("Project 1");
+//        this.homeList.add("Project 2");
+//        this.homeList.add("Project 3");
+//        this.homeList.add("Project 4");
+
+        // Home Recycler View
         this.homeRecyclerView = root.findViewById(R.id.homeRecyclerView);
         this.refreshHomeRecyclerView();
 
@@ -101,6 +129,7 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         // TODO: Use the ViewModel
+
     }
 
     // Add Project Floating Button

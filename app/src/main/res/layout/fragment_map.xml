@@ -25,6 +25,26 @@
         tools:ignore="SpeakableTextPresentCheck">
 
     </com.google.android.gms.maps.MapView>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="bottom|end">
+
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabCurrentLocation"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/addProject"
+        android:src="@drawable/currentlocation"
+        app:fabSize="normal"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabTakeScreenshot"
@@ -38,6 +58,8 @@
         android:contentDescription="@string/addProject"
         android:src="@drawable/camera_ss"
         app:fabSize="normal"/>
+
+    </LinearLayout>
 
 </FrameLayout>
 

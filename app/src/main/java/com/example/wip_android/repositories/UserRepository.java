@@ -42,7 +42,7 @@ public class UserRepository {
     public MutableLiveData<String> loggedInUserID = new MutableLiveData<String>();
     public MutableLiveData<String> userDeleteStatus = new MutableLiveData<String>();
     public MutableLiveData<String> userAuthEmailStatus = new MutableLiveData<String>();
-
+    public MutableLiveData<String> loggedInUserDepartment = new MutableLiveData<String>();
 
     public  UserRepository(){
         db = FirebaseFirestore.getInstance();
@@ -120,6 +120,7 @@ public class UserRepository {
                                                             //get the id of the current user logged in
                                                             loggedInUserID.postValue(task.getResult().getDocuments().get(0).getId());
                                                             Log.d(TAG, "Logged in user document ID: " +loggedInUserID);
+
                                                     }
                                                     else{
                                                         signInStatus.postValue("FAILURE");
