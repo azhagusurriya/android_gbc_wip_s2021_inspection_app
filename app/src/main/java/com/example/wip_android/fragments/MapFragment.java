@@ -10,6 +10,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
@@ -101,6 +102,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback  {
     LinearLayout linearLayout;
     String jobId="1";
     private FloatingActionButton fabTakeScreenshot;
+    private FloatingActionButton fabCurrentLocation;
     private boolean isPermissionGranted;
     MapView mMapView;
     View mView;
@@ -111,6 +113,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback  {
     private LocationCallback locationCallback;
     private LatLng currentLocation;
     private Location locaton;
+    private Fragment switchFragment;
+    FragmentTransaction transaction;
 
 
     private MapViewModel mViewModel;
@@ -135,6 +139,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback  {
         }
 
         fabTakeScreenshot = (FloatingActionButton) mView.findViewById(R.id.fabTakeScreenshot);
+        fabCurrentLocation = (FloatingActionButton) mView.findViewById(R.id.fabCurrentLocation);
 
         fabTakeScreenshot.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,10 +149,26 @@ public class MapFragment extends Fragment implements OnMapReadyCallback  {
             }
         });
 
+        fabCurrentLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                getCurrentLocationButtonPressed();
+            }
+        });
+
         FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
         return mView;
     }
+
+    public void getCurrentLocationButtonPressed(){
+        switchFragment = new MapFragment();
+        transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.project_layout, switchFragment).addToBackStack(null).commit();
+    }
+
+
 
     // Initializing Snapshot Method
     public void captureScreenshot(){
@@ -196,6 +217,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback  {
         };
         mMap.snapshot (callback);
     }
+
+
 
 
     private void saveImage(Bitmap bitmap, @NonNull String name) throws IOException {
@@ -301,18 +324,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback  {
         MapsInitializer.initialize(getContext());
         mMap = googleMap;
         googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-//        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-////            // TODO: Consider calling
-////            //    ActivityCompat#requestPermissions
-////            // here to request the missing permissions, and then overriding
-////            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-////            //                                          int[] grantResults)
-////            // to handle the case where the user grants the permission. See the documentation
-////            // for ActivityCompat#requestPermissions for more details.
-////            return;
-////        }
-////        mMap.setMyLocationEnabled(true);
-
 
         FusedLocationProviderClient mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
 

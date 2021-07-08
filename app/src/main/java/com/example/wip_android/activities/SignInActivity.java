@@ -46,8 +46,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private Button btnSignIn;
     private ProgressBar progressBar;
     private UserViewModel userViewModel;
-    private User userInfo;
-    private String userID;
+
     private FirebaseAuth mAuth;
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -86,6 +85,9 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         this.progressBar = findViewById(R.id.progressBar);
 
         this.clearFields();
+
+
+
 
         this.userViewModel.getUserRepository().signInStatus.observe(this, new Observer<String>() {
             @Override

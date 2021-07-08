@@ -30,8 +30,10 @@ import com.example.wip_android.activities.SignInActivity;
 import com.example.wip_android.activities.SignUpActivity;
 import com.example.wip_android.adapters.HomeAdapter;
 import com.example.wip_android.adapters.ProjectAdapter;
+import com.example.wip_android.models.User;
 import com.example.wip_android.viewmodels.HomeViewModel;
 import com.example.wip_android.viewmodels.ProfileViewModel;
+import com.example.wip_android.viewmodels.UserViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -46,6 +48,10 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
     private RecyclerView homeRecyclerView;
     private HomeAdapter homeRecyclerAdapter;
     private List<String> homeList;
+     UserViewModel userViewModel;
+     User LoggedInUserInfo;
+     String logInUserID;
+     String loggedInUserDepartment;
 
     // Default function
     public static HomeFragment newInstance() {
@@ -61,6 +67,15 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
 
         // Inflate fragment
         View root = inflater.inflate(R.layout.fragment_home, container, false);
+
+        this.userViewModel = UserViewModel.getInstance();
+
+//        logInUserID = this.userViewModel.getUserRepository().loggedInUserID.getValue();
+//        Log.d(TAG, "onCreateView: LoggediN USER id: " + logInUserID);
+//
+//        LoggedInUserInfo =  this.userViewModel.getUpdateUserInfo(logInUserID);
+//        loggedInUserDepartment = LoggedInUserInfo.getDepartment();
+//        Log.d(TAG, "onCreate: logged In user department :" + loggedInUserDepartment);
 
         // Home List
         this.homeList = new ArrayList<>();
@@ -95,6 +110,7 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         // TODO: Use the ViewModel
+
     }
 
     // Add Project Floating Button
