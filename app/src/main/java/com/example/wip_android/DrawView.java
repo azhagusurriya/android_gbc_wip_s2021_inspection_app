@@ -8,7 +8,11 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.example.wip_android.fragments.AddImagePin;
+import com.example.wip_android.fragments.DeficiencyFragment;
 
 import java.util.ArrayList;
 
@@ -23,6 +27,9 @@ public class DrawView extends androidx.appcompat.widget.AppCompatImageView {
     Paint paint = new Paint();
     ArrayList<Circle> listCircle = new ArrayList<>();
     int numberOfCircles;
+     Fragment switchFragment;
+
+    FragmentTransaction transaction;
     AddImagePin addImagePin;
     private final String TAG = this.getClass().getCanonicalName();
 
@@ -61,12 +68,15 @@ public class DrawView extends androidx.appcompat.widget.AppCompatImageView {
                     // FILL
 //            canvas.drawRect(x, y, (x + width) / 0.5f, (y + height) / 0.5f, paint);
                     canvas.drawCircle(a, b, radius, paint);
-//                    addImagePin.navigateToDeficiencyPage();
+//                    switchFragment = new DeficiencyFragment();
+//                transaction = addImagePin.getActivity().getSupportFragmentManager().beginTransaction();
+//                transaction.replace(R.id.project_layout, switchFragment).addToBackStack(null).commit();
+////                    addImagePin.navigateToDeficiencyPage();
                 }
 
             }
             else{
-                Log.d(TAG, "onDraw: No Cirle to draw");
+                Log.d(TAG, "onDraw: No Circle to draw");
             }
         }
     }

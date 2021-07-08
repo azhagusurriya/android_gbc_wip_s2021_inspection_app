@@ -48,4 +48,6 @@
     <string name="action_camera">Camera</string>
     <string name="action_map">Map</string>
     <string name="Choose_picture">Pick a photo from gallery</string>
+    <string name="UpdateClientInfo">Update</string>
+    <string name="menu_clientUpdate">Customer</string>
 </resources>
