@@ -45,7 +45,7 @@ public class GlossaryDialog extends AppCompatDialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
 
                     }
-                // Positive button
+                    // Positive button
                 }).setPositiveButton("Done", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

@@ -12,20 +12,21 @@ public class HomeListViewModel {
     private final HomeListRepository homeListRepository = new HomeListRepository();
 
     // Constructor
-    private HomeListViewModel(){}
+    private HomeListViewModel() {
+    }
 
     // Methods
-    public List<ClientInfo> getHomeList(String department){
+    public List<ClientInfo> getHomeList(String department) {
         List<ClientInfo> clientInfoList = this.homeListRepository.getHomeList(department);
         return clientInfoList;
     }
 
     // Getters
-    public HomeListRepository getHomeListRepository(){
+    public HomeListRepository getHomeListRepository() {
         return homeListRepository;
     }
 
-    public static HomeListViewModel getInstance(){
+    public static HomeListViewModel getInstance() {
         return ourInstance;
     }
 

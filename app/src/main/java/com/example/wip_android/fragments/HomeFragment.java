@@ -1,10 +1,6 @@
 package com.example.wip_android.fragments;
 
-import static android.content.Context.MODE_PRIVATE;
-
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,37 +19,22 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.wip_android.R;
 import com.example.wip_android.activities.AddProjectActivity;
-import com.example.wip_android.activities.DeficiencyActivity;
 import com.example.wip_android.activities.ProjectActivity;
-import com.example.wip_android.activities.SignInActivity;
-import com.example.wip_android.activities.SignUpActivity;
-import com.example.wip_android.adapters.GlossaryAdapter;
 import com.example.wip_android.adapters.HomeAdapter;
-import com.example.wip_android.adapters.ProjectAdapter;
 
 import com.example.wip_android.models.ClientInfo;
-import com.example.wip_android.models.GlossaryItem;
-import com.example.wip_android.viewmodels.HomeListViewModel;
 import com.example.wip_android.viewmodels.HomeViewModel;
-import com.example.wip_android.viewmodels.ProfileViewModel;
-import com.example.wip_android.viewmodels.UserViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import com.example.wip_android.models.User;
-import com.example.wip_android.viewmodels.HomeViewModel;
-import com.example.wip_android.viewmodels.ProfileViewModel;
-import com.example.wip_android.viewmodels.UserViewModel;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -69,70 +50,32 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
     private RecyclerView homeRecyclerView;
     private HomeAdapter homeRecyclerAdapter;
     private List<String> homeList;
-    private String department = "Admin";
     public List<ClientInfo> clientInfoList;
     private final String COLLECTION_NAME = "Client";
-    private final String COLLECTION_NAME_USER = "Users";
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private List<String> homeTitleList;
     private List<String> homeSubtitleList;
     private ClientInfo chosenItem;
-     UserViewModel userViewModel;
-     User LoggedInUserInfo;
-     String logInUserID;
-     String loggedInUserDepartment;
-     String currentUserId;
-     String currentUserEmail;
-     String currentUserDepartment;
+    private String currentUserEmail;
+    private FirebaseUser firebaseUser;
 
     // Default function
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+
+        // Main settings
         setHasOptionsMenu(true);
-
-        // Inflate fragment
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-
-        // Get glossary data from Firebase
-        this.userViewModel = UserViewModel.getInstance();
-
-//        logInUserID = this.userViewModel.getUserRepository().loggedInUserID.getValue();
-//        Log.d(TAG, "onCreateView: LoggediN USER id: " + logInUserID);
-//
-//        LoggedInUserInfo =  this.userViewModel.getUpdateUserInfo(logInUserID);
-//        loggedInUserDepartment = LoggedInUserInfo.getDepartment();
-//        Log.d(TAG, "onCreate: logged In user department :" + loggedInUserDepartment);
-
-        // Home List
-//        this.homeList = new ArrayList<>();
-//        this.homeList.add("Project 1");
-//        this.homeList.add("Project 2");
-//        this.homeList.add("Project 3");
-//        this.homeList.add("Project 4");
-
-        // Home Recycler View
         this.homeRecyclerView = root.findViewById(R.id.homeRecyclerView);
 
-        SharedPreferences preferences = this.getActivity().getSharedPreferences("CurrentUserEmail", Context.MODE_PRIVATE);
-        currentUserEmail = preferences.getString("email", "No email defined");//"No name defined" is the default value.
-        currentUserDepartment = preferences.getString("department", "No department defined");
-
-
-        Log.d(TAG, "onCreateView: email from sign in page:" + currentUserEmail);
-
-//        this.getUser(currentUserEmail);
-
-//        Log.d(TAG, "onCreateView: logged in user id :" + logInUserID);
-
-       Log.d(TAG, "onCreateView: Current user department in Home" + currentUserDepartment);
-
-//        this.getUpdateUserInfo(logInUserID);
-//        Log.d(TAG, "onCreateView: department of logged in user" + LoggedInUserInfo.getDepartment());
-
-        this.refreshHomeRecyclerView();
+        // Display RecyclerView with projects that have the same user department
+        this.firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null) {
+            this.currentUserEmail = firebaseUser.getEmail();
+            displayRecyclerView(this.currentUserEmail);
+        }
 
         // Floating Button
         fabAddProject = (FloatingActionButton) root.findViewById(R.id.fabAddProject);
@@ -155,7 +98,6 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         // TODO: Use the ViewModel
-
     }
 
     // Add Project Floating Button
@@ -165,7 +107,7 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
         startActivity(intent);
     }
 
-    // When Recycler View item is clicked do something
+    // When RecyclerView item is clicked do something
     @Override
     public void onNoteClick(int position) {
         String address = this.homeRecyclerAdapter.getHomeList().get(position).getClientStreetAddress();
@@ -186,7 +128,6 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-
         menu.findItem(R.id.home_action_search).setVisible(true);
         MenuItem menuItem = menu.findItem(R.id.home_action_search);
         SearchView searchView = (SearchView) menuItem.getActionView();
@@ -205,16 +146,13 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
     }
 
     // Grab and refresh data from Firebase
-    public void refreshHomeRecyclerView() {
+    public void refreshHomeRecyclerView(String department) {
         // Get glossary from Firebase
-        db.collection(COLLECTION_NAME)
-                .whereEqualTo("department", currentUserDepartment)
-                .get()
-                .addOnCompleteListener(task -> {
-                // Check task
-                if (task.isSuccessful()){
-                    if (task.getResult().getDocuments().size() != 0) {
-                        List<ClientInfo> clientInfoList = task.getResult().toObjects(ClientInfo.class);
+        db.collection(COLLECTION_NAME).whereEqualTo("department", department).get().addOnCompleteListener(task -> {
+            // Check task
+            if (task.isSuccessful()) {
+                if (task.getResult().getDocuments().size() != 0) {
+                    List<ClientInfo> clientInfoList = task.getResult().toObjects(ClientInfo.class);
                     // Convert list to custom class
                     this.homeTitleList = new ArrayList<>();
                     this.homeSubtitleList = new ArrayList<>();
@@ -226,7 +164,8 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
                     this.homeRecyclerAdapter = new HomeAdapter(this, clientInfoList);
                     this.homeRecyclerView.setAdapter(this.homeRecyclerAdapter);
                     this.homeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),
+                            DividerItemDecoration.VERTICAL);
                     this.homeRecyclerView.addItemDecoration(dividerItemDecoration);
                     this.chosenItem = this.homeRecyclerAdapter.getChosenItem();
                     this.homeList = this.homeTitleList;
@@ -235,72 +174,21 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
         });
     }
 
-    public void getUser(String email){
-
-        try{
-            db.collection(COLLECTION_NAME_USER)
-                    .whereEqualTo("email", email)
-                    // .whereEqualTo("password",password)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()){
-
-                                if (task.getResult().getDocuments().size() != 0){
-
-                                    //get the id of the current user logged in
-                                    logInUserID = task.getResult().getDocuments().get(0).getId();
-                                    currentUserDepartment = task.getResult().getDocuments().get(0).getString("department");
-                                    Log.d(TAG, "Logged in user document ID: " +logInUserID);
-                                    Log.d(TAG, "Logged in user department : " +currentUserDepartment);
-
-                                }
-                                else{
-                                    Log.d(TAG, "onComplete: Document generation failed in Home fragment");
-                                }
-                            }else{
-                                Log.e(TAG, "Error fetching document" + task.getException());
-
-                            }
-                        }
-                    });
-        }catch (Exception ex){
-            Log.e(TAG, ex.toString());
-            Log.e(TAG, ex.getLocalizedMessage());
-        }
-
-    }
-
-//    Get user info
-    public void getUpdateUserInfo(String userID){
-
-        db.collection(COLLECTION_NAME_USER)
-                .document(userID)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+    // Display RecyclerView according to user department
+    public void displayRecyclerView(String email) {
+        db.collection("Users").whereEqualTo("email", email).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()){
-
-                            DocumentSnapshot documentSnapshot = task.getResult();
-                            if(documentSnapshot !=null){
-
-                                LoggedInUserInfo = documentSnapshot.toObject(User.class);
-
-
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if (task.getResult().getDocuments().size() != 0) {
+                                String department = task.getResult().getDocuments().get(0).toObject(User.class)
+                                        .getDepartment();
+                                refreshHomeRecyclerView(department);
                             }
-
-                        }
-                        else{
-                            Log.d(TAG, "onComplete: some error retreiving user info");
                         }
                     }
                 });
-
-//        return LoggedInUserInfo;
     }
-
-
 
 }

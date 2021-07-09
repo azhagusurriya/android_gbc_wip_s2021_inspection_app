@@ -15,25 +15,26 @@ import java.util.List;
 
 public class HomeListRepository {
 
+    // Variables
     private final String COLLECTION_NAME = "Client";
     private final FirebaseFirestore db;
     private FirebaseAuth mAuth;
     public List<ClientInfo> clientInfoList;
 
-    public  HomeListRepository(){
+    // Constructor
+    public HomeListRepository() {
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
     }
 
-    public List<ClientInfo> getHomeList(String department){
+    // Methods
+    public List<ClientInfo> getHomeList(String department) {
         try {
-            db.collection(COLLECTION_NAME)
-                    .whereEqualTo("department", department)
-                    .get()
+            db.collection(COLLECTION_NAME).whereEqualTo("department", department).get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()){
+                            if (task.isSuccessful()) {
                                 if (task.getResult().getDocuments().size() != 0) {
                                     List<ClientInfo> clientInfoList = task.getResult().toObjects(ClientInfo.class);
                                     System.out.println("REPOSITORY" + clientInfoList);

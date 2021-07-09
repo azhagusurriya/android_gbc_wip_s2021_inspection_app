@@ -128,7 +128,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> im
         }
     };
 
-
     public List<ClientInfo> getHomeList() {
         return homeList;
     }

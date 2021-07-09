@@ -140,11 +140,11 @@ public class GlossaryAdapter extends RecyclerView.Adapter<GlossaryAdapter.ViewHo
 
                     // Create glossary item and pass it
                     Bundle bundle = new Bundle();
-                    bundle.putString("category",itemToDelete.getCategory());
-                    bundle.putString("content",itemToDelete.getContent());
-                    bundle.putString("department",itemToDelete.getDepartment());
-                    bundle.putString("description",itemToDelete.getDescription());
-                    bundle.putString("section",itemToDelete.getSection());
+                    bundle.putString("category", itemToDelete.getCategory());
+                    bundle.putString("content", itemToDelete.getContent());
+                    bundle.putString("department", itemToDelete.getDepartment());
+                    bundle.putString("description", itemToDelete.getDescription());
+                    bundle.putString("section", itemToDelete.getSection());
                     glossaryDialog.setArguments(bundle);
 
                     // Show the dialog
