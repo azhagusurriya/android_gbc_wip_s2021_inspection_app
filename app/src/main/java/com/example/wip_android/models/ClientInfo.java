@@ -5,6 +5,8 @@ import android.widget.ImageView;
 import java.security.Timestamp;
 
 public class ClientInfo {
+
+    // Variables
     private String clientImage;
     private String clientName;
     private String clientStreetAddress;
@@ -12,15 +14,14 @@ public class ClientInfo {
     private String clientProvince;
     private String clientPhoneNumber;
     private boolean completion;
-//    private Timestamp dateOfRegistration;
     private String department;
 
+    // Constructors
     public ClientInfo() {
     }
 
     public ClientInfo(String clientImage, String clientName, String clientStreetAddress, String clientCity,
-                      String clientProvince, String clientPhoneNumber, boolean completion,
-                      String department) {
+            String clientProvince, String clientPhoneNumber, boolean completion, String department) {
         this.clientImage = clientImage;
         this.clientName = clientName;
         this.clientStreetAddress = clientStreetAddress;
@@ -28,19 +29,10 @@ public class ClientInfo {
         this.clientProvince = clientProvince;
         this.clientPhoneNumber = clientPhoneNumber;
         this.completion = completion;
-//        this.dateOfRegistration = dateOfRegistration;
         this.department = department;
     }
 
-//    public ClientInfo(String clientImage, String clientName, String clientStreetAddress, String clientCity, String clientProvince, String clientPhoneNumber) {
-//        this.clientImage = clientImage;
-//        this.clientName = clientName;
-//        this.clientStreetAddress = clientStreetAddress;
-//        this.clientCity = clientCity;
-//        this.clientProvince = clientProvince;
-//        this.clientPhoneNumber = clientPhoneNumber;
-//    }
-
+    // Getters and Setters
     public void setClientImage(String clientImage) {
         this.clientImage = clientImage;
     }
@@ -97,14 +89,6 @@ public class ClientInfo {
         this.completion = completion;
     }
 
-//    public Timestamp getDateOfRegistration() {
-//        return dateOfRegistration;
-//    }
-//
-//    public void setDateOfRegistration(Timestamp dateOfRegistration) {
-//        this.dateOfRegistration = dateOfRegistration;
-//    }
-
     public String getDepartment() {
         return department;
     }
@@ -115,14 +99,10 @@ public class ClientInfo {
 
     @Override
     public String toString() {
-        return "ClientInfo{" +
-                "clientImage=" + clientImage +
-                ", clientName='" + clientName + '\'' +
-                ", clientStreetAddress='" + clientStreetAddress + '\'' +
-                ", clientCity='" + clientCity + '\'' +
-                ", clientProvince='" + clientProvince + '\'' +
-                ", clientPhoneNumber='" + clientPhoneNumber + '\'' +
-                '}';
+        return "ClientInfo{" + "clientImage=" + clientImage + ", clientName='" + clientName + '\''
+                + ", clientStreetAddress='" + clientStreetAddress + '\'' + ", clientCity='" + clientCity + '\''
+                + ", clientProvince='" + clientProvince + '\'' + ", clientPhoneNumber='" + clientPhoneNumber + '\''
+                + '}';
     }
 
 }

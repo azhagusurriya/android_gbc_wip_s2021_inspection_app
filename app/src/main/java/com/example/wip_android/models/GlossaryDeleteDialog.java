@@ -36,11 +36,11 @@ public class GlossaryDeleteDialog extends AppCompatDialogFragment {
 
         // Get data from glossary
         Bundle bundle = getArguments();
-        String category = bundle.getString("category","");
-        String content = bundle.getString("content","");
-        String department = bundle.getString("department","");
-        String description = bundle.getString("description","");
-        String section = bundle.getString("section","");
+        String category = bundle.getString("category", "");
+        String content = bundle.getString("content", "");
+        String department = bundle.getString("department", "");
+        String description = bundle.getString("description", "");
+        String section = bundle.getString("section", "");
 
         // Dialog
         builder.setView(view).setTitle("Are you sure you want to delete this item?")

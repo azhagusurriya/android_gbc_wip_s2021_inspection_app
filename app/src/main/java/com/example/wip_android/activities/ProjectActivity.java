@@ -69,7 +69,7 @@ public class ProjectActivity extends AppCompatActivity implements ProjectAdapter
 
         // Bar title
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null){
+        if (actionBar != null) {
             actionBar.setTitle(Html.fromHtml("<font color='#ffffff'>Deficiency List</font>"));
         }
 
@@ -82,7 +82,7 @@ public class ProjectActivity extends AppCompatActivity implements ProjectAdapter
         // Getting values
         Intent mIntent = getIntent();
 
-        String previousActivity= mIntent.getStringExtra("FROM_ACTIVITY");
+        String previousActivity = mIntent.getStringExtra("FROM_ACTIVITY");
         String address;
         String name;
         if (previousActivity.equals("HomeFragment")) {
@@ -94,7 +94,7 @@ public class ProjectActivity extends AppCompatActivity implements ProjectAdapter
         }
         this.projectName.setText(name);
         this.projectAddress.setText(address);
-        
+
         // Deficiency List
         deficiencyList = new ArrayList<>();
         deficiencyList.add("Foundation Wall Cracks");
@@ -123,11 +123,9 @@ public class ProjectActivity extends AppCompatActivity implements ProjectAdapter
 
         transaction.replace(R.id.project_layout, switchFragment).addToBackStack(null).commit();
 
-
-//        goToAddDeficiency();
-//        goToAddMarker();
+        // goToAddDeficiency();
+        // goToAddMarker();
     }
-
 
     // Choose image from gallery
     public void pickImage(View view) {
@@ -145,7 +143,7 @@ public class ProjectActivity extends AppCompatActivity implements ProjectAdapter
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                 String imageFileName = "JPEG_" + timeStamp + "." + getFileExt(contentUri);
                 selectedImage.setImageURI(contentUri);
-                Log.d(TAG, "onActivityResult: Image " + contentUri );
+                Log.d(TAG, "onActivityResult: Image " + contentUri);
                 stringUri = contentUri.toString();
             }
         }
@@ -169,7 +167,6 @@ public class ProjectActivity extends AppCompatActivity implements ProjectAdapter
 
         int id = item.getItemId();
 
-
         if (id == R.id.action_camera) {
             Log.d(TAG, "onOptionsItemSelected: Camera selected ");
 
@@ -188,17 +185,16 @@ public class ProjectActivity extends AppCompatActivity implements ProjectAdapter
             return true;
         }
 
-
         return super.onOptionsItemSelected(item);
     }
 
-    private void goToAddMarker(){
+    private void goToAddMarker() {
         this.finish();
         Intent mainIntent = new Intent(this, AddImagePinActivity.class);
         startActivity(mainIntent);
     }
 
-    private void goToAddDeficiency(){
+    private void goToAddDeficiency() {
         this.finish();
         Intent mainIntent = new Intent(this, DeficiencyActivity.class);
         mainIntent.putExtra("FROM_ACTIVITY", "ProjectActivity");
@@ -213,8 +209,7 @@ public class ProjectActivity extends AppCompatActivity implements ProjectAdapter
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         super.onBackPressed();
         startActivity(new Intent(ProjectActivity.this, MainActivity.class));
         finish();
