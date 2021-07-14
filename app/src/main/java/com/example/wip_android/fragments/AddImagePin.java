@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -34,6 +35,8 @@ import com.example.wip_android.Circle;
 import com.example.wip_android.DrawView;
 import com.example.wip_android.PinView;
 import com.example.wip_android.R;
+import com.example.wip_android.activities.DeficiencyTabLayoutActivity;
+import com.example.wip_android.activities.ProjectListItemActivity;
 import com.example.wip_android.ui.gallery.GalleryFragment;
 import com.example.wip_android.viewmodels.AddImagePinViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -164,9 +167,13 @@ public class AddImagePin extends Fragment {
 
 
     public void saveMarkerButtonPressed(){
-        switchFragment = new DeficiencyFragment();
-        transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.project_layout, switchFragment).addToBackStack(null).commit();
+
+        Intent intent = new Intent(getActivity(), DeficiencyTabLayoutActivity.class);
+        startActivity(intent);
+
+//        switchFragment = new DeficiencyFragment();
+//        transaction = getActivity().getSupportFragmentManager().beginTransaction();
+//        transaction.replace(R.id.project_layout, switchFragment).addToBackStack(null).commit();
     }
 
     public void navigateToDeficiencyPage(){

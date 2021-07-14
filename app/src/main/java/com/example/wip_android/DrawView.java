@@ -53,7 +53,6 @@ public class DrawView extends androidx.appcompat.widget.AppCompatImageView {
         super.onDraw(canvas);
 
         if (touched) {
-
             if(numberOfCircles > 0){
 
                 for(int i = 0; i < numberOfCircles; i++ ){
@@ -96,7 +95,7 @@ public class DrawView extends androidx.appcompat.widget.AppCompatImageView {
         listCircle.add(new Circle(x,y,radius));
         numberOfCircles = listCircle.size();
         Log.d(TAG, "onClick: Touch Listener DrawView : " + x +","+ y);
-      Log.d(TAG, "onTouchEvent: listCircle list: " + listCircle);
+        Log.d(TAG, "onTouchEvent: listCircle list: " + listCircle);
         invalidate();
         return true;
     }
