@@ -36,7 +36,13 @@ import com.example.wip_android.models.User;
 import com.example.wip_android.ui.gallery.GalleryFragment;
 import com.example.wip_android.viewmodels.AddProjectViewModel;
 import com.example.wip_android.viewmodels.UserViewModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -57,6 +63,11 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
     private ImageView ivClientImage;
     private AutoCompleteTextView spnProvince;
     private String selectedProvince;
+    private String currentUsersDepartment;
+    private String currentUsersEmail;
+    private final String COLLECTION_NAME = "Users";
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -110,8 +121,12 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
         ArrayAdapter<String> provinceAdapter = new ArrayAdapter<String>(this, R.layout.province_dropdown_item, provinces);
         spnProvince.setAdapter(provinceAdapter);
 
-
-
+        // Display RecyclerView with projects that have the same user department
+        this.firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null) {
+            this.currentUsersEmail = firebaseUser.getEmail();
+            getCurrentUserDepartment(this.currentUsersEmail);
+        }
 
 
     }
@@ -242,6 +257,7 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
         newClient.setClientProvince(this.spnProvince.getText().toString());
         java.util.Date date=new java.util.Date();
         newClient.setDateOfRegistration(date);
+        newClient.setDepartment(currentUsersDepartment);
 
         // createAuthUser(this.edtEmail.getText().toString(),this.edtPassword.getText().toString());
         this.addProjectViewModel.createNewClient(newClient);
@@ -271,5 +287,22 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    // Get department for the current user
+    public void getCurrentUserDepartment(String email) {
+        db.collection(COLLECTION_NAME).whereEqualTo("email", email).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if (task.getResult().getDocuments().size() != 0) {
+                                currentUsersDepartment = task.getResult().getDocuments().get(0).toObject(User.class)
+                                        .getDepartment();
+
+                            }
+                        }
+                    }
+                });
     }
 }
