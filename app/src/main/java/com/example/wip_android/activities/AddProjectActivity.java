@@ -3,8 +3,10 @@ package com.example.wip_android.activities;
 import static com.example.wip_android.ui.gallery.GalleryFragment.GALLERY_REQUEST_CODE;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -250,6 +252,23 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
 
 
         if(oldDrawable == newDrawable){
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (!isFinishing()){
+                        new AlertDialog.Builder(AddProjectActivity.this)
+                                .setTitle("Save Failed")
+                                .setMessage("Please Add an Image")
+                                .setCancelable(false)
+                                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // Whatever...
+                                    }
+                                }).show();
+                    }
+                }
+            });
             Log.d(TAG, "validateData: Image change Error");
             return false;
         }
