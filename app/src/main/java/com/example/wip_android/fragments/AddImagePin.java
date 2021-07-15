@@ -4,6 +4,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.example.wip_android.R;
+import com.example.wip_android.activities.DeficiencyTabLayoutActivity;
 import com.example.wip_android.viewmodels.AddImagePinViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
