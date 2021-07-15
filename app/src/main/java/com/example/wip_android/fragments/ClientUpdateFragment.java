@@ -133,7 +133,7 @@ public class ClientUpdateFragment extends Fragment implements View.OnClickListen
 
 
         String name = this.getArguments().getString("name");
-        Log.d(TAG, "onCreateView: Client Name inside update page : " + name);
+        Log.d(TAG, "onCreateView: Client Name insidee update page : " + name);
 
         this.edtUpdateClientName.getEditText().setText(this.getArguments().getString("name"));
         this.edtUpdateStreetAddress.getEditText().setText(this.getArguments().getString("address"));
