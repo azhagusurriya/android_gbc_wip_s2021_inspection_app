@@ -3,8 +3,11 @@ package com.example.wip_android.activities;
 import static com.example.wip_android.ui.gallery.GalleryFragment.GALLERY_REQUEST_CODE;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -20,6 +23,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,12 +41,17 @@ import com.example.wip_android.ui.gallery.GalleryFragment;
 import com.example.wip_android.viewmodels.AddProjectViewModel;
 import com.example.wip_android.viewmodels.UserViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -68,6 +77,9 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
     private final String COLLECTION_NAME = "Users";
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser firebaseUser;
+    private Uri contentUri;
+    private String uploadedImageurl;
+    private Bitmap oldDrawable,newDrawable;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -100,6 +112,10 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
 
         this.spnProvince = findViewById(R.id.spnProvince);
         this.spnProvince.setOnItemSelectedListener(this);
+
+      
+        this.oldDrawable = ((BitmapDrawable) ivClientImage.getDrawable()).getBitmap();
+        this.newDrawable = ((BitmapDrawable) ivClientImage.getDrawable()).getBitmap();
 
 
         List<String> provinces = new ArrayList<String>();
@@ -186,9 +202,10 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
 //                    this.goToProjectDeficiencyList();
                     if(this.validateData()) {
                         Log.d(TAG, "onClick: Save Button clicked");
-                        this.validateAddProject();
 
-                        this.goToProjectDeficiencyList();
+                        this.uploadImage();
+
+//                       this.goToProjectDeficiencyList();
 
                     }
                     break;
@@ -211,10 +228,12 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GALLERY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                Uri contentUri = data.getData();
+                contentUri = data.getData();
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                 String imageFileName = "JPEG_" + timeStamp + "." + getFileExt(contentUri);
                 ivClientImage.setImageURI(contentUri);
+                this.newDrawable = ((BitmapDrawable) ivClientImage.getDrawable()).getBitmap();
+
             }
         }
     }
@@ -226,7 +245,14 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
         return mime.getExtensionFromMimeType(c.getType(contentUri));
     }
 
+//    validate fields
     private Boolean validateData() {
+
+
+        if(oldDrawable == newDrawable){
+            Log.d(TAG, "validateData: Image change Error");
+            return false;
+        }
         if (this.edtClientName.getEditText().getText().toString().isEmpty()) {
             this.edtClientName.setError("Please enter Client Name");
             return false;
@@ -247,8 +273,11 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
         return true;
     }
 
+//    save info to firestore
     private void validateAddProject(){
         ClientInfo newClient = new ClientInfo();
+
+//        uploadImageToFirebase(imageFileName,contentUri);
 
         newClient.setClientName(this.edtClientName.getEditText().getText().toString());
         newClient.setClientStreetAddress(this.edtStreetAddress.getEditText().getText().toString());
@@ -258,12 +287,54 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
         java.util.Date date=new java.util.Date();
         newClient.setDateOfRegistration(date);
         newClient.setDepartment(currentUsersDepartment);
+        newClient.setClientImage(uploadedImageurl);
 
         // createAuthUser(this.edtEmail.getText().toString(),this.edtPassword.getText().toString());
         this.addProjectViewModel.createNewClient(newClient);
+        goToProjectDeficiencyList();
+    }
+
+//Get file extension to save into firestore
+    private String getFileExtension (Uri uri){
+        ContentResolver contentResolver = getContentResolver();
+
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+
+        return  mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+
+    //Uploading image to firestore and get the Url of the image
+    private void uploadImage() {
+
+        final ProgressDialog pd = new ProgressDialog(this);
+        pd.setMessage("Uploading");
+        pd.show();
+
+        if (contentUri != null){
+            final StorageReference fileRef = FirebaseStorage.getInstance().getReference().child("uploads").child(System.currentTimeMillis() + "." + getFileExtension(contentUri));
+
+            fileRef.putFile(contentUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                    fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            String url = uri.toString();
+                            uploadedImageurl = url;
+                            Log.d("DownloadUrl" , url);
+                            validateAddProject();
+                            pd.dismiss();
+                            Toast.makeText(AddProjectActivity.this, "Image upload successful1", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
+        }
 
     }
 
+
+//    Navigate to add deficiency page
     private void goToProjectDeficiencyList(){
         this.finish();
 
@@ -278,6 +349,7 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
         startActivity(mainIntent);
     }
 
+//    Province drowdown item selected
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         this.selectedProvince = parent.getItemAtPosition(position).toString();
