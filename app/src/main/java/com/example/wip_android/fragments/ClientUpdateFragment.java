@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,6 +31,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.wip_android.MainActivity;
@@ -42,6 +44,7 @@ import com.example.wip_android.viewmodels.AddProjectViewModel;
 import com.example.wip_android.viewmodels.ClientUpdateViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseUser;
@@ -52,6 +55,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -190,12 +194,14 @@ public class ClientUpdateFragment extends Fragment implements View.OnClickListen
                     if(this.validateData()) {
                         Log.d(TAG, "onClick: Save Button clicked");
 
-                        ClientInfo newClientInfo = new ClientInfo();
-                        newClientInfo.setClientName(this.edtUpdateClientName.getEditText().getText().toString());
-                        newClientInfo.setClientStreetAddress(this.edtUpdateStreetAddress.getEditText().getText().toString());
-                        newClientInfo.setClientCity(this.edtUpdateCity.getEditText().getText().toString());
-                        newClientInfo.setClientPhoneNumber(this.edtUpdateClientPhone.getEditText().getText().toString());
-                        this.updateClientInfo(newClientInfo);
+                        if(updateOldDrawable == updateNewDrawable){
+                            setClientInfoFromFields();
+                        }
+                        else{
+                            uploadImage();
+                        }
+
+
                         
                     }
                     break;
@@ -208,6 +214,27 @@ public class ClientUpdateFragment extends Fragment implements View.OnClickListen
     }
 
 
+    public void setClientInfoFromFields(){
+        ClientInfo newClientInfo = new ClientInfo();
+        newClientInfo.setClientImage(this.getArguments().getString("image"));
+        newClientInfo.setClientName(this.edtUpdateClientName.getEditText().getText().toString());
+        newClientInfo.setClientStreetAddress(this.edtUpdateStreetAddress.getEditText().getText().toString());
+        newClientInfo.setClientCity(this.edtUpdateCity.getEditText().getText().toString());
+        newClientInfo.setClientPhoneNumber(this.edtUpdateClientPhone.getEditText().getText().toString());
+        this.updateClientInfo(newClientInfo);
+    }
+
+    public void setClientInfoImageFromFields(){
+        ClientInfo newClientInfo = new ClientInfo();
+        newClientInfo.setClientImage(uploadedImageurl);
+        newClientInfo.setClientName(this.edtUpdateClientName.getEditText().getText().toString());
+        newClientInfo.setClientStreetAddress(this.edtUpdateStreetAddress.getEditText().getText().toString());
+        newClientInfo.setClientCity(this.edtUpdateCity.getEditText().getText().toString());
+        newClientInfo.setClientPhoneNumber(this.edtUpdateClientPhone.getEditText().getText().toString());
+        this.updateClientInfo(newClientInfo);
+    }
+
+
 
     public void updateClientInfo(ClientInfo clientInfo){
         try {
@@ -217,7 +244,7 @@ public class ClientUpdateFragment extends Fragment implements View.OnClickListen
                             "clientName", clientInfo.getClientName(),
                             "clientStreetAddress", clientInfo.getClientStreetAddress(),
                             "clientCity", clientInfo.getClientCity(),
-                            "clientPhoneNumber", clientInfo.getClientPhoneNumber()
+                            "clientPhoneNumber", clientInfo.getClientPhoneNumber(),"clientImage", clientInfo.getClientImage()
                     ).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
@@ -258,6 +285,9 @@ public class ClientUpdateFragment extends Fragment implements View.OnClickListen
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                 String imageFileName = "JPEG_" + timeStamp + "." + getFileExt(contentUri);
                 ivUpdateClientImage.setImageURI(contentUri);
+
+                this.updateNewDrawable = ((BitmapDrawable) ivUpdateClientImage.getDrawable()).getBitmap();
+
             }
         }
     }
@@ -292,11 +322,54 @@ public class ClientUpdateFragment extends Fragment implements View.OnClickListen
         return true;
     }
 
+
+    //Get file extension to save into firestore
+    private String getFileExtension (Uri uri){
+        ContentResolver contentResolver = getActivity().getContentResolver();
+
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+
+        return  mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+
+    //Uploading image to firestore and get the Url of the image
+    private void uploadImage() {
+
+        final ProgressDialog pd = new ProgressDialog(getActivity());
+        pd.setMessage("Uploading");
+        pd.show();
+
+        if (contentUri != null){
+            final StorageReference fileRef = FirebaseStorage.getInstance().getReference().child("uploads").child(System.currentTimeMillis() + "." + getFileExtension(contentUri));
+
+            fileRef.putFile(contentUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                    fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            String url = uri.toString();
+                            uploadedImageurl = url;
+                            Log.d("DownloadUrl" , url);
+                            setClientInfoImageFromFields();
+                            pd.dismiss();
+                            Toast.makeText(getActivity(), "Image upload successful1", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
+        }
+
+    }
+
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(ClientUpdateViewModel.class);
         // TODO: Use the ViewModel
+
+
     }
 
     @Override
