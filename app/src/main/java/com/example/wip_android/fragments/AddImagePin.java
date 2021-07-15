@@ -91,9 +91,6 @@ public class AddImagePin extends Fragment {
         return new View.OnClickListener() {
             public void onClick(View v) {
                 System.out.println("BUTTON CLICKED: " + buttonList);
-                buttonList.remove(button);
-                System.out.println("BUTTON REMOVED");
-                System.out.println(buttonList);
             }
         };
     }
@@ -102,6 +99,8 @@ public class AddImagePin extends Fragment {
         public boolean onLongClick(View v) {
             Button clickedButton = (Button) v;
             System.out.println("BUTTON LONG CLICKED: " + clickedButton.getId());
+//            buttonList.remove(button);
+//            System.out.println(buttonList);
             return true;
         }
     };
