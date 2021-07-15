@@ -7,18 +7,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/add_project_layout"
     android:gravity="center"
-    android:padding="15dp"
     android:orientation="vertical"
     tools:context=".activities.AddProjectActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp">
 
 
         <ImageView
-            android:id="@+id/ivClientImage"
+            android:id="@+id/ivUpdateClientImage"
             android:layout_width="350dp"
             android:layout_height="150dp"
             android:layout_marginTop="40dp"
@@ -27,7 +28,7 @@
 
         </ImageView>
         <TextView
-            android:id="@+id/apGalleryBtn"
+            android:id="@+id/apUpdateGalleryBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -38,7 +39,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:id="@+id/edtClientName"
+            android:id="@+id/edtUpdateClientName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
@@ -55,7 +56,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:id="@+id/edtStreetAddress"
+            android:id="@+id/edtUpdateStreetAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
@@ -71,7 +72,7 @@
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:id="@+id/edtCity"
+            android:id="@+id/edtUpdateCity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
@@ -87,26 +88,27 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:id="@+id/edtProvince"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:id="@+id/tfUpdateSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:hint="@string/province"
-            app:endIconMode="clear_text"
+            android:hint="@string/spinner_Province"
+            app:endIconMode="dropdown_menu"
             app:endIconTint="@color/black"
             tools:ignore="MissingConstraints">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
+                android:id="@+id/spnUpdateProvince"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:id="@+id/edtClientPhone"
+            android:id="@+id/edtUpdateClientPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
@@ -122,7 +124,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/btnUpdateInfo"
+            android:id="@+id/btnUpdateClientInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/UpdateClientInfo"

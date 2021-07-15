@@ -108,7 +108,6 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
         this.edtClientName = findViewById(R.id.edtClientName);
         this.edtStreetAddress = findViewById(R.id.edtStreetAddress);
         this.edtCity = findViewById(R.id.edtCity);
-        this.edtProvince = findViewById(R.id.edtProvince);
         this.edtClientPhone = findViewById(R.id.edtClientPhone);
         this.ivClientImage = findViewById(R.id.ivClientImage);
 
@@ -249,7 +248,6 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
 
 //    validate fields
     private Boolean validateData() {
-
 
         if(oldDrawable == newDrawable){
             runOnUiThread(new Runnable() {
