@@ -55,13 +55,14 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 
-public class AddProjectActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener{
+public class AddProjectActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener, Serializable {
 
     private final String TAG = this.getClass().getCanonicalName();
     private FragmentManager fragmentManager;
@@ -82,6 +83,7 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
     private Uri contentUri;
     private String uploadedImageurl;
     private Bitmap oldDrawable,newDrawable;
+    private ClientInfo clientInfoToPass;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -308,6 +310,8 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
         newClient.setDepartment(currentUsersDepartment);
         newClient.setClientImage(uploadedImageurl);
 
+        this.clientInfoToPass = newClient;
+
         // createAuthUser(this.edtEmail.getText().toString(),this.edtPassword.getText().toString());
         this.addProjectViewModel.createNewClient(newClient);
         goToProjectDeficiencyList();
@@ -364,6 +368,7 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
         mainIntent.putExtra("newName", name);
         mainIntent.putExtra("newAddress", address);
         mainIntent.putExtra("FROM_ACTIVITY", "AddProjectActivity");
+        mainIntent.putExtra("clientInfo", (Serializable) this.clientInfoToPass);
 
         startActivity(mainIntent);
     }

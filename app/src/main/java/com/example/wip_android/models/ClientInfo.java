@@ -2,12 +2,13 @@ package com.example.wip_android.models;
 
 import android.widget.ImageView;
 
+import java.io.Serializable;
 import java.security.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class ClientInfo {
+public class ClientInfo implements Serializable {
 
     // Variables
     private String clientImage;

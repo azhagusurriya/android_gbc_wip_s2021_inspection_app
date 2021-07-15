@@ -32,6 +32,7 @@ import com.example.wip_android.adapters.ProjectAdapter;
 import com.example.wip_android.fragments.AddImagePin;
 import com.example.wip_android.fragments.DeficiencyFragment;
 import com.example.wip_android.fragments.MapFragment;
+import com.example.wip_android.models.ClientInfo;
 import com.example.wip_android.ui.gallery.GalleryFragment;
 
 import org.w3c.dom.Text;
@@ -60,6 +61,7 @@ public class ProjectActivity extends AppCompatActivity implements ProjectAdapter
     private TextView addDeficiency;
     ProjectAdapter recyclerAdapter;
     List<String> deficiencyList;
+    private ClientInfo clientInfo;
 
     // Default Functions
     @Override
@@ -80,20 +82,22 @@ public class ProjectActivity extends AppCompatActivity implements ProjectAdapter
         this.projectAddress = findViewById(R.id.projectAddress);
 
         // Getting values
-        Intent mIntent = getIntent();
-
-        String previousActivity = mIntent.getStringExtra("FROM_ACTIVITY");
-        String address;
-        String name;
-        if (previousActivity.equals("HomeFragment")) {
-            address = mIntent.getStringExtra("address");
-            name = mIntent.getStringExtra("name");
-        } else {
-            address = mIntent.getStringExtra("newAddress");
-            name = mIntent.getStringExtra("newName");
-        }
-        this.projectName.setText(name);
-        this.projectAddress.setText(address);
+//        Intent mIntent = getIntent();
+//
+//        String previousActivity = mIntent.getStringExtra("FROM_ACTIVITY");
+//        String address;
+//        String name;
+//        if (previousActivity.equals("HomeFragment")) {
+//            address = mIntent.getStringExtra("address");
+//            name = mIntent.getStringExtra("name");
+//        } else {
+//            address = mIntent.getStringExtra("newAddress");
+//            name = mIntent.getStringExtra("newName");
+//            this.clientInfo = (ClientInfo) mIntent.getExtras().getSerializable("clientInfo");
+//            System.out.println(this.clientInfo.getClientCity());
+//        }
+//        this.projectName.setText(name);
+//        this.projectAddress.setText(address);
 
         // Deficiency List
         deficiencyList = new ArrayList<>();
