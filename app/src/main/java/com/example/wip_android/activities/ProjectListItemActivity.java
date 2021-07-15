@@ -49,14 +49,14 @@ public class ProjectListItemActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("Customer"));
 
 
-        replaceFragment(new DeficiencyImageViewFragment());
+        imageViewFragment(new DeficiencyImageViewFragment());
 
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 0) {
-                    replaceFragment(new DeficiencyImageViewFragment());
+                    imageViewFragment(new DeficiencyImageViewFragment());
                 }  else if (tab.getPosition() == 1){
                     replaceFragment(new DeficiencyListFragment());
                 }
@@ -94,6 +94,16 @@ public class ProjectListItemActivity extends AppCompatActivity {
         bundle.putString("province", intentClientProvince);
         bundle.putString("image", intentClientImage);
         bundle.putString("phone", intentClientPhone);
+        fragment.setArguments(bundle);
+        transaction.replace(R.id.project_fragment_container, fragment);
+        transaction.commit();
+    }
+
+    private void imageViewFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        Bundle bundle = new Bundle();
+        bundle.putString("image", intentClientImage);
         fragment.setArguments(bundle);
         transaction.replace(R.id.project_fragment_container, fragment);
         transaction.commit();
