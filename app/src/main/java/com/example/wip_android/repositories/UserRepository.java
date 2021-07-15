@@ -171,16 +171,6 @@ public class UserRepository {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()){
-//                                for (QueryDocumentSnapshot document : task.getResult()){
-//                                    Log.d(TAG, document.getId() + "---" + document.getData());
-//                                    if (document.toObject(User.class).getPassword().equals(password)){
-//                                        Log.d(TAG, "Successful Login");
-//                                        signInStatus.postValue("SUCCESS");
-//                                    }else{
-//                                        Log.d(TAG, "Unsuccessful Login");
-//                                        signInStatus.postValue("FAILURE");
-//                                    }
-//                                }
 
                                 if (task.getResult().getDocuments().size() != 0){
                                     if(task.getResult().getDocuments().get(0).toObject(User.class).getPassword().equals(password)){
@@ -199,8 +189,6 @@ public class UserRepository {
                                 else{
                                     signInStatus.postValue("FAILURE");
                                 }
-
-
                             }else{
                                 Log.e(TAG, "Error fetching document" + task.getException());
                                 signInStatus.postValue("FAILURE");

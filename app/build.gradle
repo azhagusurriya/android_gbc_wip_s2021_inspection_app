@@ -65,4 +65,6 @@ dependencies {
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
     implementation 'com.google.android.material:material:1.1.0-alpha09'
     implementation 'com.burhanrashid52:photoeditor:1.1.4'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
 }

@@ -22,7 +22,9 @@ import android.view.ViewGroup;
 
 import com.example.wip_android.R;
 import com.example.wip_android.activities.AddProjectActivity;
+import com.example.wip_android.activities.DeficiencyTabLayoutActivity;
 import com.example.wip_android.activities.ProjectActivity;
+import com.example.wip_android.activities.ProjectListItemActivity;
 import com.example.wip_android.adapters.HomeAdapter;
 
 import com.example.wip_android.models.ClientInfo;
@@ -112,10 +114,10 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
     public void onNoteClick(int position) {
         String address = this.homeRecyclerAdapter.getHomeList().get(position).getClientStreetAddress();
         String name = this.homeRecyclerAdapter.getHomeList().get(position).getClientName();
-        Intent intent = new Intent(getActivity(), ProjectActivity.class);
-        intent.putExtra("address", address);
-        intent.putExtra("name", name);
-        intent.putExtra("FROM_ACTIVITY", "HomeFragment");
+        Intent intent = new Intent(getActivity(), ProjectListItemActivity.class);
+//        intent.putExtra("address", address);
+//        intent.putExtra("name", name);
+//        intent.putExtra("FROM_ACTIVITY", "HomeFragment");
         startActivity(intent);
     }
 

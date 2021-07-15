@@ -103,9 +103,13 @@ public class AddImagePin extends Fragment {
 
     // Go to deficiency fragment
     public void saveMarkerButtonPressed(){
-        switchFragment = new DeficiencyFragment();
-        transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.project_layout, switchFragment).addToBackStack(null).commit();
+
+        Intent intent = new Intent(getActivity(), DeficiencyTabLayoutActivity.class);
+        startActivity(intent);
+
+//        switchFragment = new DeficiencyFragment();
+//        transaction = getActivity().getSupportFragmentManager().beginTransaction();
+//        transaction.replace(R.id.project_layout, switchFragment).addToBackStack(null).commit();
     }
 
     @Override

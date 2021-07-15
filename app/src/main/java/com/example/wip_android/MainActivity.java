@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     private UserViewModel userViewModel;
+    private String emailMainIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         this.userViewModel = UserViewModel.getInstance();
+
+         emailMainIntent = getIntent().getStringExtra("EmailId");
 
         setSupportActionBar(binding.appBarMain.toolbar);
 //        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {

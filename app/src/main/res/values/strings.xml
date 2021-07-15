@@ -50,4 +50,6 @@
     <string name="Choose_picture">Pick a photo from gallery</string>
     <string name="UpdateClientInfo">Update</string>
     <string name="menu_clientUpdate">Customer</string>
+    <string name="save">Save</string>
+    <string name="spinner_Province">Province</string>
 </resources>
