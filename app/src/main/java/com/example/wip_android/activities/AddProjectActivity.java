@@ -14,6 +14,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,10 +39,12 @@ import com.example.wip_android.viewmodels.UserViewModel;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
-public class AddProjectActivity extends AppCompatActivity implements View.OnClickListener{
+public class AddProjectActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener{
 
     private final String TAG = this.getClass().getCanonicalName();
     private FragmentManager fragmentManager;
@@ -50,6 +55,8 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
     private Button btnSaveInfo ;
     private AddProjectViewModel addProjectViewModel;
     private ImageView ivClientImage;
+    private AutoCompleteTextView spnProvince;
+    private String selectedProvince;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,6 +67,8 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
         if(actionBar != null){
             actionBar.setTitle(Html.fromHtml("<font color='#ffffff'>Add Project</font>"));
         }
+
+//Back button
 
         assert getSupportActionBar() != null;   //null check
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);   //show back button
@@ -77,6 +86,32 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
         this.edtProvince = findViewById(R.id.edtProvince);
         this.edtClientPhone = findViewById(R.id.edtClientPhone);
         this.ivClientImage = findViewById(R.id.ivClientImage);
+
+        this.spnProvince = findViewById(R.id.spnProvince);
+        this.spnProvince.setOnItemSelectedListener(this);
+
+
+        List<String> provinces = new ArrayList<String>();
+        provinces.add("Alberta");
+        provinces.add("British Columbia");
+        provinces.add("Manitoba");
+        provinces.add("New Brunswick");
+        provinces.add("Newfoundland and Labrador");
+        provinces.add("Northwest Territories");
+        provinces.add("Nova Scotia");
+        provinces.add("Nunavut");
+        provinces.add("Ontario");
+        provinces.add("Prince Edward Island");
+        provinces.add("Quebec");
+        provinces.add("Saskatchewan");
+        provinces.add("Yukon");
+
+
+        ArrayAdapter<String> provinceAdapter = new ArrayAdapter<String>(this, R.layout.province_dropdown_item, provinces);
+        spnProvince.setAdapter(provinceAdapter);
+
+
+
 
 
     }
@@ -133,14 +168,14 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
                     break;
                 }
                 case R.id.btnSaveInfo:{
-                    this.goToProjectDeficiencyList();
-//                    if(this.validateData()) {
-//                        Log.d(TAG, "onClick: Save Button clicked");
-//                        this.validateAddProject();
-//
-//                        this.goToProjectDeficiencyList();
-//
-//                    }
+//                    this.goToProjectDeficiencyList();
+                    if(this.validateData()) {
+                        Log.d(TAG, "onClick: Save Button clicked");
+                        this.validateAddProject();
+
+                        this.goToProjectDeficiencyList();
+
+                    }
                     break;
                 }
 
@@ -189,10 +224,7 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
             this.edtCity.setError("Please enter City");
             return false;
         }
-        if (this.edtProvince.getEditText().getText().toString().isEmpty()) {
-            this.edtProvince.setError("Please enter Province");
-            return false;
-        }
+
 
         if (this.edtClientPhone.getEditText().getText().toString().isEmpty()){
             this.edtClientPhone.setError("PPlease enter phone number");
@@ -206,9 +238,10 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
         newClient.setClientName(this.edtClientName.getEditText().getText().toString());
         newClient.setClientStreetAddress(this.edtStreetAddress.getEditText().getText().toString());
         newClient.setClientCity(this.edtCity.getEditText().getText().toString());
-        newClient.setClientProvince(this.edtProvince.getEditText().getText().toString());
         newClient.setClientPhoneNumber(this.edtClientPhone.getEditText().getText().toString());
-
+        newClient.setClientProvince(this.spnProvince.getText().toString());
+        java.util.Date date=new java.util.Date();
+        newClient.setDateOfRegistration(date);
 
         // createAuthUser(this.edtEmail.getText().toString(),this.edtPassword.getText().toString());
         this.addProjectViewModel.createNewClient(newClient);
@@ -227,5 +260,16 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
         mainIntent.putExtra("FROM_ACTIVITY", "AddProjectActivity");
 
         startActivity(mainIntent);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        this.selectedProvince = parent.getItemAtPosition(position).toString();
+        Log.d(TAG, "onItemSelected: Selected Province: " + selectedProvince);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

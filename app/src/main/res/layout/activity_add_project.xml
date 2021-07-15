@@ -7,7 +7,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/add_project_layout"
     android:gravity="center"
-    android:padding="15dp"
     android:orientation="vertical"
     tools:context=".activities.AddProjectActivity">
 
@@ -87,21 +86,39 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:id="@+id/edtProvince"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:id="@+id/tfSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
-        android:hint="@string/province"
-        app:endIconMode="clear_text"
+        android:hint="@string/spinner_Province"
+        app:endIconMode="dropdown_menu"
         app:endIconTint="@color/black"
         tools:ignore="MissingConstraints">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <AutoCompleteTextView
+            android:id="@+id/spnProvince"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+<!--    <com.google.android.material.textfield.TextInputLayout-->
+<!--        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"-->
+<!--        android:id="@+id/edtProvince"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginBottom="12dp"-->
+<!--        android:hint="@string/province"-->
+<!--        app:endIconMode="clear_text"-->
+<!--        app:endIconTint="@color/black"-->
+<!--        tools:ignore="MissingConstraints">-->
+
+<!--        <com.google.android.material.textfield.TextInputEditText-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content" />-->
+
+<!--    </com.google.android.material.textfield.TextInputLayout>-->
 
 
     <com.google.android.material.textfield.TextInputLayout

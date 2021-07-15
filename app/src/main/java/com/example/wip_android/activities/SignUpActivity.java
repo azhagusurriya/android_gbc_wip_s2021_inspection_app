@@ -93,6 +93,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         departments.add("Service");
         departments.add("Waterproofing");
         departments.add("Admin");
+        departments.add("Production");
+        departments.add("Estimating");
+        departments.add("Purchasing");
+        departments.add("Mechanic");
 
 
         ArrayAdapter<String> departmentAdapter = new ArrayAdapter<String>(this, R.layout.department_dropdown_item, departments);

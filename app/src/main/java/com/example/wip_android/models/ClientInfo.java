@@ -3,6 +3,9 @@ package com.example.wip_android.models;
 import android.widget.ImageView;
 
 import java.security.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class ClientInfo {
 
@@ -13,15 +16,15 @@ public class ClientInfo {
     private String clientCity;
     private String clientProvince;
     private String clientPhoneNumber;
-    private boolean completion;
+    private boolean completion = false;
     private String department;
+    private Date dateOfRegistration;
 
     // Constructors
     public ClientInfo() {
     }
 
-    public ClientInfo(String clientImage, String clientName, String clientStreetAddress, String clientCity,
-            String clientProvince, String clientPhoneNumber, boolean completion, String department) {
+    public ClientInfo(String clientImage, String clientName, String clientStreetAddress, String clientCity, String clientProvince, String clientPhoneNumber, boolean completion, String department, Date dateOfRegistration) {
         this.clientImage = clientImage;
         this.clientName = clientName;
         this.clientStreetAddress = clientStreetAddress;
@@ -30,6 +33,7 @@ public class ClientInfo {
         this.clientPhoneNumber = clientPhoneNumber;
         this.completion = completion;
         this.department = department;
+        this.dateOfRegistration = dateOfRegistration;
     }
 
     // Getters and Setters
@@ -95,6 +99,14 @@ public class ClientInfo {
 
     public void setDepartment(String department) {
         this.department = department;
+    }
+
+    public Date getDateOfRegistration() {
+        return dateOfRegistration;
+    }
+
+    public void setDateOfRegistration(Date dateOfRegistration) {
+        this.dateOfRegistration = dateOfRegistration;
     }
 
     @Override
