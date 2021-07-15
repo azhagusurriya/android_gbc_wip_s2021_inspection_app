@@ -32,14 +32,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.wip_android.MainActivity;
 import com.example.wip_android.R;
 import com.example.wip_android.activities.AddProjectActivity;
 import com.example.wip_android.activities.ProjectListItemActivity;
+import com.example.wip_android.models.ClientInfo;
+import com.example.wip_android.models.User;
 import com.example.wip_android.viewmodels.AddProjectViewModel;
 import com.example.wip_android.viewmodels.ClientUpdateViewModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -62,7 +72,9 @@ public class ClientUpdateFragment extends Fragment implements View.OnClickListen
     private Uri contentUri;
     private String uploadedImageurl;
     private Bitmap updateOldDrawable,updateNewDrawable;
-    ProjectListItemActivity projectListItemActivity = (ProjectListItemActivity) getActivity();
+
+
+    private String currentClientDocumentID;
 
     private ClientUpdateViewModel mViewModel;
 
@@ -130,14 +142,38 @@ public class ClientUpdateFragment extends Fragment implements View.OnClickListen
 
         Glide.with(this).load(this.getArguments().getString("image")).into(ivUpdateClientImage);
 
-
 //        this.ivUpdateClientImage.setImageURI(imageLink);
 
-
+        getDocumentId();
 
 
 
         return view;
+    }
+
+    private void getDocumentId() {
+
+        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+        CollectionReference deliveryRef = rootRef.collection("Client");
+        Query nameQuery = deliveryRef.whereEqualTo("clientName", this.getArguments().getString("name"));
+        nameQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d(TAG, "onComplete: Document id for the particular item : " + document.getId());
+                        Log.d(TAG, document.getId());
+                        currentClientDocumentID = document.getId();
+                    }
+                }
+            }
+        });
+        nameQuery.get().addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "onFailure: Failure" + e.getLocalizedMessage());
+            }
+        });
     }
 
 
@@ -154,7 +190,12 @@ public class ClientUpdateFragment extends Fragment implements View.OnClickListen
                     if(this.validateData()) {
                         Log.d(TAG, "onClick: Save Button clicked");
 
-                        this.uploadImage();
+                        ClientInfo newClientInfo = new ClientInfo();
+                        newClientInfo.setClientName(this.edtUpdateClientName.getEditText().getText().toString());
+                        newClientInfo.setClientStreetAddress(this.edtUpdateStreetAddress.getEditText().getText().toString());
+                        newClientInfo.setClientCity(this.edtUpdateCity.getEditText().getText().toString());
+                        newClientInfo.setClientPhoneNumber(this.edtUpdateClientPhone.getEditText().getText().toString());
+                        this.updateClientInfo(newClientInfo);
                         
                     }
                     break;
@@ -166,7 +207,40 @@ public class ClientUpdateFragment extends Fragment implements View.OnClickListen
 
     }
 
-    private void uploadImage() {
+
+
+    public void updateClientInfo(ClientInfo clientInfo){
+        try {
+            db.collection("Client")
+                    .document(currentClientDocumentID)
+                    .update(
+                            "clientName", clientInfo.getClientName(),
+                            "clientStreetAddress", clientInfo.getClientStreetAddress(),
+                            "clientCity", clientInfo.getClientCity(),
+                            "clientPhoneNumber", clientInfo.getClientPhoneNumber()
+                    ).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()){
+                        Log.d(TAG, "Client Info Document updated Successfully ");
+                        navigateToHomeScreen();
+                    }
+                    else{
+                        Log.d(TAG, "Error Updating Client Info Document");
+                    }
+
+                }
+            });
+
+        }catch (Exception ex){
+            Log.e(TAG, ex.toString());
+            Log.e(TAG, ex.getLocalizedMessage());
+        }
+    }
+
+    public void navigateToHomeScreen(){
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        startActivity(intent);
     }
 
     public void pickImage(View view) {
