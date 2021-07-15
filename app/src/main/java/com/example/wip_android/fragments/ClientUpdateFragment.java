@@ -216,6 +216,14 @@ public class ClientUpdateFragment extends Fragment implements View.OnClickListen
 
     public void setClientInfoFromFields(){
         ClientInfo newClientInfo = new ClientInfo();
+
+        if(spnUpdateProvince.getText().toString().equals("")){
+            newClientInfo.setClientProvince(this.getArguments().getString("province"));
+        }else{
+            Log.d(TAG, "setClientInfoFromFields Province: " + spnUpdateProvince.getText());
+            newClientInfo.setClientProvince(this.spnUpdateProvince.getText().toString());
+        }
+
         newClientInfo.setClientImage(this.getArguments().getString("image"));
         newClientInfo.setClientName(this.edtUpdateClientName.getEditText().getText().toString());
         newClientInfo.setClientStreetAddress(this.edtUpdateStreetAddress.getEditText().getText().toString());
@@ -226,6 +234,14 @@ public class ClientUpdateFragment extends Fragment implements View.OnClickListen
 
     public void setClientInfoImageFromFields(){
         ClientInfo newClientInfo = new ClientInfo();
+
+        if(spnUpdateProvince.getText().toString().equals("")){
+            newClientInfo.setClientProvince(this.getArguments().getString("province"));
+        }else{
+            Log.d(TAG, "setClientInfoFromFields Province: " + spnUpdateProvince.getText());
+            newClientInfo.setClientProvince(this.spnUpdateProvince.getText().toString());
+        }
+
         newClientInfo.setClientImage(uploadedImageurl);
         newClientInfo.setClientName(this.edtUpdateClientName.getEditText().getText().toString());
         newClientInfo.setClientStreetAddress(this.edtUpdateStreetAddress.getEditText().getText().toString());
@@ -244,6 +260,7 @@ public class ClientUpdateFragment extends Fragment implements View.OnClickListen
                             "clientName", clientInfo.getClientName(),
                             "clientStreetAddress", clientInfo.getClientStreetAddress(),
                             "clientCity", clientInfo.getClientCity(),
+                            "clientProvince", clientInfo.getClientProvince(),
                             "clientPhoneNumber", clientInfo.getClientPhoneNumber(),"clientImage", clientInfo.getClientImage()
                     ).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
