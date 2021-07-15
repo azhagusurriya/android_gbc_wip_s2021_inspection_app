@@ -25,6 +25,15 @@ public class ClientInfo implements Serializable {
     public ClientInfo() {
     }
 
+    public ClientInfo(String clientImage, String clientName, String clientStreetAddress, String clientCity, String clientProvince, String clientPhoneNumber) {
+        this.clientImage = clientImage;
+        this.clientName = clientName;
+        this.clientStreetAddress = clientStreetAddress;
+        this.clientCity = clientCity;
+        this.clientProvince = clientProvince;
+        this.clientPhoneNumber = clientPhoneNumber;
+    }
+
     public ClientInfo(String clientImage, String clientName, String clientStreetAddress, String clientCity, String clientProvince, String clientPhoneNumber, boolean completion, String department, Date dateOfRegistration) {
         this.clientImage = clientImage;
         this.clientName = clientName;

@@ -114,9 +114,19 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
     public void onNoteClick(int position) {
         String address = this.homeRecyclerAdapter.getHomeList().get(position).getClientStreetAddress();
         String name = this.homeRecyclerAdapter.getHomeList().get(position).getClientName();
+        String city = this.homeRecyclerAdapter.getHomeList().get(position).getClientCity();
+        String province = this.homeRecyclerAdapter.getHomeList().get(position).getClientProvince();
+        String image = this.homeRecyclerAdapter.getHomeList().get(position).getClientImage();
+        String phone = this.homeRecyclerAdapter.getHomeList().get(position).getClientPhoneNumber();
         Intent intent = new Intent(getActivity(), ProjectListItemActivity.class);
-//        intent.putExtra("address", address);
-//        intent.putExtra("name", name);
+
+
+        intent.putExtra("address", address);
+        intent.putExtra("name", name);
+        intent.putExtra("city", city);
+        intent.putExtra("province", province);
+        intent.putExtra("image", image);
+        intent.putExtra("phone", phone);
 //        intent.putExtra("FROM_ACTIVITY", "HomeFragment");
         startActivity(intent);
     }
