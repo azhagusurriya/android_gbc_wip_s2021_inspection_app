@@ -24,8 +24,13 @@ import android.widget.LinearLayout;
 
 import com.example.wip_android.R;
 import com.example.wip_android.activities.DeficiencyTabLayoutActivity;
+import com.example.wip_android.models.ButtonIssue;
+import com.example.wip_android.models.ProjectInfo;
 import com.example.wip_android.viewmodels.AddImagePinViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class AddImagePin extends Fragment {
 
@@ -34,33 +39,29 @@ public class AddImagePin extends Fragment {
     private View view;
     private ImageView imageView;
     private float x, y;
-    private int counter = 0;
+    private int counter = 1;
     private Fragment switchFragment;
     private FragmentTransaction transaction;
     private Uri contentUri;
     private FloatingActionButton fabSaveMarker;
     private Button addedButton;
+    private ArrayList<ButtonIssue> buttonList =  new ArrayList<>();
 
     // Default function
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.add_image_pin_fragment, container, false);
 
-//        Button newButton = (Button)view.findViewById(R.id.newButton);
-//        newButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                addButton();
-//            }
-//        });
-
         // Add new red button when screen is touched
         view.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
-                x = event.getX();
-                y = event.getY();
 
-                addButton(x, y);
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    x = event.getX();
+                    y = event.getY();
+
+                    addButton(x, y);
+                }
 
                 return true;
             }
@@ -85,6 +86,26 @@ public class AddImagePin extends Fragment {
         return view;
     }
 
+    // When the button is clicked
+    View.OnClickListener handleOnClick(final Button button) {
+        return new View.OnClickListener() {
+            public void onClick(View v) {
+                System.out.println("BUTTON CLICKED: " + buttonList);
+                buttonList.remove(button);
+                System.out.println("BUTTON REMOVED");
+                System.out.println(buttonList);
+            }
+        };
+    }
+
+    View.OnLongClickListener listener = new View.OnLongClickListener() {
+        public boolean onLongClick(View v) {
+            Button clickedButton = (Button) v;
+            System.out.println("BUTTON LONG CLICKED: " + clickedButton.getId());
+            return true;
+        }
+    };
+
     // Add a new red button when screen is touched
     public void addButton(float x, float y) {
         ConstraintLayout layout = (ConstraintLayout) getActivity().findViewById(R.id.newLayout);
@@ -97,8 +118,15 @@ public class AddImagePin extends Fragment {
         addedButton.setLayoutParams(new LinearLayout.LayoutParams(50, 50));
         addedButton.setTextColor(Color.parseColor("white"));
         addedButton.setBackgroundColor(Color.parseColor("red"));
+        addedButton.setId(this.counter);
+        addedButton.setOnClickListener(handleOnClick(addedButton));
+        addedButton.setOnLongClickListener(listener);
 
+        ButtonIssue newButton = new ButtonIssue(addedButton.getX(), addedButton.getY(), addedButton.getId());
+        this.buttonList.add(newButton);
         this.counter += 1;
+
+
 
         layout.addView(addedButton);
     }
