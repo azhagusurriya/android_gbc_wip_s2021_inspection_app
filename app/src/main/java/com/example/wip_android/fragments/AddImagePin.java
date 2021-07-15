@@ -1,18 +1,10 @@
 package com.example.wip_android.fragments;
 
-import androidx.core.content.res.ResourcesCompat;
-import androidx.fragment.app.FragmentManager;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.annotation.SuppressLint;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.graphics.PointF;
-import android.graphics.RectF;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -20,188 +12,101 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
-import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.LinearLayout;
 
-import com.davemorrissey.labs.subscaleview.ImageSource;
-import com.example.wip_android.Circle;
-import com.example.wip_android.DrawView;
-import com.example.wip_android.PinView;
 import com.example.wip_android.R;
-import com.example.wip_android.ui.gallery.GalleryFragment;
 import com.example.wip_android.viewmodels.AddImagePinViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
-
-import ja.burhanrashid52.photoeditor.PhotoEditor;
-import ja.burhanrashid52.photoeditor.PhotoEditorView;
-
 public class AddImagePin extends Fragment {
 
+    // Variables
     private AddImagePinViewModel mViewModel;
     private View view;
-    private final String TAG = this.getClass().getCanonicalName();
-//    private PinView imageView;
     private ImageView imageView;
-    private DrawView drawView;
+    private float x, y;
+    private int counter = 0;
     private Fragment switchFragment;
-    FragmentTransaction transaction;
-    Uri contentUri;
-    private int radius=20;
-    private int numberOfCircles;
-    ArrayList<Circle> arrayListCircle = new ArrayList<>();
+    private FragmentTransaction transaction;
+    private Uri contentUri;
     private FloatingActionButton fabSaveMarker;
+    private Button addedButton;
 
-
-
-    public static AddImagePin newInstance() {
-        return new AddImagePin();
-    }
-
+    // Default function
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.add_image_pin_fragment, container, false);
 
+//        Button newButton = (Button)view.findViewById(R.id.newButton);
+//        newButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                addButton();
+//            }
+//        });
 
-//        PhotoEditorView imageView = view.findViewById(R.id.imageView);
-//        PhotoEditor mPhotoEditor = new PhotoEditor.Builder(getActivity(), imageView)
-//                .setPinchTextScalable(true)
-//                .build();
+        // Add new red button when screen is touched
+        view.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                x = event.getX();
+                y = event.getY();
 
-        drawView = (DrawView) view.findViewById(R.id.imageView);
-//        imageView.isClickable();
-//        imageView.hasOnClickListeners();
-//        imageView.isLongClickable();
-//        addTouchListener();
+                addButton(x, y);
 
+                return true;
+            }
+        });
 
+        // Get image
         Bundle bundle = this.getArguments();
         String imageFromProjectScreen = bundle.getString("photo");
-
         contentUri = Uri.parse(imageFromProjectScreen);
+        imageView = (ImageView) view.findViewById(R.id.imageView);
+        imageView.setImageURI(contentUri);
 
-//        Bitmap map = BitmapFactory.decodeFile(imageFromProjectScreen );
-//        imageView.setImage(ImageSource.asset("sanmartino.jpg"));
-        // int imageResource = getResources().getIdentifier(imageFromProjectScreen, null,getActivity().getPackageName());
-
-//        imageView.getSource().setImageResource(imageResource);
-//      imageView.setImage(ImageSource.uri(contentUri));
-//        imageView.getSource().setImageURI(contentUri);
-        drawView.setImageURI(contentUri);
-
+        // Floating Button
         fabSaveMarker = (FloatingActionButton) view.findViewById(R.id.fabSaveMarker);
-
         fabSaveMarker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 saveMarkerButtonPressed();
             }
         });
 
-
-//        mPhotoEditor.setBrushDrawingMode(true);
-//        mPhotoEditor.setBrushSize(70);
-//        mPhotoEditor.setOpacity(100);
-//        mPhotoEditor.setBrushColor(3);
-
-
-
-//        imageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                imageView.setPin(new PointF(1602f, 405f));
-//                Log.d(TAG, "onClick: Onclick Clicked");
-//
-////                Drawable drawable = imageView.getDrawable();
-////                Matrix matrix = imageView.getImageMatrix();
-////                if (drawable != null) {
-////                    RectF rectf = new RectF();
-////                    rectf.set(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-////                    matrix.mapRect(rectf);     //The most critical sentence
-////                    Log.i("lcf", "left  " + rectf.left + "  " + rectf.top + "  " + rectf.right + "  " + rectf.bottom);
-////
-////                }
-//
-//
-//                switchFragment = new DeficiencyFragment();
-//                transaction = getActivity().getSupportFragmentManager().beginTransaction();
-//                transaction.replace(R.id.project_layout, switchFragment).addToBackStack(null).commit();
-//            }
-//        });
-
-
-//        imageView.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override public boolean onLongClick(View v) {
-////                imageView.setPin(new PointF(1602f, 405f));
-//                Log.d(TAG, "onClick: Long Clicked");
-//                Toast.makeText(v.getContext(), "Long clicked", Toast.LENGTH_SHORT).show();
-//
-//
-//                switchFragment = new DeficiencyFragment();
-//                transaction = getActivity().getSupportFragmentManager().beginTransaction();
-//
-////                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-////                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//
-//                transaction.replace(R.id.project_layout, switchFragment).addToBackStack(null).commit();
-//                return true; }
-//        });
-
-
-
         return view;
     }
 
+    // Add a new red button when screen is touched
+    public void addButton(float x, float y) {
+        ConstraintLayout layout = (ConstraintLayout) getActivity().findViewById(R.id.newLayout);
+        addedButton = new Button(getActivity());
+        addedButton.setText(String.valueOf(this.counter));
+        addedButton.setX(x);
+        addedButton.setY(y);
+        addedButton.setGravity(Gravity.CENTER);
+        addedButton.setPadding(0,0,0,10);
+        addedButton.setLayoutParams(new LinearLayout.LayoutParams(50, 50));
+        addedButton.setTextColor(Color.parseColor("white"));
+        addedButton.setBackgroundColor(Color.parseColor("red"));
 
+        this.counter += 1;
 
+        layout.addView(addedButton);
+    }
+
+    // Go to deficiency fragment
     public void saveMarkerButtonPressed(){
         switchFragment = new DeficiencyFragment();
         transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.project_layout, switchFragment).addToBackStack(null).commit();
     }
-
-    public void navigateToDeficiencyPage(){
-        switchFragment = new DeficiencyFragment();
-                transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.project_layout, switchFragment).addToBackStack(null).commit();
-                drawView.invalidate();
-    }
-
-//    private void addTouchListener(){
-//
-//        drawView.setOnTouchListener(new View.OnTouchListener() {
-//            @SuppressLint("ClickableViewAccessibility")
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                float x = event.getX();
-//                float y = event.getY();
-////                arrayListCircle.add(new Circle(x,y,radius));
-////                numberOfCircles = arrayListCircle.size();
-//                String message = String.format("coordinates: (%.2f,%.2f)", x , y);
-//                Log.d(TAG, "onTouch: coordinates" + message);
-////                drawView.arrayListValues(x,y);
-//                switchFragment = new DeficiencyFragment();
-//                transaction = getActivity().getSupportFragmentManager().beginTransaction();
-//                transaction.replace(R.id.project_layout, switchFragment).addToBackStack(null).commit();
-//                return false;
-//            }
-//        });
-//    }
-
-//    @Override
-//    public boolean performClick() {
-//        super.performClick();
-//        return true;
-//    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -209,17 +114,5 @@ public class AddImagePin extends Fragment {
         mViewModel = new ViewModelProvider(this).get(AddImagePinViewModel.class);
         // TODO: Use the ViewModel
     }
-
-//    @Override
-//    public boolean onTouch(View v, MotionEvent event) {
-//        //getting the touched x and y position
-//        float positionX = event.getX();
-//        float positionY = event.getY();
-//
-//        Log.d(TAG, "onTouch: position X :" + positionX + "PositionY :"+ positionY);
-//
-//        return true;
-//    }
-
 
 }

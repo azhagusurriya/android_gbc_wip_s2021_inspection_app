@@ -5,20 +5,20 @@
     android:layout_height="match_parent"
     android:id="@+id/add_image_pin_Layout">
 
-<!--    <com.example.wip_android.PinView-->
-<!--        android:id="@+id/imageView"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:longClickable="true"-->
-<!--        android:clickable="true"-->
-<!--        android:focusable="true" />-->
-
-
-    <com.example.wip_android.DrawView
-        android:id="@+id/imageView"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/newLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="fitXY" />
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabSaveMarker"
@@ -32,13 +32,5 @@
         android:contentDescription="@string/addProject"
         android:src="@drawable/camera_ss"
         app:fabSize="normal"/>
-
-<!--    <ja.burhanrashid52.photoeditor.PhotoEditorView-->
-<!--        android:id="@+id/imageView"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:longClickable="true"-->
-<!--        android:clickable="true"-->
-<!--        android:focusable="true"/>-->
 
 </FrameLayout>
