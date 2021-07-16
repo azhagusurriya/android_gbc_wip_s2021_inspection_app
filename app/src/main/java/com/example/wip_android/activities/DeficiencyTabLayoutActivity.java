@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -14,12 +15,13 @@ import com.example.wip_android.fragments.DeficiencyAfterFragment;
 import com.example.wip_android.fragments.DeficiencyFragment;
 import com.google.android.material.tabs.TabLayout;
 
-
 public class DeficiencyTabLayoutActivity extends AppCompatActivity {
 
+    // Variables
     private TabLayout tabLayout;
     private LinearLayout container;
 
+    // Default function
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,19 +33,30 @@ public class DeficiencyTabLayoutActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("Before"));
         tabLayout.addTab(tabLayout.newTab().setText("After"));
 
+        Intent mIntent = getIntent();
+        String previousActivity = mIntent.getStringExtra("FROM_ACTIVITY");
+        System.out.println(previousActivity);
+
+        if (previousActivity.equals("GlossaryActivity")) {
+            Bundle bundle = getIntent().getExtras();
+            String chosenItem = bundle.getString("test");
+            System.out.println(chosenItem);
+        } else {
+            System.out.println("AddImagePin");
+        }
 
         replaceFragment(new DeficiencyFragment());
-
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 0) {
                     replaceFragment(new DeficiencyFragment());
-                }  else {
+                } else {
                     replaceFragment(new DeficiencyAfterFragment());
                 }
             }
+
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
             }
@@ -53,7 +66,6 @@ public class DeficiencyTabLayoutActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     private void replaceFragment(Fragment fragment) {
@@ -62,6 +74,5 @@ public class DeficiencyTabLayoutActivity extends AppCompatActivity {
         transaction.replace(R.id.deficiency_fragment_container, fragment);
         transaction.commit();
     }
-
 
 }

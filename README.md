@@ -4,6 +4,7 @@
 
 * Create logic for telephone
 * Create logic for password
+* Remember Me
 
 ## Tab Bar
 
@@ -29,3 +30,9 @@
 * Add glossary to Firebase?
 * Be able to add an item to the glossary
 * Improve UI
+
+## Map
+
+* Fix top space
+* Show correct location (it is showing the globe)
+* Dialog when delete to confirm

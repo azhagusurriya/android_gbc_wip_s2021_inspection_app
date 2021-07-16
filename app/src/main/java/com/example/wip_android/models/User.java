@@ -9,7 +9,7 @@ public class User {
     String department;
     String password;
 
-    public User(){
+    public User() {
     }
 
     public String getEmail() {
@@ -77,15 +77,15 @@ public class User {
         this.department = department;
     }
 
-//    public User(String email, String firstName, String lastName, String empID, String phone, String department, String password) {
-//        this.email = email;
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//        this.empID = empID;
-//        this.phone = phone;
-//        this.department = department;
-//        this.password = password;
-//    }
-
+    // public User(String email, String firstName, String lastName, String empID,
+    // String phone, String department, String password) {
+    // this.email = email;
+    // this.firstName = firstName;
+    // this.lastName = lastName;
+    // this.empID = empID;
+    // this.phone = phone;
+    // this.department = department;
+    // this.password = password;
+    // }
 
 }

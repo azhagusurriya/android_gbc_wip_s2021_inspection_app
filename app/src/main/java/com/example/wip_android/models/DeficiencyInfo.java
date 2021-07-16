@@ -18,7 +18,9 @@ public class DeficiencyInfo {
     public DeficiencyInfo() {
     }
 
-    public DeficiencyInfo(String title, String imageLinkBefore, String imageLinkAfter, String commentBefore, String commentAfter, String employeeIdOfRegisteration, boolean completion, Date dateOfRegistration, Date dateOfCompletion, Date lastUpdated) {
+    public DeficiencyInfo(String title, String imageLinkBefore, String imageLinkAfter, String commentBefore,
+            String commentAfter, String employeeIdOfRegisteration, boolean completion, Date dateOfRegistration,
+            Date dateOfCompletion, Date lastUpdated) {
         this.title = title;
         this.imageLinkBefore = imageLinkBefore;
         this.imageLinkAfter = imageLinkAfter;
@@ -30,7 +32,6 @@ public class DeficiencyInfo {
         this.dateOfCompletion = dateOfCompletion;
         this.lastUpdated = lastUpdated;
     }
-
 
     public String getTitle() {
         return title;

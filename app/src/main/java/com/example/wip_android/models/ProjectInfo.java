@@ -19,7 +19,9 @@ public class ProjectInfo {
     public ProjectInfo() {
     }
 
-    public ProjectInfo(String referenceId, String imageLink, ArrayList<Double> buttonLocationX, ArrayList<Double> buttonLocationY, ArrayList<String> buttonTitle, String employeeIdOfRegisteration, boolean completion, Date dateOfRegistration, Date dateOfCompletion, Date lastUpdated) {
+    public ProjectInfo(String referenceId, String imageLink, ArrayList<Double> buttonLocationX,
+            ArrayList<Double> buttonLocationY, ArrayList<String> buttonTitle, String employeeIdOfRegisteration,
+            boolean completion, Date dateOfRegistration, Date dateOfCompletion, Date lastUpdated) {
         this.referenceId = referenceId;
         this.imageLink = imageLink;
         this.buttonLocationX = buttonLocationX;

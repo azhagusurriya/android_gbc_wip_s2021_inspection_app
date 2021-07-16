@@ -38,6 +38,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.wip_android.R;
 import com.example.wip_android.fragments.MapFragment;
 import com.example.wip_android.models.ClientInfo;
+import com.example.wip_android.models.GlossaryItem;
 import com.example.wip_android.models.User;
 import com.example.wip_android.ui.gallery.GalleryFragment;
 import com.example.wip_android.viewmodels.AddProjectViewModel;
@@ -61,16 +62,17 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+public class AddProjectActivity extends AppCompatActivity
+        implements View.OnClickListener, AdapterView.OnItemSelectedListener, Serializable {
 
-public class AddProjectActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener, Serializable {
-
+    // Variables
     private final String TAG = this.getClass().getCanonicalName();
     private FragmentManager fragmentManager;
     private Fragment switchFragment;
     FragmentTransaction transaction;
     private TextView apGalleryBtn;
-    private TextInputLayout edtClientName,edtStreetAddress,edtCity,edtProvince,edtClientPhone;
-    private Button btnSaveInfo ;
+    private TextInputLayout edtClientName, edtStreetAddress, edtCity, edtProvince, edtClientPhone;
+    private Button btnSaveInfo;
     private AddProjectViewModel addProjectViewModel;
     private ImageView ivClientImage;
     private AutoCompleteTextView spnProvince;
@@ -82,25 +84,30 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
     private FirebaseUser firebaseUser;
     private Uri contentUri;
     private String uploadedImageurl;
-    private Bitmap oldDrawable,newDrawable;
+    private Bitmap oldDrawable, newDrawable;
     private ClientInfo clientInfoToPass;
+    private List<String> userList = new ArrayList<>();
 
+    // Default function
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_project);
 
+        // Get all users from Firebase to later validation
+        getUserList();
+
+        // Action bar settings
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null){
+        if (actionBar != null) {
             actionBar.setTitle(Html.fromHtml("<font color='#ffffff'>Add Project</font>"));
         }
 
-//Back button
+        // Back button
+        assert getSupportActionBar() != null; // null check
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // show back button
 
-        assert getSupportActionBar() != null;   //null check
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);   //show back button
-
-
+        // UI components
         this.addProjectViewModel = AddProjectViewModel.getInstance();
         this.apGalleryBtn = findViewById(R.id.apGalleryBtn);
         this.apGalleryBtn.setOnClickListener(this);
@@ -116,11 +123,10 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
         this.spnProvince = findViewById(R.id.spnProvince);
         this.spnProvince.setOnItemSelectedListener(this);
 
-      
         this.oldDrawable = ((BitmapDrawable) ivClientImage.getDrawable()).getBitmap();
         this.newDrawable = ((BitmapDrawable) ivClientImage.getDrawable()).getBitmap();
 
-
+        // Province list
         List<String> provinces = new ArrayList<String>();
         provinces.add("Alberta");
         provinces.add("British Columbia");
@@ -136,8 +142,8 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
         provinces.add("Saskatchewan");
         provinces.add("Yukon");
 
-
-        ArrayAdapter<String> provinceAdapter = new ArrayAdapter<String>(this, R.layout.province_dropdown_item, provinces);
+        ArrayAdapter<String> provinceAdapter = new ArrayAdapter<String>(this, R.layout.province_dropdown_item,
+                provinces);
         spnProvince.setAdapter(provinceAdapter);
 
         // Display RecyclerView with projects that have the same user department
@@ -146,8 +152,6 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
             this.currentUsersEmail = firebaseUser.getEmail();
             getCurrentUserDepartment(this.currentUsersEmail);
         }
-
-
     }
 
     @Override
@@ -155,7 +159,6 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
         finish();
         return true;
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -167,7 +170,6 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-
 
         if (id == R.id.action_camera) {
             Log.d(TAG, "onOptionsItemSelected: Camera selected ");
@@ -187,34 +189,33 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
             return true;
         }
 
-
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public void onClick(View view) {
-        if(view != null){
-            switch (view.getId()){
-                case R.id.apGalleryBtn:{
+        if (view != null) {
+            switch (view.getId()) {
+                case R.id.apGalleryBtn: {
                     pickImage(view);
                     Log.d(TAG, "onClick: Gallery Button clicked");
                     break;
                 }
-                case R.id.btnSaveInfo:{
-//                    this.goToProjectDeficiencyList();
-                    if(this.validateData()) {
+                case R.id.btnSaveInfo: {
+                    // this.goToProjectDeficiencyList();
+                    if (this.validateData()) {
                         Log.d(TAG, "onClick: Save Button clicked");
 
                         this.uploadImage();
 
-//                       this.goToProjectDeficiencyList();
+                        // this.goToProjectDeficiencyList();
 
                     }
                     break;
                 }
 
-                default: break;
+                default:
+                    break;
             }
         }
 
@@ -236,7 +237,6 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
                 String imageFileName = "JPEG_" + timeStamp + "." + getFileExt(contentUri);
                 ivClientImage.setImageURI(contentUri);
                 this.newDrawable = ((BitmapDrawable) ivClientImage.getDrawable()).getBitmap();
-
             }
         }
     }
@@ -248,18 +248,16 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
         return mime.getExtensionFromMimeType(c.getType(contentUri));
     }
 
-//    validate fields
+    // Validate fields
     private Boolean validateData() {
 
-        if(oldDrawable == newDrawable){
+        if (oldDrawable == newDrawable) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (!isFinishing()){
-                        new AlertDialog.Builder(AddProjectActivity.this)
-                                .setTitle("Save Failed")
-                                .setMessage("Please Add an Image")
-                                .setCancelable(false)
+                    if (!isFinishing()) {
+                        new AlertDialog.Builder(AddProjectActivity.this).setTitle("Save Failed")
+                                .setMessage("Please Add an Image").setCancelable(false)
                                 .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
@@ -272,10 +270,17 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
             Log.d(TAG, "validateData: Image change Error");
             return false;
         }
+
         if (this.edtClientName.getEditText().getText().toString().isEmpty()) {
             this.edtClientName.setError("Please enter Client Name");
             return false;
         }
+
+        if (userList.contains(this.edtClientName.getEditText().getText().toString())) {
+            this.edtClientName.setError("Client Name already exists");
+            return false;
+        }
+
         if (this.edtStreetAddress.getEditText().getText().toString().isEmpty()) {
             this.edtStreetAddress.setError("Please enter Streed Address");
             return false;
@@ -285,25 +290,24 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
             return false;
         }
 
-
-        if (this.edtClientPhone.getEditText().getText().toString().isEmpty()){
-            this.edtClientPhone.setError("PPlease enter phone number");
+        if (this.edtClientPhone.getEditText().getText().toString().isEmpty()) {
+            this.edtClientPhone.setError("Please enter phone number");
         }
         return true;
     }
 
-//    save info to firestore
-    private void validateAddProject(){
+    // Save info to firestore
+    private void validateAddProject() {
         ClientInfo newClient = new ClientInfo();
 
-//        uploadImageToFirebase(imageFileName,contentUri);
+        // uploadImageToFirebase(imageFileName,contentUri);
 
         newClient.setClientName(this.edtClientName.getEditText().getText().toString());
         newClient.setClientStreetAddress(this.edtStreetAddress.getEditText().getText().toString());
         newClient.setClientCity(this.edtCity.getEditText().getText().toString());
         newClient.setClientPhoneNumber(this.edtClientPhone.getEditText().getText().toString());
         newClient.setClientProvince(this.spnProvince.getText().toString());
-        java.util.Date date=new java.util.Date();
+        java.util.Date date = new java.util.Date();
         newClient.setDateOfRegistration(date);
         newClient.setDepartment(currentUsersDepartment);
         newClient.setClientImage(uploadedImageurl);
@@ -315,24 +319,24 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
         goToProjectDeficiencyList();
     }
 
-//Get file extension to save into firestore
-    private String getFileExtension (Uri uri){
+    // Get file extension to save into firestore
+    private String getFileExtension(Uri uri) {
         ContentResolver contentResolver = getContentResolver();
-
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
 
-        return  mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
-    //Uploading image to firestore and get the Url of the image
+    // Uploading image to firestore and get the Url of the image
     private void uploadImage() {
 
         final ProgressDialog pd = new ProgressDialog(this);
         pd.setMessage("Uploading");
         pd.show();
 
-        if (contentUri != null){
-            final StorageReference fileRef = FirebaseStorage.getInstance().getReference().child("uploads").child(System.currentTimeMillis() + "." + getFileExtension(contentUri));
+        if (contentUri != null) {
+            final StorageReference fileRef = FirebaseStorage.getInstance().getReference().child("uploads")
+                    .child(System.currentTimeMillis() + "." + getFileExtension(contentUri));
 
             fileRef.putFile(contentUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -342,26 +346,25 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
                         public void onSuccess(Uri uri) {
                             String url = uri.toString();
                             uploadedImageurl = url;
-                            Log.d("DownloadUrl" , url);
+                            Log.d("DownloadUrl", url);
                             validateAddProject();
                             pd.dismiss();
-                            Toast.makeText(AddProjectActivity.this, "Image upload successful1", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddProjectActivity.this, "Image upload successful1", Toast.LENGTH_SHORT)
+                                    .show();
                         }
                     });
                 }
             });
         }
-
     }
 
-
-//    Navigate to add deficiency page
-    private void goToProjectDeficiencyList(){
+    // Navigate to add deficiency page
+    private void goToProjectDeficiencyList() {
         this.finish();
 
         Intent mainIntent = new Intent(this, ProjectActivity.class);
-        String address = this.edtClientName.getEditText().getText().toString();
-        String name = this.edtStreetAddress.getEditText().getText().toString();
+        String name = this.edtClientName.getEditText().getText().toString();
+        String address = this.edtStreetAddress.getEditText().getText().toString();
 
         mainIntent.putExtra("newName", name);
         mainIntent.putExtra("newAddress", address);
@@ -371,7 +374,7 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
         startActivity(mainIntent);
     }
 
-//    Province drowdown item selected
+    // Province dropdown item selected
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         this.selectedProvince = parent.getItemAtPosition(position).toString();
@@ -399,4 +402,19 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
                     }
                 });
     }
+
+    // Get all users name from Firebase
+    public void getUserList() {
+        db.collection("Client").get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                if (task.getResult().getDocuments().size() != 0) {
+                    List<ClientInfo> clientInfoList = task.getResult().toObjects(ClientInfo.class);
+                    for (int i = 0; i < clientInfoList.size(); i++) {
+                        userList.add(clientInfoList.get(i).getClientName());
+                    }
+                }
+            }
+        });
+    }
+
 }
