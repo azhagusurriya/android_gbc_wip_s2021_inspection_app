@@ -39,25 +39,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         this.userViewModel = UserViewModel.getInstance();
 
-         emailMainIntent = getIntent().getStringExtra("EmailId");
+        emailMainIntent = getIntent().getStringExtra("EmailId");
 
         setSupportActionBar(binding.appBarMain.toolbar);
-//        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//
-//            }
-//        });
+        // binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
+        // @Override
+        // public void onClick(View view) {
+        // Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+        // .setAction("Action", null).show();
+        //
+        // }
+        // });
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_updateClient, R.id.nav_profile)
-                .setOpenableLayout(drawer)
-                .build();
+        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_home, R.id.nav_gallery, R.id.nav_updateClient,
+                R.id.nav_profile).setOpenableLayout(drawer).build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -76,27 +74,25 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
     }
-
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.action_logout:
-                //add the function to perform here
+                // add the function to perform here
                 this.logout();
-                return(true);
+                return (true);
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public void logout(){
+    public void logout() {
         FirebaseAuth.getInstance().signOut();
         this.userViewModel.getUserRepository().signInStatus.postValue("NOTHING");
         finish();
-        Intent i=new Intent(getApplicationContext(), SignInActivity.class);
+        Intent i = new Intent(getApplicationContext(), SignInActivity.class);
         startActivity(i);
     }
 

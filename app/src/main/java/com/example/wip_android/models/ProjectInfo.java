@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class ProjectInfo {
 
+    // Variables
     private String referenceId;
     private String imageLink;
     private ArrayList<Double> buttonLocationX = new ArrayList<>();
@@ -16,6 +17,7 @@ public class ProjectInfo {
     private Date dateOfCompletion;
     private Date lastUpdated;
 
+    // Constructors
     public ProjectInfo() {
     }
 
@@ -34,6 +36,7 @@ public class ProjectInfo {
         this.lastUpdated = lastUpdated;
     }
 
+    // Getters and Setters
     public String getReferenceId() {
         return referenceId;
     }

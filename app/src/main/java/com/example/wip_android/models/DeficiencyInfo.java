@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class DeficiencyInfo {
 
+    // Variables
     private String title;
     private String imageLinkBefore;
     private String imageLinkAfter;
@@ -15,6 +16,7 @@ public class DeficiencyInfo {
     private Date dateOfCompletion;
     private Date lastUpdated;
 
+    // Constructors
     public DeficiencyInfo() {
     }
 
@@ -33,6 +35,7 @@ public class DeficiencyInfo {
         this.lastUpdated = lastUpdated;
     }
 
+    // Getters and Setters
     public String getTitle() {
         return title;
     }
