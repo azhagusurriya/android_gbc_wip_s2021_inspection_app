@@ -108,12 +108,20 @@ public class AddImagePin extends Fragment {
     View.OnClickListener handleOnClick(final Button button) {
         return new View.OnClickListener() {
             public void onClick(View v) {
-                System.out.println("BUTTON CLICKED: " + buttonList);
-                getDataFromFirebase();
-                // Intent intent = new Intent(getActivity(), DeficiencyTabLayoutActivity.class);
-                // intent.putExtra("test", "TEST");
-                // intent.putExtra("FROM_ACTIVITY", "AddImagePin");
-                // startActivity(intent);
+
+                // Get important data
+                String currentButtonId = String.valueOf(button.getId());
+                ProjectInfo projectInfo = createProjectInfo();
+                DeficiencyInfo deficiencyInfo = createDeficiencyInfo(currentButtonId);
+
+                // Update firebase
+                updateFirebaseData(currentButtonId, projectInfo, deficiencyInfo);
+
+                // Go to deficiency screen
+                Intent intent = new Intent(getActivity(), DeficiencyTabLayoutActivity.class);
+                intent.putExtra("test", "TEST");
+                intent.putExtra("FROM_ACTIVITY", "AddImagePin");
+                startActivity(intent);
             }
         };
     }
@@ -134,45 +142,73 @@ public class AddImagePin extends Fragment {
         }
     };
 
+    // Create ProjectInfo object
+    public ProjectInfo createProjectInfo() {
+
+        // Button information
+        ArrayList<Double> buttonLocationX = new ArrayList<>();
+        ArrayList<Double> buttonLocationY = new ArrayList<>();
+        ArrayList<String> buttonTitle = new ArrayList<>();
+        for (int i = 0; i < this.buttonList.size(); i++) {
+            buttonLocationX.add((double) this.buttonList.get(i).getX());
+            buttonLocationY.add((double) this.buttonList.get(i).getY());
+            buttonTitle.add(String.valueOf(this.buttonList.get(i).getId()));
+        }
+
+        // Dates
+        Date dateOfRegistration = new Date();
+        Date dateOfCompletion = new Date();
+        Date lastUpdated = new Date();
+
+        // Other
+        String referenceId = "";
+        String imageLink = "";
+        String employeeIdOfRegisteration = "ID";
+        boolean completion = false;
+
+        // Create object
+        ProjectInfo projectInfo = new ProjectInfo(referenceId, imageLink, buttonLocationX, buttonLocationY, buttonTitle,
+                employeeIdOfRegisteration, completion, dateOfRegistration, dateOfCompletion, lastUpdated);
+
+        return projectInfo;
+    }
+
+    // Create DeficiencyInfo object
+    public DeficiencyInfo createDeficiencyInfo(String buttonId) {
+
+        // Images
+        String imageLinkBefore = "Image link before";
+        String imageLinkAfter = "Image link after";
+
+        // Comments
+        String commentBefore = "Comment before";
+        String commentAfter = "Comment after";
+
+        // Dates
+        Date deficiencyDateOfRegistration = new Date();
+        Date deficiencyDateOfCompletion = new Date();
+        Date deficiencyLastUpdated = new Date();
+
+        // Other
+        String title = buttonId;
+        String employeeIdOfRegisteration = "ID";
+        boolean deficiencyCompletion = false;
+
+        // Create object
+        DeficiencyInfo deficiencyInfo = new DeficiencyInfo(title, imageLinkBefore, imageLinkAfter, commentBefore,
+                commentAfter, employeeIdOfRegisteration, deficiencyCompletion, deficiencyDateOfRegistration,
+                deficiencyDateOfCompletion, deficiencyLastUpdated);
+
+        return deficiencyInfo;
+    }
+
     // Upload information to Firebase
-    public void getDataFromFirebase() {
+    public void updateFirebaseData(String buttonId, ProjectInfo projectInfo, DeficiencyInfo deficiencyInfo) {
         // First task
         db.collection(COLLECTION_CLIENT).whereEqualTo("clientName", clientName).get()
                 .addOnCompleteListener(secondTask -> {
                     if (secondTask.isSuccessful()) {
                         String clientId = secondTask.getResult().getDocuments().get(0).getId();
-                        System.out.print("SECOND TASK ID: " + clientId);
-
-                        // Create a ProjectInfo object
-                        String referenceId = "";
-                        String imageLink = "";
-                        ArrayList<Double> buttonLocationX = new ArrayList<>();
-                        ArrayList<Double> buttonLocationY = new ArrayList<>();
-                        ArrayList<String> buttonTitle = new ArrayList<>();
-                        String employeeIdOfRegisteration = "ID";
-                        boolean completion = false;
-                        Date dateOfRegistration = new Date();
-                        Date dateOfCompletion = new Date();
-                        Date lastUpdated = new Date();
-
-                        ProjectInfo projectInfo = new ProjectInfo(referenceId, imageLink, buttonLocationX,
-                                buttonLocationY, buttonTitle, employeeIdOfRegisteration, completion, dateOfRegistration,
-                                dateOfCompletion, lastUpdated);
-
-                        // Create a DeficiencyInfo object
-                        String title = "TITLE";
-                        String imageLinkBefore = "IMAGE LINK BEFORE";
-                        String imageLinkAfter = "IMAGE LINK AFTER";
-                        String commentBefore = "COMMENT BEFORE";
-                        String commentAfter = "COMMENT AFTER";
-                        boolean deficiencyCompletion = false;
-                        Date deficiencyDateOfRegistration = new Date();
-                        Date deficiencyDateOfCompletion = new Date();
-                        Date deficiencyLastUpdated = new Date();
-
-                        DeficiencyInfo deficiencyInfo = new DeficiencyInfo(title, imageLinkBefore, imageLinkAfter,
-                                commentBefore, commentAfter, employeeIdOfRegisteration, deficiencyCompletion,
-                                deficiencyDateOfRegistration, deficiencyDateOfCompletion, deficiencyLastUpdated);
 
                         // Upload the new ProjectInfo
                         db.collection(COLLECTION_CLIENT).document(clientId).collection(COLLECTION_PROJECT)
@@ -183,13 +219,13 @@ public class AddImagePin extends Fragment {
                                 .addOnCompleteListener(thirdTask -> {
                                     if (thirdTask.isSuccessful()) {
                                         String projectId = thirdTask.getResult().getDocuments().get(0).getId();
+
                                         db.collection(COLLECTION_CLIENT).document(clientId)
                                                 .collection(COLLECTION_PROJECT).document(projectId)
-                                                .collection(COLLECTION_DEFICIENCY).document("10").set(deficiencyInfo);
+                                                .collection(COLLECTION_DEFICIENCY).document(buttonId)
+                                                .set(deficiencyInfo);
                                     }
                                 });
-
-
 
                     }
 

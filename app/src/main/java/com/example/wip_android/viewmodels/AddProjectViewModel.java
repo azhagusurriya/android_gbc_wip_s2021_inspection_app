@@ -13,22 +13,19 @@ public class AddProjectViewModel extends ViewModel {
     private static final AddProjectViewModel ourInstance = new AddProjectViewModel();
     private final AddProjectRepository addProjectRepository = new AddProjectRepository();
 
-
-    public static AddProjectViewModel getInstance(){
+    public static AddProjectViewModel getInstance() {
         return ourInstance;
     }
 
-    private AddProjectViewModel(){
+    private AddProjectViewModel() {
     }
 
-    public AddProjectRepository getProjectRepository(){
+    public AddProjectRepository getProjectRepository() {
         return addProjectRepository;
     }
 
-    public void createNewClient(ClientInfo clientInfo){
+    public void createNewClient(ClientInfo clientInfo) {
         this.addProjectRepository.createNewClient(clientInfo);
     }
-
-
 
 }

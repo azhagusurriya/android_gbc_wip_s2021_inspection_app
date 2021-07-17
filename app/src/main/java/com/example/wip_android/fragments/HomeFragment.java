@@ -120,14 +120,13 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
         String phone = this.homeRecyclerAdapter.getHomeList().get(position).getClientPhoneNumber();
         Intent intent = new Intent(getActivity(), ProjectListItemActivity.class);
 
-
         intent.putExtra("address", address);
         intent.putExtra("name", name);
         intent.putExtra("city", city);
         intent.putExtra("province", province);
         intent.putExtra("image", image);
         intent.putExtra("phone", phone);
-//        intent.putExtra("FROM_ACTIVITY", "HomeFragment");
+        // intent.putExtra("FROM_ACTIVITY", "HomeFragment");
         startActivity(intent);
     }
 
@@ -159,9 +158,7 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
 
     // Grab and refresh data from Firebase
     public void refreshHomeRecyclerView(String department) {
-        // Get glossary from Firebase
         db.collection(COLLECTION_NAME).whereEqualTo("department", department).get().addOnCompleteListener(task -> {
-            // Check task
             if (task.isSuccessful()) {
                 if (task.getResult().getDocuments().size() != 0) {
                     List<ClientInfo> clientInfoList = task.getResult().toObjects(ClientInfo.class);
