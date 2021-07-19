@@ -59,16 +59,15 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        View root =  inflater.inflate(R.layout.fragment_profile, container, false);
-
+            @Nullable Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.fragment_profile, container, false);
 
         this.userViewModel = UserViewModel.getInstance();
 
         this.tvEmail = root.findViewById(R.id.tvUEmail);
         this.tvEmployeeID = root.findViewById(R.id.tvUEmployeeID);
-//        this.edtPassword = root.findViewById(R.id.edtUPassword);
-//        this.edtConfirmPassword = root.findViewById(R.id.edtUConfirmPassword);
+        // this.edtPassword = root.findViewById(R.id.edtUPassword);
+        // this.edtConfirmPassword = root.findViewById(R.id.edtUConfirmPassword);
         this.edtFirstname = root.findViewById(R.id.edtUFirstname);
         this.edtLastname = root.findViewById(R.id.edtULastname);
         this.edtContactNumber = root.findViewById(R.id.edtUContactNumber);
@@ -81,22 +80,21 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         this.clearFields();
 
         userID = this.userViewModel.getUserRepository().loggedInUserID.getValue();
-        userInfo =  this.userViewModel.getUpdateUserInfo(userID);
-
+        userInfo = this.userViewModel.getUpdateUserInfo(userID);
 
         this.userViewModel.getUserRepository().userDeleteStatus.observe(getActivity(), new Observer<String>() {
             @Override
             public void onChanged(String status) {
-                if(status.equals("DELETED")){
-//                   Intent intent = new Intent(getActivity(), SignInActivity.class);
-//                   startActivity(intent);
-                   userViewModel.getUserRepository().userDeleteStatus.postValue("");
+                if (status.equals("DELETED")) {
+                    // Intent intent = new Intent(getActivity(), SignInActivity.class);
+                    // startActivity(intent);
+                    userViewModel.getUserRepository().userDeleteStatus.postValue("");
                 }
 
             }
         });
 
-    return root;
+        return root;
 
     }
 
@@ -107,42 +105,41 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         // TODO: Use the ViewModel
     }
 
-
-
-    private void clearFields(){
+    private void clearFields() {
         edtFirstname.getEditText().setText("");
-//        edtPassword.setText("");
-//        edtConfirmPassword.setText("");
+        // edtPassword.setText("");
+        // edtConfirmPassword.setText("");
         edtContactNumber.getEditText().setText("");
         edtLastname.getEditText().setText("");
     }
 
     @Override
     public void onClick(View view) {
-        if(view != null){
-            switch (view.getId()){
-                case R.id.btnUpdateAccount:{
+        if (view != null) {
+            switch (view.getId()) {
+                case R.id.btnUpdateAccount: {
                     if (this.validateData()) {
 
                         this.updateUserToDB();
 
-                        Toast.makeText(getActivity(),"Profile Updated Successfully",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "Profile Updated Successfully", Toast.LENGTH_LONG).show();
 
-//                        Fragment fragment = new HomeFragment();
-//                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                        fragmentTransaction.replace(R.id.nav_host_fragment_content_main, fragment);
-//                        fragmentTransaction.addToBackStack(null);
-//                        fragmentTransaction.commit();
+                        // Fragment fragment = new HomeFragment();
+                        // FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        // FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        // fragmentTransaction.replace(R.id.nav_host_fragment_content_main, fragment);
+                        // fragmentTransaction.addToBackStack(null);
+                        // fragmentTransaction.commit();
                     }
                     break;
                 }
-                case R.id.btnGetAccountInfo:{
+                case R.id.btnGetAccountInfo: {
                     this.getAccountInfo();
                     break;
                 }
-                case R.id.btnDeleteAccount:{
-                    Log.d(TAG, "onDelete: looged--In User ID" + userViewModel.getUserRepository().loggedInUserID.getValue() );
+                case R.id.btnDeleteAccount: {
+                    Log.d(TAG, "onDelete: looged--In User ID"
+                            + userViewModel.getUserRepository().loggedInUserID.getValue());
                     this.userViewModel.deleteUser(userID);
                     this.navigateToHome();
                     break;
@@ -154,41 +151,41 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    private void navigateToHome(){
+    private void navigateToHome() {
         Intent intent = new Intent(getActivity(), SignInActivity.class);
         startActivity(intent);
     }
 
-    private Boolean validateData(){
+    private Boolean validateData() {
 
+        //
+        // if (this.edtPassword.getText().toString().isEmpty()){
+        // this.edtPassword.setError("Password cannot be empty");
+        // return false;
+        // }
+        //
+        // if (this.edtConfirmPassword.getText().toString().isEmpty()){
+        // this.edtConfirmPassword.setError("Please provide confirm password");
+        // return false;
+        // }
+        //
+        // if
+        // (!edtPassword.getText().toString().equals(this.edtConfirmPassword.getText().toString())){
+        // this.edtPassword.setError("Both passwords must be same");
+        // this.edtConfirmPassword.setError("Both passwords must be same");
+        // return false;
+        // }
 
-//
-//        if (this.edtPassword.getText().toString().isEmpty()){
-//            this.edtPassword.setError("Password cannot be empty");
-//            return false;
-//        }
-//
-//        if (this.edtConfirmPassword.getText().toString().isEmpty()){
-//            this.edtConfirmPassword.setError("Please provide confirm password");
-//            return false;
-//        }
-//
-//        if (!edtPassword.getText().toString().equals(this.edtConfirmPassword.getText().toString())){
-//            this.edtPassword.setError("Both passwords must be same");
-//            this.edtConfirmPassword.setError("Both passwords must be same");
-//            return false;
-//        }
-
-        if (this.edtContactNumber.getEditText().getText().toString().isEmpty()){
+        if (this.edtContactNumber.getEditText().getText().toString().isEmpty()) {
             this.edtContactNumber.setError("Contact Number cannot be empty");
             return false;
         }
-        if (this.edtFirstname.getEditText().getText().toString().isEmpty()){
+        if (this.edtFirstname.getEditText().getText().toString().isEmpty()) {
             this.edtFirstname.setError("First Name cannot be empty");
             return false;
         }
 
-        if (this.edtLastname.getEditText().getText().toString().isEmpty()){
+        if (this.edtLastname.getEditText().getText().toString().isEmpty()) {
             this.edtLastname.setError("Last Name cannot be empty");
             return false;
         }
@@ -196,27 +193,27 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         return true;
     }
 
-    private void getAccountInfo(){
-        Log.d(TAG, "onCreateView: user info in the profile fragment: " +userInfo.getEmail());
+    private void getAccountInfo() {
+        Log.d(TAG, "onCreateView: user info in the profile fragment: " + userInfo.getEmail());
 
-        if(userInfo != null) {
+        if (userInfo != null) {
             this.tvEmployeeID.setText("Employee ID: " + this.userViewModel.getUserRepository().newUserInfo.getEmpID());
             this.tvEmail.setText("E-mail: " + this.userViewModel.getUserRepository().newUserInfo.getEmail());
             this.edtFirstname.getEditText().setText(this.userViewModel.getUserRepository().newUserInfo.getFirstName());
-//            this.edtConfirmPassword.setText(this.userViewModel.getUserRepository().newUserInfo.getPassword());
-//            this.edtPassword.setText(this.userViewModel.getUserRepository().newUserInfo.getPassword());
+            // this.edtConfirmPassword.setText(this.userViewModel.getUserRepository().newUserInfo.getPassword());
+            // this.edtPassword.setText(this.userViewModel.getUserRepository().newUserInfo.getPassword());
             this.edtLastname.getEditText().setText(this.userViewModel.getUserRepository().newUserInfo.getLastName());
             this.edtContactNumber.getEditText().setText(this.userViewModel.getUserRepository().newUserInfo.getPhone());
         }
     }
 
-    private void updateUserToDB(){
+    private void updateUserToDB() {
         User newUser = new User();
 
         newUser.setEmail(this.tvEmail.getText().toString());
         newUser.setFirstName(this.edtFirstname.getEditText().getText().toString());
         newUser.setLastName(this.edtLastname.getEditText().getText().toString());
-       // newUser.setPassword(this.edtPassword.getText().toString());
+        // newUser.setPassword(this.edtPassword.getText().toString());
         newUser.setPhone(this.edtContactNumber.getEditText().getText().toString());
 
         this.userViewModel.updateUser(newUser);

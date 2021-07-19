@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class ProjectInfo {
 
+    // Variables
     private String referenceId;
     private String imageLink;
     private ArrayList<Double> buttonLocationX = new ArrayList<>();
@@ -16,10 +17,13 @@ public class ProjectInfo {
     private Date dateOfCompletion;
     private Date lastUpdated;
 
+    // Constructors
     public ProjectInfo() {
     }
 
-    public ProjectInfo(String referenceId, String imageLink, ArrayList<Double> buttonLocationX, ArrayList<Double> buttonLocationY, ArrayList<String> buttonTitle, String employeeIdOfRegisteration, boolean completion, Date dateOfRegistration, Date dateOfCompletion, Date lastUpdated) {
+    public ProjectInfo(String referenceId, String imageLink, ArrayList<Double> buttonLocationX,
+            ArrayList<Double> buttonLocationY, ArrayList<String> buttonTitle, String employeeIdOfRegisteration,
+            boolean completion, Date dateOfRegistration, Date dateOfCompletion, Date lastUpdated) {
         this.referenceId = referenceId;
         this.imageLink = imageLink;
         this.buttonLocationX = buttonLocationX;
@@ -32,6 +36,7 @@ public class ProjectInfo {
         this.lastUpdated = lastUpdated;
     }
 
+    // Getters and Setters
     public String getReferenceId() {
         return referenceId;
     }

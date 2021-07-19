@@ -4,6 +4,12 @@
 
 * Create logic for telephone
 * Create logic for password
+* Change User collection ID to EMAIL
+
+## Settings
+
+* Profile change button
+* Password change button
 
 ## Tab Bar
 
@@ -25,7 +31,13 @@
 
 ## Glossary
 
-* Load glossary list
-* Add glossary to Firebase?
-* Be able to add an item to the glossary
 * Improve UI
+
+## Map
+
+* Fix top space
+* Show correct location (it is showing the globe)
+* Dialog when delete to confirm
+* Change ID to client + date added
+* Save state
+* Change collection name (Client to Clients)

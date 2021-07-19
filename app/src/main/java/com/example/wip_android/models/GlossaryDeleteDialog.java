@@ -50,7 +50,7 @@ public class GlossaryDeleteDialog extends AppCompatDialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
 
                     }
-                // Positive Button
+                    // Positive Button
                 }).setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

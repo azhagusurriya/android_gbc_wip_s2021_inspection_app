@@ -1,7 +1,5 @@
 package com.example.wip_android.fragments;
 
-
-
 import static android.os.ParcelFileDescriptor.MODE_WORLD_READABLE;
 
 import static com.example.wip_android.ui.gallery.GalleryFragment.CAMERA_REQUEST_CODE;
@@ -96,11 +94,11 @@ import okhttp3.MultipartBody;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback  {
+public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     LinearLayout linearLayout;
-    String jobId="1";
+    String jobId = "1";
     private FloatingActionButton fabTakeScreenshot;
     private FloatingActionButton fabCurrentLocation;
     private boolean isPermissionGranted;
@@ -116,13 +114,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback  {
     private Fragment switchFragment;
     FragmentTransaction transaction;
 
-
     private MapViewModel mViewModel;
 
     public static MapFragment newInstance() {
         return new MapFragment();
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -134,8 +130,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback  {
         if (isPermissionGranted) {
             mMapView.getMapAsync(this);
             mMapView.onCreate(savedInstanceState);
-//            SupportMapFragment supportMapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.map);
-//            supportMapFragment.getMapAsync(this);
+            // SupportMapFragment supportMapFragment = (SupportMapFragment)
+            // this.getChildFragmentManager().findFragmentById(R.id.map);
+            // supportMapFragment.getMapAsync(this);
         }
 
         fabTakeScreenshot = (FloatingActionButton) mView.findViewById(R.id.fabTakeScreenshot);
@@ -157,69 +154,67 @@ public class MapFragment extends Fragment implements OnMapReadyCallback  {
             }
         });
 
-        FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+        FusedLocationProviderClient fusedLocationClient = LocationServices
+                .getFusedLocationProviderClient(getActivity());
 
         return mView;
     }
 
-    public void getCurrentLocationButtonPressed(){
+    public void getCurrentLocationButtonPressed() {
         switchFragment = new MapFragment();
         transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.project_layout, switchFragment).addToBackStack(null).commit();
     }
 
-
-
     // Initializing Snapshot Method
-    public void captureScreenshot(){
-        GoogleMap.SnapshotReadyCallback callback=new GoogleMap.SnapshotReadyCallback () {
+    public void captureScreenshot() {
+        GoogleMap.SnapshotReadyCallback callback = new GoogleMap.SnapshotReadyCallback() {
             Bitmap bitmap;
+
             @Override
             public void onSnapshotReady(Bitmap snapshot) {
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                bitmap=snapshot;
+                bitmap = snapshot;
 
-                try{
+                try {
                     String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                     String imageFileName = "JPEG_" + timeStamp + "_";
-  //                  File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-//                    File file=new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"map.png");
+                    // File storageDir =
+                    // Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                    // File file=new
+                    // File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"map.png");
 
-                    saveImage(bitmap,imageFileName);
+                    saveImage(bitmap, imageFileName);
 
-
-//                    File image = File.createTempFile(
-//                            imageFileName,
-//                            ".jpg",
-//                            storageDir
-//                    );
-//                    String currentPhotoPath = image.getAbsolutePath();
-//                    Log.d(TAG, "createImageFile: " + image.getAbsolutePath());
-//
-//                    Uri photoURI = FileProvider.getUriForFile(getContext(),
-//                            "com.example.android.fileprovider",
-//                            image);
-//                    Log.d(TAG, "dispatchTakePictureIntent: " + photoURI);
-//                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-////                    startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
-//
-//                    FileOutputStream fout = new FileOutputStream (image);
-//
-//                    bitmap.compress (Bitmap.CompressFormat.PNG,90,fout);
+                    // File image = File.createTempFile(
+                    // imageFileName,
+                    // ".jpg",
+                    // storageDir
+                    // );
+                    // String currentPhotoPath = image.getAbsolutePath();
+                    // Log.d(TAG, "createImageFile: " + image.getAbsolutePath());
+                    //
+                    // Uri photoURI = FileProvider.getUriForFile(getContext(),
+                    // "com.example.android.fileprovider",
+                    // image);
+                    // Log.d(TAG, "dispatchTakePictureIntent: " + photoURI);
+                    // takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                    //// startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
+                    //
+                    // FileOutputStream fout = new FileOutputStream (image);
+                    //
+                    // bitmap.compress (Bitmap.CompressFormat.PNG,90,fout);
                     Log.d(TAG, "onSnapshotReady: Screenshot captured");
 
-                }catch (Exception e){
-                    e.printStackTrace ();
+                } catch (Exception e) {
+                    e.printStackTrace();
                     Log.d(TAG, "onSnapshotReady: Not captured");
                 }
 
             }
         };
-        mMap.snapshot (callback);
+        mMap.snapshot(callback);
     }
-
-
-
 
     private void saveImage(Bitmap bitmap, @NonNull String name) throws IOException {
         boolean saved;
@@ -234,8 +229,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback  {
             Uri imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
             fos = resolver.openOutputStream(imageUri);
         } else {
-            String imagesDir = Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DCIM).toString() + File.separator + "camera";
+            String imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).toString()
+                    + File.separator + "camera";
 
             File file = new File(imagesDir);
 
@@ -253,35 +248,30 @@ public class MapFragment extends Fragment implements OnMapReadyCallback  {
         fos.close();
     }
 
-
-    public void openShareImageDialog(String filePath)
-    {
+    public void openShareImageDialog(String filePath) {
         File file = getActivity().getFileStreamPath(filePath);
 
-        if(!filePath.equals(""))
-        {
+        if (!filePath.equals("")) {
             final ContentValues values = new ContentValues(2);
             values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
             values.put(MediaStore.Images.Media.DATA, file.getAbsolutePath());
-            final Uri contentUriFile = getActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            final Uri contentUriFile = getActivity().getContentResolver()
+                    .insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
 
             final Intent intent = new Intent(android.content.Intent.ACTION_SEND);
             intent.setType("image/jpeg");
             intent.putExtra(android.content.Intent.EXTRA_STREAM, contentUriFile);
             startActivity(Intent.createChooser(intent, "Share Image"));
-        }
-        else
-        {
-            //This is a custom class I use to show dialogs...simply replace this with whatever you want to show an error message, Toast, etc.
+        } else {
+            // This is a custom class I use to show dialogs...simply replace this with
+            // whatever you want to show an error message, Toast, etc.
             Log.d(TAG, "openShareImageDialog: Error showing dialog");
         }
     }
 
-
-//    check location permission
+    // check location permission
     private void checkMyPermission() {
-        Dexter.withContext(getActivity())
-                .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+        Dexter.withContext(getActivity()).withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                 .withListener(new PermissionListener() {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
@@ -300,7 +290,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback  {
                     }
 
                     @Override
-                    public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
+                    public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest,
+                            PermissionToken permissionToken) {
                         permissionToken.continuePermissionRequest();
                     }
                 }).check();
@@ -310,7 +301,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback  {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         if (mMapView != null) {
             mMapView.onCreate(null);
             mMapView.onResume();
@@ -318,82 +308,84 @@ public class MapFragment extends Fragment implements OnMapReadyCallback  {
         }
     }
 
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(getContext());
         mMap = googleMap;
         googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
-        FusedLocationProviderClient mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+        FusedLocationProviderClient mFusedLocationClient = LocationServices
+                .getFusedLocationProviderClient(getActivity());
 
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(getContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getContext(),
+                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             return;
         }
         mFusedLocationClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
-                if(location!= null) {
+                if (location != null) {
                     // GPS location can be null if GPS is switched off
                     double currentLat = location.getLatitude();
                     double currentLong = location.getLongitude();
 
                     LatLng address = new LatLng(currentLat, currentLong);
-                    googleMap.addMarker(new MarkerOptions()
-                            .position(address)
-                            .title("Marker in Address").snippet("My Home"));
+                    googleMap.addMarker(
+                            new MarkerOptions().position(address).title("Marker in Address").snippet("My Home"));
 
-                    CameraPosition cPosition = CameraPosition.builder().target(address).zoom(24).bearing(0).tilt(45).build();
+                    CameraPosition cPosition = CameraPosition.builder().target(address).zoom(24).bearing(0).tilt(45)
+                            .build();
                     // Move the camera to the marker
                     googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cPosition));
                 }
             }
-        })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        e.printStackTrace();
-                    }
-                });
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                e.printStackTrace();
+            }
+        });
 
     }
 
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        mMapView.onStart();
-//    }
-//
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        mMapView.onResume();
-//    }
-//
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//        mMapView.onStop();
-//    }
-//
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//        mMapView.onDestroy();
-//    }
-//
-//    @Override
-//    public void onSaveInstanceState(@NonNull Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        mMapView.onSaveInstanceState(outState);
-//    }
-//
-//    @Override
-//    public void onLowMemory() {
-//        super.onLowMemory();
-//        mMapView.onLowMemory();
-//    }
+    // @Override
+    // public void onStart() {
+    // super.onStart();
+    // mMapView.onStart();
+    // }
+    //
+    // @Override
+    // public void onResume() {
+    // super.onResume();
+    // mMapView.onResume();
+    // }
+    //
+    // @Override
+    // public void onStop() {
+    // super.onStop();
+    // mMapView.onStop();
+    // }
+    //
+    // @Override
+    // public void onDestroy() {
+    // super.onDestroy();
+    // mMapView.onDestroy();
+    // }
+    //
+    // @Override
+    // public void onSaveInstanceState(@NonNull Bundle outState) {
+    // super.onSaveInstanceState(outState);
+    // mMapView.onSaveInstanceState(outState);
+    // }
+    //
+    // @Override
+    // public void onLowMemory() {
+    // super.onLowMemory();
+    // mMapView.onLowMemory();
+    // }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -422,7 +414,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback  {
             e.printStackTrace();
         }
         return p1;
-
 
     }
 }

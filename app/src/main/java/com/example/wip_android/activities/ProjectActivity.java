@@ -81,23 +81,24 @@ public class ProjectActivity extends AppCompatActivity implements ProjectAdapter
         this.projectName = findViewById(R.id.projectName);
         this.projectAddress = findViewById(R.id.projectAddress);
 
-        // Getting values
-//        Intent mIntent = getIntent();
-//
-//        String previousActivity = mIntent.getStringExtra("FROM_ACTIVITY");
-//        String address;
-//        String name;
-//        if (previousActivity.equals("HomeFragment")) {
-//            address = mIntent.getStringExtra("address");
-//            name = mIntent.getStringExtra("name");
-//        } else {
-//            address = mIntent.getStringExtra("newAddress");
-//            name = mIntent.getStringExtra("newName");
-//            this.clientInfo = (ClientInfo) mIntent.getExtras().getSerializable("clientInfo");
-//            System.out.println(this.clientInfo.getClientCity());
-//        }
-//        this.projectName.setText(name);
-//        this.projectAddress.setText(address);
+        // Getting values for name and address
+        Intent mIntent = getIntent();
+        String previousActivity = mIntent.getStringExtra("FROM_ACTIVITY");
+        String address;
+        String name;
+        if (previousActivity.equals("HomeFragment")) {
+            address = mIntent.getStringExtra("address");
+            name = mIntent.getStringExtra("name");
+            this.projectName.setText(name);
+            this.projectAddress.setText(address);
+        } else if (previousActivity.equals("AddProjectActivity")) {
+            address = mIntent.getStringExtra("newAddress");
+            name = mIntent.getStringExtra("newName");
+            this.clientInfo = (ClientInfo) mIntent.getExtras().getSerializable("clientInfo");
+            System.out.println(this.clientInfo.getClientCity());
+            this.projectName.setText(name);
+            this.projectAddress.setText(address);
+        }
 
         // Deficiency List
         deficiencyList = new ArrayList<>();
@@ -123,6 +124,7 @@ public class ProjectActivity extends AppCompatActivity implements ProjectAdapter
 
         Bundle bundle = new Bundle();
         bundle.putString("photo", stringUri);
+        bundle.putString("Client Name", (String) this.projectName.getText());
         switchFragment.setArguments(bundle);
 
         transaction.replace(R.id.project_layout, switchFragment).addToBackStack(null).commit();

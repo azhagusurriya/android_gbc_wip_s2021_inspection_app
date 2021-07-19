@@ -1,6 +1,8 @@
 package com.example.wip_android.models;
 
 public class User {
+
+    // Variables
     String email;
     String firstName;
     String lastName;
@@ -9,9 +11,11 @@ public class User {
     String department;
     String password;
 
-    public User(){
+    // Constructor
+    public User() {
     }
 
+    // Getters and Setters
     public String getEmail() {
         return email;
     }
@@ -77,15 +81,15 @@ public class User {
         this.department = department;
     }
 
-//    public User(String email, String firstName, String lastName, String empID, String phone, String department, String password) {
-//        this.email = email;
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//        this.empID = empID;
-//        this.phone = phone;
-//        this.department = department;
-//        this.password = password;
-//    }
-
+    // public User(String email, String firstName, String lastName, String empID,
+    // String phone, String department, String password) {
+    // this.email = email;
+    // this.firstName = firstName;
+    // this.lastName = lastName;
+    // this.empID = empID;
+    // this.phone = phone;
+    // this.department = department;
+    // this.password = password;
+    // }
 
 }

@@ -110,7 +110,7 @@ public class GlossaryActivity extends AppCompatActivity implements GlossaryAdapt
     @Override
     public void onNoteClick(int position) {
         String test = this.recyclerAdapter.getGlossaryList().get(position).getContent();
-        Intent intent = new Intent(this, DeficiencyActivity.class);
+        Intent intent = new Intent(this, DeficiencyTabLayoutActivity.class);
         intent.putExtra("test", test);
         intent.putExtra("FROM_ACTIVITY", "GlossaryActivity");
         startActivity(intent);

@@ -25,17 +25,16 @@ import java.util.List;
 
 import fr.ganfra.materialspinner.MaterialSpinner;
 
-
-public class DeficiencyFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class DeficiencyFragment extends Fragment {
 
     // Variables
-    MaterialSpinner spinner;
-    List<String> listItems = new ArrayList<>();
-    ArrayAdapter<String> adapter;
-    String selected;
-    TextInputLayout edtIssue;
-    View view;
-    TextView selectGlossary;
+    private MaterialSpinner spinner;
+    private List<String> listItems = new ArrayList<>();
+    private ArrayAdapter<String> adapter;
+    private String selected;
+    private TextInputLayout edtIssue;
+    private View view;
+    private TextView selectGlossary;
 
     public static DeficiencyFragment newInstance() {
         return new DeficiencyFragment();
@@ -45,14 +44,13 @@ public class DeficiencyFragment extends Fragment implements AdapterView.OnItemSe
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-         view = inflater.inflate(R.layout.fragment_deficiency, container, false);
+        view = inflater.inflate(R.layout.fragment_deficiency, container, false);
 
         // Bar Title
-        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
-        if(actionBar != null){
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null) {
             actionBar.setTitle(Html.fromHtml("<font color='#ffffff'>Add Deficiency</font>"));
         }
-
 
         this.selectGlossary = view.findViewById(R.id.selectGlossary);
 
@@ -64,33 +62,20 @@ public class DeficiencyFragment extends Fragment implements AdapterView.OnItemSe
             }
         });
 
-        // Spinner Department List
-        listItems.add("Foundation Wall Cracks");
-        listItems.add("Faulty Roofs");
-        listItems.add("Sump Pump Problems");
-        listItems.add("Wall Cracks");
-
-        // Spinner Adapter
-        spinner = view.findViewById(R.id.spinnerDepartment);
-        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, listItems);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
-
         Intent mIntent = getActivity().getIntent();
-        String previousActivity= mIntent.getStringExtra("FROM_ACTIVITY");
+        String previousActivity = mIntent.getStringExtra("FROM_ACTIVITY");
         System.out.println(previousActivity);
 
         this.edtIssue = view.findViewById(R.id.edtIssue);
 
-//        String previousActivity= mIntent.getStringExtra("FROM_ACTIVITY");
-//        if (previousActivity.equals("GlossaryActivity")) {
-//            Bundle bundle = getActivity().getIntent().getExtras();
-//            String chosenItem = bundle.getString("test");
-//            edtIssue.getEditText().setText(chosenItem);
-//        }
+        // String previousActivity= mIntent.getStringExtra("FROM_ACTIVITY");
+        // if (previousActivity.equals("GlossaryActivity")) {
+        // Bundle bundle = getActivity().getIntent().getExtras();
+        // String chosenItem = bundle.getString("test");
+        // edtIssue.getEditText().setText(chosenItem);
+        // }
 
-        if(getArguments() != null){
+        if (getArguments() != null) {
             String yourText = getArguments().getString("key");
             System.out.println(yourText);
         }
@@ -107,19 +92,6 @@ public class DeficiencyFragment extends Fragment implements AdapterView.OnItemSe
     // Pick image
     public void pickIssueImage(View view) {
         System.out.println("Pressed");
-    }
-
-    // Spinner Methods
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (position != -1) {
-            selected = spinner.getItemAtPosition(position).toString();
-        }
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
     }
 
 }

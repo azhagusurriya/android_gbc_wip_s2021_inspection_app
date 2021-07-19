@@ -62,11 +62,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ClientUpdateFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener{
+public class ClientUpdateFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     private final String TAG = this.getClass().getCanonicalName();
-    private TextInputLayout edtUpdateClientName,edtUpdateStreetAddress,edtUpdateCity,edtUpdateClientPhone;
-    private Button btnUpdateClientInfo ;
+    private TextInputLayout edtUpdateClientName, edtUpdateStreetAddress, edtUpdateCity, edtUpdateClientPhone;
+    private Button btnUpdateClientInfo;
     private ImageView ivUpdateClientImage;
     private AutoCompleteTextView spnUpdateProvince;
     private TextView apUpdateGalleryBtn;
@@ -75,8 +75,7 @@ public class ClientUpdateFragment extends Fragment implements View.OnClickListen
     private FirebaseUser firebaseUser;
     private Uri contentUri;
     private String uploadedImageurl;
-    private Bitmap updateOldDrawable,updateNewDrawable;
-
+    private Bitmap updateOldDrawable, updateNewDrawable;
 
     private String currentClientDocumentID;
 
@@ -88,10 +87,9 @@ public class ClientUpdateFragment extends Fragment implements View.OnClickListen
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.client_update_fragment, container, false);
+            @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.client_update_fragment, container, false);
 
-        
         this.apUpdateGalleryBtn = view.findViewById(R.id.apUpdateGalleryBtn);
         this.apUpdateGalleryBtn.setOnClickListener(this);
         this.btnUpdateClientInfo = view.findViewById(R.id.btnUpdateClientInfo);
@@ -105,7 +103,6 @@ public class ClientUpdateFragment extends Fragment implements View.OnClickListen
 
         this.spnUpdateProvince = view.findViewById(R.id.spnUpdateProvince);
         this.spnUpdateProvince.setOnItemSelectedListener(this);
-
 
         List<String> provinces = new ArrayList<String>();
         provinces.add("Alberta");
@@ -122,15 +119,12 @@ public class ClientUpdateFragment extends Fragment implements View.OnClickListen
         provinces.add("Saskatchewan");
         provinces.add("Yukon");
 
-
-        ArrayAdapter<String> updateProvinceAdapter = new ArrayAdapter<String>(getActivity(), R.layout.province_dropdown_item, provinces);
+        ArrayAdapter<String> updateProvinceAdapter = new ArrayAdapter<String>(getActivity(),
+                R.layout.province_dropdown_item, provinces);
         spnUpdateProvince.setAdapter(updateProvinceAdapter);
-
-
 
         updateOldDrawable = ((BitmapDrawable) ivUpdateClientImage.getDrawable()).getBitmap();
         updateNewDrawable = ((BitmapDrawable) ivUpdateClientImage.getDrawable()).getBitmap();
-
 
         String name = this.getArguments().getString("name");
         Log.d(TAG, "onCreateView: Client Name insidee update page : " + name);
@@ -138,19 +132,16 @@ public class ClientUpdateFragment extends Fragment implements View.OnClickListen
         this.edtUpdateClientName.getEditText().setText(this.getArguments().getString("name"));
         this.edtUpdateStreetAddress.getEditText().setText(this.getArguments().getString("address"));
         this.edtUpdateCity.getEditText().setText(this.getArguments().getString("city"));
-//        this.spnUpdateProvince.get().set(this.getArguments().getString("name"));
+        // this.spnUpdateProvince.get().set(this.getArguments().getString("name"));
         this.edtUpdateClientPhone.getEditText().setText(this.getArguments().getString("phone"));
 
-//        Uri imageLink = Uri.parse(this.getArguments().getString("image"));
-
+        // Uri imageLink = Uri.parse(this.getArguments().getString("image"));
 
         Glide.with(this).load(this.getArguments().getString("image")).into(ivUpdateClientImage);
 
-//        this.ivUpdateClientImage.setImageURI(imageLink);
+        // this.ivUpdateClientImage.setImageURI(imageLink);
 
         getDocumentId();
-
-
 
         return view;
     }
@@ -180,46 +171,42 @@ public class ClientUpdateFragment extends Fragment implements View.OnClickListen
         });
     }
 
-
     @Override
     public void onClick(View view) {
-        if(view != null){
-            switch (view.getId()){
-                case R.id.apUpdateGalleryBtn:{
+        if (view != null) {
+            switch (view.getId()) {
+                case R.id.apUpdateGalleryBtn: {
                     pickImage(view);
                     Log.d(TAG, "onClick: Gallery Button clicked");
                     break;
                 }
-                case R.id.btnUpdateClientInfo:{
-                    if(this.validateData()) {
+                case R.id.btnUpdateClientInfo: {
+                    if (this.validateData()) {
                         Log.d(TAG, "onClick: Save Button clicked");
 
-                        if(updateOldDrawable == updateNewDrawable){
+                        if (updateOldDrawable == updateNewDrawable) {
                             setClientInfoFromFields();
-                        }
-                        else{
+                        } else {
                             uploadImage();
                         }
 
-
-                        
                     }
                     break;
                 }
 
-                default: break;
+                default:
+                    break;
             }
         }
 
     }
 
-
-    public void setClientInfoFromFields(){
+    public void setClientInfoFromFields() {
         ClientInfo newClientInfo = new ClientInfo();
 
-        if(spnUpdateProvince.getText().toString().equals("")){
+        if (spnUpdateProvince.getText().toString().equals("")) {
             newClientInfo.setClientProvince(this.getArguments().getString("province"));
-        }else{
+        } else {
             Log.d(TAG, "setClientInfoFromFields Province: " + spnUpdateProvince.getText());
             newClientInfo.setClientProvince(this.spnUpdateProvince.getText().toString());
         }
@@ -232,12 +219,12 @@ public class ClientUpdateFragment extends Fragment implements View.OnClickListen
         this.updateClientInfo(newClientInfo);
     }
 
-    public void setClientInfoImageFromFields(){
+    public void setClientInfoImageFromFields() {
         ClientInfo newClientInfo = new ClientInfo();
 
-        if(spnUpdateProvince.getText().toString().equals("")){
+        if (spnUpdateProvince.getText().toString().equals("")) {
             newClientInfo.setClientProvince(this.getArguments().getString("province"));
-        }else{
+        } else {
             Log.d(TAG, "setClientInfoFromFields Province: " + spnUpdateProvince.getText());
             newClientInfo.setClientProvince(this.spnUpdateProvince.getText().toString());
         }
@@ -250,39 +237,33 @@ public class ClientUpdateFragment extends Fragment implements View.OnClickListen
         this.updateClientInfo(newClientInfo);
     }
 
-
-
-    public void updateClientInfo(ClientInfo clientInfo){
+    public void updateClientInfo(ClientInfo clientInfo) {
         try {
-            db.collection("Client")
-                    .document(currentClientDocumentID)
-                    .update(
-                            "clientName", clientInfo.getClientName(),
-                            "clientStreetAddress", clientInfo.getClientStreetAddress(),
-                            "clientCity", clientInfo.getClientCity(),
-                            "clientProvince", clientInfo.getClientProvince(),
-                            "clientPhoneNumber", clientInfo.getClientPhoneNumber(),"clientImage", clientInfo.getClientImage()
-                    ).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if(task.isSuccessful()){
-                        Log.d(TAG, "Client Info Document updated Successfully ");
-                        navigateToHomeScreen();
-                    }
-                    else{
-                        Log.d(TAG, "Error Updating Client Info Document");
-                    }
+            db.collection("Client").document(currentClientDocumentID)
+                    .update("clientName", clientInfo.getClientName(), "clientStreetAddress",
+                            clientInfo.getClientStreetAddress(), "clientCity", clientInfo.getClientCity(),
+                            "clientProvince", clientInfo.getClientProvince(), "clientPhoneNumber",
+                            clientInfo.getClientPhoneNumber(), "clientImage", clientInfo.getClientImage())
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Log.d(TAG, "Client Info Document updated Successfully ");
+                                navigateToHomeScreen();
+                            } else {
+                                Log.d(TAG, "Error Updating Client Info Document");
+                            }
 
-                }
-            });
+                        }
+                    });
 
-        }catch (Exception ex){
+        } catch (Exception ex) {
             Log.e(TAG, ex.toString());
             Log.e(TAG, ex.getLocalizedMessage());
         }
     }
 
-    public void navigateToHomeScreen(){
+    public void navigateToHomeScreen() {
         Intent intent = new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
     }
@@ -316,9 +297,9 @@ public class ClientUpdateFragment extends Fragment implements View.OnClickListen
         return mime.getExtensionFromMimeType(c.getType(contentUri));
     }
 
-    //    validate fields
+    // validate fields
     private Boolean validateData() {
-        
+
         if (this.edtUpdateClientName.getEditText().getText().toString().isEmpty()) {
             this.edtUpdateClientName.setError("Please enter Client Name");
             return false;
@@ -332,32 +313,31 @@ public class ClientUpdateFragment extends Fragment implements View.OnClickListen
             return false;
         }
 
-
-        if (this.edtUpdateClientPhone.getEditText().getText().toString().isEmpty()){
+        if (this.edtUpdateClientPhone.getEditText().getText().toString().isEmpty()) {
             this.edtUpdateClientPhone.setError("PPlease enter phone number");
         }
         return true;
     }
 
-
-    //Get file extension to save into firestore
-    private String getFileExtension (Uri uri){
+    // Get file extension to save into firestore
+    private String getFileExtension(Uri uri) {
         ContentResolver contentResolver = getActivity().getContentResolver();
 
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
 
-        return  mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
-    //Uploading image to firestore and get the Url of the image
+    // Uploading image to firestore and get the Url of the image
     private void uploadImage() {
 
         final ProgressDialog pd = new ProgressDialog(getActivity());
         pd.setMessage("Uploading");
         pd.show();
 
-        if (contentUri != null){
-            final StorageReference fileRef = FirebaseStorage.getInstance().getReference().child("uploads").child(System.currentTimeMillis() + "." + getFileExtension(contentUri));
+        if (contentUri != null) {
+            final StorageReference fileRef = FirebaseStorage.getInstance().getReference().child("uploads")
+                    .child(System.currentTimeMillis() + "." + getFileExtension(contentUri));
 
             fileRef.putFile(contentUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -367,7 +347,7 @@ public class ClientUpdateFragment extends Fragment implements View.OnClickListen
                         public void onSuccess(Uri uri) {
                             String url = uri.toString();
                             uploadedImageurl = url;
-                            Log.d("DownloadUrl" , url);
+                            Log.d("DownloadUrl", url);
                             setClientInfoImageFromFields();
                             pd.dismiss();
                             Toast.makeText(getActivity(), "Image upload successful1", Toast.LENGTH_SHORT).show();
@@ -379,19 +359,17 @@ public class ClientUpdateFragment extends Fragment implements View.OnClickListen
 
     }
 
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(ClientUpdateViewModel.class);
         // TODO: Use the ViewModel
 
-
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        
+
     }
 
     @Override

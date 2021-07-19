@@ -53,7 +53,6 @@ public class GalleryFragment extends Fragment {
     Button cameraBtn, galleryBtn;
     String currentPhotoPath;
 
-
     // Camera Settings
     public static final int CAMERA_PERM_CODE = 101;
     public static final int CAMERA_REQUEST_CODE = 102;
@@ -82,7 +81,7 @@ public class GalleryFragment extends Fragment {
         galleryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent gallery = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(gallery, GALLERY_REQUEST_CODE);
             }
         });
@@ -90,11 +89,12 @@ public class GalleryFragment extends Fragment {
         return root;
     }
 
-
     // Ask permission to use the camera
     private void askCameraPermissions() {
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, CAMERA_PERM_CODE);
+        if (ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[] { Manifest.permission.CAMERA },
+                    CAMERA_PERM_CODE);
         } else {
             dispatchTakePictureIntent();
         }
@@ -102,12 +102,14 @@ public class GalleryFragment extends Fragment {
 
     // Check permission and open camera
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+            @NonNull int[] grantResults) {
         if (requestCode == CAMERA_PERM_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 dispatchTakePictureIntent();
             } else {
-                Toast.makeText(getActivity(), "Camera Permission is Required to Use camera.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Camera Permission is Required to Use camera.", Toast.LENGTH_SHORT)
+                        .show();
             }
         }
     }
@@ -115,8 +117,8 @@ public class GalleryFragment extends Fragment {
     // Camera and Gallery buttons
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(requestCode == CAMERA_REQUEST_CODE){
-            if(resultCode == Activity.RESULT_OK){
+        if (requestCode == CAMERA_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
                 File f = new File(currentPhotoPath);
                 selectedImage.setImageURI(Uri.fromFile(f));
 
@@ -125,18 +127,18 @@ public class GalleryFragment extends Fragment {
                 mediaScanIntent.setData(contentUri);
                 getActivity().sendBroadcast(mediaScanIntent);
 
-                uploadImageToFirebase(f.getName(),contentUri);
+                uploadImageToFirebase(f.getName(), contentUri);
             }
         }
 
-        if(requestCode == GALLERY_REQUEST_CODE){
-            if(resultCode == Activity.RESULT_OK){
+        if (requestCode == GALLERY_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
                 Uri contentUri = data.getData();
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-                String imageFileName = "JPEG_" + timeStamp +"."+getFileExt(contentUri);
+                String imageFileName = "JPEG_" + timeStamp + "." + getFileExt(contentUri);
                 selectedImage.setImageURI(contentUri);
 
-                uploadImageToFirebase(imageFileName,contentUri);
+                uploadImageToFirebase(imageFileName, contentUri);
             }
         }
     }
@@ -153,13 +155,11 @@ public class GalleryFragment extends Fragment {
         }
         // Continue only if the File was successfully created
         if (photoFile != null) {
-            Uri photoURI = FileProvider.getUriForFile(getContext(),
-                    "com.example.android.fileprovider",
-                    photoFile);
+            Uri photoURI = FileProvider.getUriForFile(getContext(), "com.example.android.fileprovider", photoFile);
             Log.d(TAG, "dispatchTakePictureIntent: " + photoURI);
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
             startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
-            }
+        }
     }
 
     // Upload image to Firebase
@@ -200,14 +200,10 @@ public class GalleryFragment extends Fragment {
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
 
-
-//        File storageDir = Environment.getExternalStorageDirectory();
-//        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,
-                ".jpg",
-                storageDir
-        );
+        // File storageDir = Environment.getExternalStorageDirectory();
+        // File storageDir =
+        // getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
         currentPhotoPath = image.getAbsolutePath();
         Log.d(TAG, "createImageFile: " + image.getAbsolutePath());
         return image;
