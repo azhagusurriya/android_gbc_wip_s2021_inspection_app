@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <uses-feature android:name="android.hardware.location.gps" />
 
@@ -26,15 +27,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Android_gbc_wip_s2021_inspection_app">
         <activity
+            android:name=".activities.MapScreenshotActivity"
+            android:exported="true" />
+        <activity
             android:name=".activities.ProjectListItemActivity"
             android:exported="true" />
         <activity
             android:name=".activities.DeficiencyTabLayoutActivity"
             android:exported="true" />
         <activity android:name=".activities.DeficiencyActivity" />
-        <activity android:name=".activities.ProjectActivity" >
-
-        </activity>
+        <activity android:name=".activities.ProjectActivity"></activity>
         <activity android:name=".activities.GlossaryActivity" />
 
         <meta-data

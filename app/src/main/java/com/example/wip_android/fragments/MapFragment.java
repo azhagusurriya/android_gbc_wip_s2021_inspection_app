@@ -67,6 +67,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -93,6 +94,7 @@ import java.util.Locale;
 import okhttp3.MultipartBody;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+//implements OnMapReadyCallback
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
@@ -113,6 +115,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private Location locaton;
     private Fragment switchFragment;
     FragmentTransaction transaction;
+    FusedLocationProviderClient mFusedLocationClient;
+    SupportMapFragment supportMapFragment;
+    FusedLocationProviderClient fusedClient;
 
     private MapViewModel mViewModel;
 
@@ -124,7 +129,38 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_map, container, false);
 
+
+//        //Assign values
+//        supportMapFragment = (SupportMapFragment) this.getChildFragmentManager()
+//                .findFragmentById(R.id.map);
+//
+//        //Initialize fussed location
+//        fusedClient = LocationServices.getFusedLocationProviderClient(getActivity());
+//
+//
+//
+//        //check permission
+//        if (ActivityCompat.checkSelfPermission(getActivity(),
+//                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+//            //wHEN PERMISSION GRANTED
+//
+//            // Call method
+//            getCurrentLocation();
+//
+//        } else {
+////        when permission denied
+////            request permission
+//            ActivityCompat.requestPermissions(getActivity(),
+//                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
+//        }
+
+
         mMapView = (MapView) mView.findViewById(R.id.map);
+         mFusedLocationClient = LocationServices
+                .getFusedLocationProviderClient(getActivity());
+
+
+
         checkMyPermission();
 
         if (isPermissionGranted) {
@@ -134,6 +170,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             // this.getChildFragmentManager().findFragmentById(R.id.map);
             // supportMapFragment.getMapAsync(this);
         }
+
+
 
         fabTakeScreenshot = (FloatingActionButton) mView.findViewById(R.id.fabTakeScreenshot);
         fabCurrentLocation = (FloatingActionButton) mView.findViewById(R.id.fabCurrentLocation);
@@ -154,8 +192,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
-        FusedLocationProviderClient fusedLocationClient = LocationServices
-                .getFusedLocationProviderClient(getActivity());
 
         return mView;
     }
@@ -163,7 +199,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void getCurrentLocationButtonPressed() {
         switchFragment = new MapFragment();
         transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.project_layout, switchFragment).addToBackStack(null).commit();
+        transaction.replace(R.id.add_project_layout, switchFragment).addToBackStack(null).commit();
     }
 
     // Initializing Snapshot Method
@@ -314,8 +350,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mMap = googleMap;
         googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
-        FusedLocationProviderClient mFusedLocationClient = LocationServices
-                .getFusedLocationProviderClient(getActivity());
+
 
         if (ActivityCompat.checkSelfPermission(getContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -351,41 +386,41 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
-    // @Override
-    // public void onStart() {
-    // super.onStart();
-    // mMapView.onStart();
-    // }
-    //
-    // @Override
-    // public void onResume() {
-    // super.onResume();
-    // mMapView.onResume();
-    // }
-    //
-    // @Override
-    // public void onStop() {
-    // super.onStop();
-    // mMapView.onStop();
-    // }
-    //
-    // @Override
-    // public void onDestroy() {
-    // super.onDestroy();
-    // mMapView.onDestroy();
-    // }
-    //
-    // @Override
-    // public void onSaveInstanceState(@NonNull Bundle outState) {
-    // super.onSaveInstanceState(outState);
-    // mMapView.onSaveInstanceState(outState);
-    // }
-    //
-    // @Override
-    // public void onLowMemory() {
-    // super.onLowMemory();
-    // mMapView.onLowMemory();
-    // }
+     @Override
+     public void onStart() {
+     super.onStart();
+     mMapView.onStart();
+     }
+
+     @Override
+     public void onResume() {
+     super.onResume();
+     mMapView.onResume();
+     }
+
+     @Override
+     public void onStop() {
+     super.onStop();
+     mMapView.onStop();
+     }
+
+     @Override
+     public void onDestroy() {
+     super.onDestroy();
+     mMapView.onDestroy();
+     }
+
+     @Override
+     public void onSaveInstanceState(@NonNull Bundle outState) {
+     super.onSaveInstanceState(outState);
+     mMapView.onSaveInstanceState(outState);
+     }
+
+     @Override
+     public void onLowMemory() {
+     super.onLowMemory();
+     mMapView.onLowMemory();
+     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -416,4 +451,82 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         return p1;
 
     }
+
+//    private void setupGoogleMapScreenSetting(GoogleMap gMap) {
+//        gMap.setBuildingsEnabled(true);
+//        gMap.setIndoorEnabled(true);
+//        gMap.setTrafficEnabled(false);
+//
+//        UiSettings myUiSettings = gMap.getUiSettings();
+//
+//        myUiSettings.setZoomControlsEnabled(true);
+//        myUiSettings.setZoomGesturesEnabled(true);
+//        myUiSettings.setMyLocationButtonEnabled(true);
+//        myUiSettings.setScrollGesturesEnabled(true);
+//        myUiSettings.setRotateGesturesEnabled(true);
+//    }
+//
+//    private void getCurrentLocation() {
+////initialize task location
+//
+//        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            // TODO: Consider calling
+//            //    ActivityCompat#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//
+//            ActivityCompat.requestPermissions(getActivity(),
+//                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
+//
+//
+//            return;
+//        }
+//        Task<Location> task = fusedClient.getLastLocation();
+//        task.addOnSuccessListener(new OnSuccessListener<Location>() {
+//            @Override
+//            public void onSuccess(Location location) {
+////                when success
+//                if(location != null){
+////                    Sync map
+//
+//                    supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+//                        @Override
+//                        public void onMapReady(GoogleMap googleMap) {
+//
+//                            googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+//                            setupGoogleMapScreenSetting(googleMap);
+//
+////                    Initialize lat lng
+//
+//                            LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());
+//
+//
+////                    Create marker option
+//                            MarkerOptions options = new MarkerOptions().position(latLng).title("I am Here");
+//
+//                            //add marker on map
+//
+//                            googleMap.addMarker(options);
+//
+////                    zoom map
+//                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,24));
+//
+////camera position
+//                            CameraPosition cPosition = CameraPosition.builder().target(latLng).zoom(24).bearing(0).tilt(45)
+//                                    .build();
+//                            // Move the camera to the marker
+//                            googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cPosition));
+//
+//
+//                        }
+//                    });
+//
+//                }
+//            }
+//        });
+//
+//    }
 }

@@ -52,4 +52,5 @@
     <string name="menu_clientUpdate">Customer</string>
     <string name="save">Save</string>
     <string name="spinner_Province">Province</string>
+    <string name="Screenshot">Take Screenshot</string>
 </resources>

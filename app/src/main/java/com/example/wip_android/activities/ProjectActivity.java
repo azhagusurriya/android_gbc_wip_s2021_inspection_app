@@ -185,9 +185,12 @@ public class ProjectActivity extends AppCompatActivity implements ProjectAdapter
 
         if (id == R.id.action_map) {
             Log.d(TAG, "onOptionsItemSelected: Map selected ");
-            switchFragment = new MapFragment();
-            transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.project_layout, switchFragment).addToBackStack(null).commit();
+//            switchFragment = new MapFragment();
+//            transaction = getSupportFragmentManager().beginTransaction();
+//            transaction.replace(R.id.project_layout, switchFragment).addToBackStack(null).commit();
+
+            Intent mainIntent = new Intent(this, MapScreenshotActivity.class);
+            startActivity(mainIntent);
             return true;
         }
 

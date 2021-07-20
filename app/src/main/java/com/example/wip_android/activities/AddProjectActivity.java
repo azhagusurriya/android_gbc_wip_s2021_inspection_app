@@ -35,6 +35,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.wip_android.MainActivity;
 import com.example.wip_android.R;
 import com.example.wip_android.fragments.MapFragment;
 import com.example.wip_android.models.ClientInfo;
@@ -183,9 +184,12 @@ public class AddProjectActivity extends AppCompatActivity
 
         if (id == R.id.action_map) {
             Log.d(TAG, "onOptionsItemSelected: Map selected ");
-            switchFragment = new MapFragment();
-            transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.add_project_layout, switchFragment).addToBackStack(null).commit();
+//            switchFragment = new MapFragment();
+//            transaction = getSupportFragmentManager().beginTransaction();
+//            transaction.replace(R.id.add_project_layout, switchFragment).addToBackStack(null).commit();
+//
+            Intent mainIntent = new Intent(this, MapScreenshotActivity.class);
+            startActivity(mainIntent);
             return true;
         }
 

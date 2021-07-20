@@ -17,17 +17,17 @@
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_gallery" />
 
-<!--    <fragment-->
-<!--        android:id="@+id/nav_map"-->
-<!--        android:name="com.example.wip_android.fragments.MapFragment"-->
-<!--        android:label="@string/menu_map"-->
-<!--        tools:layout="@layout/fragment_map" />-->
-
     <fragment
-        android:id="@+id/nav_updateClient"
-        android:name="com.example.wip_android.fragments.ClientUpdateFragment"
-        android:label="@string/menu_clientUpdate"
-        tools:layout="@layout/client_update_fragment" />
+        android:id="@+id/nav_map"
+        android:name="com.example.wip_android.fragments.MapFragment"
+        android:label="@string/menu_map"
+        tools:layout="@layout/fragment_map" />
+
+<!--    <fragment-->
+<!--        android:id="@+id/nav_updateClient"-->
+<!--        android:name="com.example.wip_android.fragments.ClientUpdateFragment"-->
+<!--        android:label="@string/menu_clientUpdate"-->
+<!--        tools:layout="@layout/client_update_fragment" />-->
 
     <fragment
         android:id="@+id/nav_profile"
