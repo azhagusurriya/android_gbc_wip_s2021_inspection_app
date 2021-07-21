@@ -39,7 +39,9 @@
         <entry key="app/src/main/res/layout/fragment_map.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_slideshow.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.20416666666666666" />
         <entry key="app/src/main/res/layout/province_dropdown_item.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/row_home_item.xml" value="0.2776203966005666" />
         <entry key="app/src/main/res/layout/row_project_item.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/menu/activity_main_drawer.xml" value="0.24010416666666667" />
         <entry key="app/src/main/res/menu/camera_map.xml" value="0.25625" />

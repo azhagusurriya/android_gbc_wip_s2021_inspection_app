@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="80dp"
     android:background="?attr/selectableItemBackground"
     android:padding="5dp"
     >
@@ -12,12 +12,13 @@
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
-        android:layout_height="28dp"
+        android:layout_height="32dp"
         android:layout_alignParentLeft="true"
         android:text="Title"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/black"
         android:paddingLeft="5dp"
+        android:paddingBottom="5dp"
         android:textSize="25dp" />
 
     <TextView
@@ -25,20 +26,27 @@
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_alignParentRight="true"
-        android:text="yyyy/mm/dd"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="13dp"
+        android:layout_marginBottom="20dp"
         android:paddingRight="5dp"
-        android:textSize="18dp" />
+        android:text="yyyy/mm/dd"
+        android:textSize="16dp" />
 
     <TextView
         android:id="@+id/address"
         android:layout_below="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="22dp"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
         android:text="@string/StreetAddress"
         android:textColor="@color/black"
-        android:paddingLeft="5dp"
-        android:textSize="20dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:paddingBottom="8dp"
+        android:textSize="16dp"
+        android:gravity="bottom"
         android:paddingTop="3dp"/>
 
 </RelativeLayout>
