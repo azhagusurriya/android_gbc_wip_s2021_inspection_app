@@ -41,6 +41,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener {
@@ -53,7 +55,7 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
     private HomeAdapter homeRecyclerAdapter;
     private List<String> homeList;
     public List<ClientInfo> clientInfoList;
-    private final String COLLECTION_NAME = "Client";
+    private final String COLLECTION_NAME = "Clients";
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private List<String> homeTitleList;
     private List<String> homeSubtitleList;
@@ -162,6 +164,14 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
             if (task.isSuccessful()) {
                 if (task.getResult().getDocuments().size() != 0) {
                     List<ClientInfo> clientInfoList = task.getResult().toObjects(ClientInfo.class);
+                    // Sorted list to descending order
+                    Collections.sort(clientInfoList, Collections.reverseOrder(new Comparator<ClientInfo>() {
+                        @Override
+                        public int compare(ClientInfo o1, ClientInfo o2) {
+                            return o1.getDateOfRegistration().compareTo(o2.getDateOfRegistration());
+                        }
+                    }));
+
                     // Convert list to custom class
                     this.homeTitleList = new ArrayList<>();
                     this.homeSubtitleList = new ArrayList<>();

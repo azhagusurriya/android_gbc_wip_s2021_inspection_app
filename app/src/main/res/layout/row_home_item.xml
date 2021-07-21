@@ -1,26 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground"
+    android:padding="5dp"
     >
 
     <TextView
-        android:id="@+id/projectTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="8dp"
-        android:textSize="25dp"
-        android:layout_margin="10dp"
-        android:text="TextView"
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:layout_alignParentLeft="true"
+        android:text="Title"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        android:textColor="@color/black"
+        android:paddingLeft="5dp"
+        android:textSize="25dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:text="yyyy/mm/dd"
+        android:paddingRight="5dp"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/address"
+        android:layout_below="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_alignParentLeft="true"
+        android:text="@string/StreetAddress"
+        android:textColor="@color/black"
+        android:paddingLeft="5dp"
+        android:textSize="20dp"
+        android:paddingTop="3dp"/>
+
+</RelativeLayout>

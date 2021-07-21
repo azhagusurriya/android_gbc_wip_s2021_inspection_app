@@ -57,7 +57,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> im
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.rowCountTextView.setText(String.valueOf(position));
-        holder.projectTitle.setText(this.homeList.get(position).getClientStreetAddress());
+        holder.projectTitle.setText(this.homeList.get(position).getClientName());
+        holder.projectAddress.setText(this.homeList.get(position).getClientStreetAddress());
+        holder.projectDate.setText(android.text.format.DateFormat.format("yyyy-MM-dd", this.homeList.get(position).getDateOfRegistration()));
     }
 
     @Override
@@ -69,15 +71,17 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> im
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView imageView;
-        TextView projectTitle, rowCountTextView;
+        TextView projectTitle, rowCountTextView, projectAddress, projectDate;
         HomeAdapter.onNoteListener onNoteListener;
 
         public ViewHolder(@NonNull View itemView, onNoteListener onNoteListener) {
             super(itemView);
 
             imageView = itemView.findViewById(R.id.imageView);
-            projectTitle = itemView.findViewById(R.id.projectTitle);
-            rowCountTextView = itemView.findViewById(R.id.projectTitle);
+            projectTitle = itemView.findViewById(R.id.title);
+            projectAddress = itemView.findViewById(R.id.address);
+            projectDate = itemView.findViewById(R.id.date);
+            rowCountTextView = itemView.findViewById(R.id.title);
             this.onNoteListener = onNoteListener;
             itemView.setOnClickListener(this);
         }

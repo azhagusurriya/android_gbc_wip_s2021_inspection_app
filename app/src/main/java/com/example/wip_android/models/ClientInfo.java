@@ -33,6 +33,8 @@ public class ClientInfo implements Serializable {
         this.clientCity = clientCity;
         this.clientProvince = clientProvince;
         this.clientPhoneNumber = clientPhoneNumber;
+        this.dateOfRegistration = Calendar.getInstance().getTime();
+        this.completion = false;
     }
 
     public ClientInfo(String clientImage, String clientName, String clientStreetAddress, String clientCity,

@@ -9,6 +9,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
 public class HomeListRepository {
 
     // Variables
-    private final String COLLECTION_NAME = "Client";
+    private final String COLLECTION_NAME = "Clients";
     private final FirebaseFirestore db;
     private FirebaseAuth mAuth;
     public List<ClientInfo> clientInfoList;
@@ -30,7 +31,7 @@ public class HomeListRepository {
     // Methods
     public List<ClientInfo> getHomeList(String department) {
         try {
-            db.collection(COLLECTION_NAME).whereEqualTo("department", department).get()
+            db.collection(COLLECTION_NAME).whereEqualTo("department", department).orderBy("dateOfRegistration", Query.Direction.DESCENDING).get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
