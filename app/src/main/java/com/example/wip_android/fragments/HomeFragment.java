@@ -55,7 +55,7 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
     private HomeAdapter homeRecyclerAdapter;
     private List<String> homeList;
     public List<ClientInfo> clientInfoList;
-    private final String COLLECTION_NAME = "Clients";
+    private final String COLLECTION_NAME = "Client";
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private List<String> homeTitleList;
     private List<String> homeSubtitleList;

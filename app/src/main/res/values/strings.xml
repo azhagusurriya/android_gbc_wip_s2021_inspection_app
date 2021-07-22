@@ -53,4 +53,9 @@
     <string name="save">Save</string>
     <string name="spinner_Province">Province</string>
     <string name="Screenshot">Take Screenshot</string>
+    <string name="spinner_Category">Category</string>
+    <string name="Department">Department</string>
+    <string name="Glossary_term">Enter new term</string>
+    <string name="glossary_description">Enter term description</string>
+    <string name="category">Category</string>
 </resources>

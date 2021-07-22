@@ -1,43 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:background="@color/white"
     android:padding="16dp">
 
-    <EditText
-        android:layout_width="match_parent"
+<!--    <TextView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:textStyle="bold"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:layout_marginBottom="3dp"-->
+<!--        android:textSize="25dp"-->
+<!--        android:text="Add New Term">-->
+<!--    </TextView>-->
+
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="15dp"
+        android:textSize="18dp"
+        android:text="Please input your new term to the glossary">
+    </TextView>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:id="@+id/edtGlossaryContent"
-        android:hint="Enter Text Here"
-        />
-
-    <EditText
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_below="@+id/edtGlossaryContent"
-        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:hint="@string/Glossary_term"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/black"
+        tools:ignore="MissingConstraints">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:id="@+id/edtGlossaryDescription"
-        android:hint="Enter Text Here"
-        />
-
-    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/edtGlossaryDescription"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="12dp"
+        android:hint="@string/glossary_description"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/black"
+        tools:ignore="MissingConstraints">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:id="@+id/edtGlossaryDepartment"
-        android:text="Admin Department"
-        />
-
-    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/edtGlossaryDepartment"
-        android:layout_marginTop="20dp"
-        android:id="@+id/edtGlossaryCategory"
-        android:text="Choose Category"
-        />
+        android:layout_marginBottom="12dp"
+        android:hint="@string/Department"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/black"
+        tools:ignore="MissingConstraints">
 
-</RelativeLayout>
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:id="@+id/tfCategoryGlossary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:hint="@string/spinner_Category"
+        app:endIconMode="dropdown_menu"
+        app:endIconTint="@color/black"
+        tools:ignore="MissingConstraints">
+
+        <AutoCompleteTextView
+            android:id="@+id/spnCategoryGlossary"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+</LinearLayout>

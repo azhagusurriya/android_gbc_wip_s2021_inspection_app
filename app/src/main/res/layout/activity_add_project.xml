@@ -145,6 +145,7 @@
         android:layout_width="180dp"
         android:layout_height="60dp"
         android:layout_gravity="center"
+        android:background="@color/logo"
         android:text="@string/SaveClientInfo"
         />
 

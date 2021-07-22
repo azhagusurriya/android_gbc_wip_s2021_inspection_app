@@ -112,7 +112,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> im
                 filteredList.addAll(homeListAll);
             } else {
                 for (ClientInfo item : homeListAll) {
-                    String itemStr = item.getClientStreetAddress();
+                    String itemStr = item.getClientName();
                     if (itemStr.toLowerCase().contains(charSequence.toString().toLowerCase())) {
                         filteredList.add(item);
                     }
