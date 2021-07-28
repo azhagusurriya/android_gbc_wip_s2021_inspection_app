@@ -37,6 +37,8 @@ public class GlossaryActivity extends AppCompatActivity implements GlossaryAdapt
     private GlossaryItem chosenItem;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String COLLECTION_NAME = "Glossary";
+    private String buttonId;
+    private String clientName;
 
     // Default Function
     @Override
@@ -46,6 +48,11 @@ public class GlossaryActivity extends AppCompatActivity implements GlossaryAdapt
 
         // Get glossary data from Firebase
         this.refreshRecyclerView();
+
+        // Check previous activity
+        Bundle bundle = getIntent().getExtras();
+        buttonId = bundle.getString("buttonNumber");
+        clientName = bundle.getString("clientName");
     }
 
     // Add a new item to glossary
@@ -112,6 +119,8 @@ public class GlossaryActivity extends AppCompatActivity implements GlossaryAdapt
         String test = this.recyclerAdapter.getGlossaryList().get(position).getContent();
         Intent intent = new Intent(this, DeficiencyTabLayoutActivity.class);
         intent.putExtra("test", test);
+        intent.putExtra("buttonNumber", buttonId);
+        intent.putExtra("clientName", clientName);
         intent.putExtra("FROM_ACTIVITY", "GlossaryActivity");
         startActivity(intent);
     }
@@ -120,7 +129,6 @@ public class GlossaryActivity extends AppCompatActivity implements GlossaryAdapt
     @Override
     public void addNewGlossaryItem(GlossaryItem newGlossaryItem) {
         String id = newGlossaryItem.getContent() + " - " + newGlossaryItem.getCategory();
-        System.out.println(id);
         db.collection(COLLECTION_NAME).document(id).set(newGlossaryItem);
         this.refreshRecyclerView();
     }

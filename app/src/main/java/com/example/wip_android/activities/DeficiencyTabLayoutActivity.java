@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -32,18 +33,6 @@ public class DeficiencyTabLayoutActivity extends AppCompatActivity {
 
         tabLayout.addTab(tabLayout.newTab().setText("Before"));
         tabLayout.addTab(tabLayout.newTab().setText("After"));
-
-        Intent mIntent = getIntent();
-        String previousActivity = mIntent.getStringExtra("FROM_ACTIVITY");
-        System.out.println(previousActivity);
-
-        if (previousActivity.equals("GlossaryActivity")) {
-            Bundle bundle = getIntent().getExtras();
-            String chosenItem = bundle.getString("test");
-            System.out.println(chosenItem);
-        } else {
-            System.out.println("AddImagePin");
-        }
 
         replaceFragment(new DeficiencyFragment());
 

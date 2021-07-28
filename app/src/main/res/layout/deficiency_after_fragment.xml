@@ -10,7 +10,7 @@
     android:paddingBottom="30dp"
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
-    tools:context=".fragments.DeficiencyFragment">
+    tools:context=".fragments.DeficiencyAfterFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,11 +19,11 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
+            android:layout_height="230dp"
+            android:scaleType="fitCenter"
             android:layout_gravity="center"
-            android:src="@drawable/cracking"
-            android:id="@+id/logo"
+            android:src="@drawable/logo"
+            android:id="@+id/ivAfter"
             android:contentDescription="@string/logo_image" />
 
         <Button
@@ -36,13 +36,13 @@
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
             android:text="Pick Issue Image"
-            android:onClick="pickIssueImage"/>
+            />
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:id="@+id/edtIssue"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="100dp"
             android:layout_marginBottom="15dp"
             android:hint="Describe issues..."
             app:endIconMode="clear_text"
@@ -56,7 +56,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/btnSave"
+            android:id="@+id/btnSaveAfter"
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

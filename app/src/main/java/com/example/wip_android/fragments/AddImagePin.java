@@ -121,6 +121,8 @@ public class AddImagePin extends Fragment {
                 Intent intent = new Intent(getActivity(), DeficiencyTabLayoutActivity.class);
                 intent.putExtra("test", "TEST");
                 intent.putExtra("FROM_ACTIVITY", "AddImagePin");
+                intent.putExtra("buttonNumber", currentButtonId);
+                intent.putExtra("clientName", clientName);
                 startActivity(intent);
             }
         };
@@ -177,12 +179,12 @@ public class AddImagePin extends Fragment {
     public DeficiencyInfo createDeficiencyInfo(String buttonId) {
 
         // Images
-        String imageLinkBefore = "Image link before";
-        String imageLinkAfter = "Image link after";
+        String imageLinkBefore = "";
+        String imageLinkAfter = "";
 
         // Comments
-        String commentBefore = "Comment before";
-        String commentAfter = "Comment after";
+        String commentBefore = "";
+        String commentAfter = "";
 
         // Dates
         Date deficiencyDateOfRegistration = new Date();
@@ -191,7 +193,7 @@ public class AddImagePin extends Fragment {
 
         // Other
         String title = buttonId;
-        String employeeIdOfRegisteration = "ID";
+        String employeeIdOfRegisteration = "";
         boolean deficiencyCompletion = false;
 
         // Create object

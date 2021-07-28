@@ -17,26 +17,20 @@
 
 ## HomeFragment
 
-* Load projects to HomeFragment
-* Improve RecyclerView UI
 * All/Ongoing/Done on the search bar
 
-## FragmentDeficiency
+## AddProjectActivity
 
-* Improve UI
+* Logic for telephone
+* Show numeric keyboard when click on telephone field
 
-## ActivityProject
+## ProjectActivity
 
-* Improve UI
-
-## Glossary
-
-* Improve UI
+* Should this activity exist ?
 
 ## Map
 
 * Fix top space
-* Show correct location (it is showing the globe)
 * Dialog when delete to confirm
 * Change ID to client + date added
 * Save state
