@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -59,6 +60,7 @@ public class ProjectActivity extends AppCompatActivity implements ProjectAdapter
     private RecyclerView recyclerView;
     private ImageView selectedImage;
     private TextView addDeficiency;
+    private Button btnAddDeficiency;
     ProjectAdapter recyclerAdapter;
     List<String> deficiencyList;
     private ClientInfo clientInfo;
@@ -77,7 +79,7 @@ public class ProjectActivity extends AppCompatActivity implements ProjectAdapter
 
         // UI Components
         selectedImage = findViewById(R.id.projectImage);
-        addDeficiency = findViewById(R.id.addDeficiency);
+        btnAddDeficiency = findViewById(R.id.btnAddDeficiency);
         this.projectName = findViewById(R.id.projectName);
         this.projectAddress = findViewById(R.id.projectAddress);
 
@@ -100,20 +102,20 @@ public class ProjectActivity extends AppCompatActivity implements ProjectAdapter
             this.projectAddress.setText(address);
         }
 
-        // Deficiency List
-        deficiencyList = new ArrayList<>();
-        deficiencyList.add("Foundation Wall Cracks");
-        deficiencyList.add("Faulty Roofs");
-        deficiencyList.add("Sump Pump Problems");
-        deficiencyList.add("Wall Cracks");
-
-        // Deficiency Recycler View
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerAdapter = new ProjectAdapter(deficiencyList, this);
-        recyclerView.setAdapter(recyclerAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(dividerItemDecoration);
+//        // Deficiency List
+//        deficiencyList = new ArrayList<>();
+//        deficiencyList.add("Foundation Wall Cracks");
+//        deficiencyList.add("Faulty Roofs");
+//        deficiencyList.add("Sump Pump Problems");
+//        deficiencyList.add("Wall Cracks");
+//
+//        // Deficiency Recycler View
+//        recyclerView = findViewById(R.id.recyclerView);
+//        recyclerAdapter = new ProjectAdapter(deficiencyList, this);
+//        recyclerView.setAdapter(recyclerAdapter);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+//        recyclerView.addItemDecoration(dividerItemDecoration);
     }
 
     public void addDeficiency(View view) {
