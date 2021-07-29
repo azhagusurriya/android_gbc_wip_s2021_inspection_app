@@ -20,13 +20,27 @@ public class ClientInfo implements Serializable {
     private boolean completion = false;
     private String department;
     private Date dateOfRegistration;
+    private String documentid;
 
     // Constructors
     public ClientInfo() {
     }
 
+    public ClientInfo(String clientImage, String clientName, String clientStreetAddress, String clientCity, String clientProvince, String clientPhoneNumber, boolean completion, String department, Date dateOfRegistration, String documentid) {
+        this.clientImage = clientImage;
+        this.clientName = clientName;
+        this.clientStreetAddress = clientStreetAddress;
+        this.clientCity = clientCity;
+        this.clientProvince = clientProvince;
+        this.clientPhoneNumber = clientPhoneNumber;
+        this.completion = completion;
+        this.department = department;
+        this.dateOfRegistration = dateOfRegistration;
+        this.documentid = documentid;
+    }
+
     public ClientInfo(String clientImage, String clientName, String clientStreetAddress, String clientCity,
-            String clientProvince, String clientPhoneNumber) {
+                      String clientProvince, String clientPhoneNumber) {
         this.clientImage = clientImage;
         this.clientName = clientName;
         this.clientStreetAddress = clientStreetAddress;
@@ -35,6 +49,7 @@ public class ClientInfo implements Serializable {
         this.clientPhoneNumber = clientPhoneNumber;
         this.dateOfRegistration = Calendar.getInstance().getTime();
         this.completion = false;
+
     }
 
     public ClientInfo(String clientImage, String clientName, String clientStreetAddress, String clientCity,
@@ -122,6 +137,14 @@ public class ClientInfo implements Serializable {
 
     public void setDateOfRegistration(Date dateOfRegistration) {
         this.dateOfRegistration = dateOfRegistration;
+    }
+
+    public String getDocumentid() {
+        return documentid;
+    }
+
+    public void setDocumentid(String documentid) {
+        this.documentid = documentid;
     }
 
     @Override

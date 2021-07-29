@@ -206,7 +206,7 @@ public class AddProjectActivity extends AppCompatActivity
                     break;
                 }
                 case R.id.btnSaveInfo: {
-                    // this.goToProjectDeficiencyList();
+//                     this.goToProjectDeficiencyList();
                     if (this.validateData()) {
                         Log.d(TAG, "onClick: Save Button clicked");
 
