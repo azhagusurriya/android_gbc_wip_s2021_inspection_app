@@ -74,8 +74,14 @@ public class ProjectActivity extends AppCompatActivity implements ProjectAdapter
         // Bar title
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle(Html.fromHtml("<font color='#ffffff'>Deficiency List</font>"));
+            actionBar.setTitle(Html.fromHtml("<font color='#ffffff'>Add Deficiency Image</font>"));
         }
+
+
+        // Back button
+        assert getSupportActionBar() != null; // null check
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // show back button
+
 
         // UI Components
         selectedImage = findViewById(R.id.projectImage);
@@ -134,6 +140,17 @@ public class ProjectActivity extends AppCompatActivity implements ProjectAdapter
         // goToAddDeficiency();
         // goToAddMarker();
     }
+
+//Going back to previous activity
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        Intent mainIntent = new Intent(this, MainActivity.class);
+        startActivity(mainIntent);
+        return true;
+    }
+
+
 
     // Choose image from gallery
     public void pickImage(View view) {
