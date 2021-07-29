@@ -10,6 +10,7 @@
     android:paddingBottom="30dp"
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
+    android:id="@+id/deficiency_after_layout"
     tools:context=".fragments.DeficiencyAfterFragment">
 
     <LinearLayout
@@ -27,7 +28,7 @@
             android:contentDescription="@string/logo_image" />
 
         <Button
-            android:id="@+id/pickIssueImage"
+            android:id="@+id/pickIssueImageAfter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -40,7 +41,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:id="@+id/edtIssue"
+            android:id="@+id/edtIssueAfter"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_marginBottom="15dp"

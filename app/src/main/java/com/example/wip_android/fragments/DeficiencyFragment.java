@@ -88,10 +88,6 @@ public class DeficiencyFragment extends Fragment {
     private FirebaseUser firebaseUser;
     private String currentUserEmail;
 
-    public static DeficiencyFragment newInstance() {
-        return new DeficiencyFragment();
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -116,6 +112,7 @@ public class DeficiencyFragment extends Fragment {
         Bundle bundle = getActivity().getIntent().getExtras();
         buttonId = bundle.getString("buttonNumber");
         clientName = bundle.getString("clientName");
+        System.out.println(previousActivity);
 
         // If it is GlossaryActivity, get glossary item
         if (previousActivity.equals("GlossaryActivity")) {
@@ -292,6 +289,11 @@ public class DeficiencyFragment extends Fragment {
                     }
 
                 });
+    }
+
+    // Other
+    public static DeficiencyFragment newInstance() {
+        return new DeficiencyFragment();
     }
 
 }
