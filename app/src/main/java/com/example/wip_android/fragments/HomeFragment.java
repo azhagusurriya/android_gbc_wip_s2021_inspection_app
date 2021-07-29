@@ -56,6 +56,7 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
     private List<String> homeList;
     public List<ClientInfo> clientInfoList;
     private final String COLLECTION_NAME = "Client";
+    private final String COLLECTION_USER = "Users";
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private List<String> homeTitleList;
     private List<String> homeSubtitleList;
@@ -195,7 +196,7 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
 
     // Display RecyclerView according to user department
     public void displayRecyclerView(String email) {
-        db.collection("Users").whereEqualTo("email", email).get()
+        db.collection(COLLECTION_USER).whereEqualTo("email", email).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
