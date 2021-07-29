@@ -5,11 +5,23 @@
     android:layout_height="match_parent"
     tools:context=".fragments.DeficiencyImageViewFragment">
 
-    <com.example.wip_android.DrawView
-        android:id="@+id/deficiency_imageView"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/imageViewLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/logo"
-        android:scaleType="fitXY" />
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/deficiency_imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/logo"
+            android:visibility="invisible"
+            android:scaleType="fitXY" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 </FrameLayout>

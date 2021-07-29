@@ -20,50 +20,50 @@ import com.google.android.material.tabs.TabLayout;
 
 public class ProjectListItemActivity extends AppCompatActivity {
 
+    // Variables
     private final String TAG = this.getClass().getCanonicalName();
     private TabLayout tabLayout;
     private LinearLayout container;
-    private String intentClientName,intentClientAddress,intentClientCity,intentClientProvince,intentClientPhone,intentClientImage;
+    private String intentClientName, intentClientAddress, intentClientCity, intentClientProvince, intentClientPhone,
+            intentClientImage;
 
-
+    // Default function
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_list_item);
 
+        // Data between tabs
         Intent i = getIntent();
         intentClientName = i.getStringExtra("name");
-        Log.d(TAG, "onCreate: Client Name after intent" + intentClientName);
         intentClientAddress = i.getStringExtra("address");
         intentClientCity = i.getStringExtra("city");
         intentClientProvince = i.getStringExtra("province");
         intentClientImage = i.getStringExtra("image");
         intentClientPhone = i.getStringExtra("phone");
 
-
         tabLayout = (TabLayout) findViewById(R.id.projectTabLayout);
         container = (LinearLayout) findViewById(R.id.project_fragment_container);
 
+        // Tabs
         tabLayout.addTab(tabLayout.newTab().setText("Map"));
         tabLayout.addTab(tabLayout.newTab().setText("List"));
         tabLayout.addTab(tabLayout.newTab().setText("Customer"));
 
-
         imageViewFragment(new DeficiencyImageViewFragment());
-
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 0) {
                     imageViewFragment(new DeficiencyImageViewFragment());
-                }  else if (tab.getPosition() == 1){
+                } else if (tab.getPosition() == 1) {
                     replaceFragment(new DeficiencyListFragment());
-                }
-                 else {
+                } else {
                     clientIntentFragment(new ClientUpdateFragment());
                 }
             }
+
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
             }
@@ -75,15 +75,17 @@ public class ProjectListItemActivity extends AppCompatActivity {
 
     }
 
-
-
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
+        Bundle bundle = new Bundle();
+        bundle.putString("name", intentClientName);
+        fragment.setArguments(bundle);
         transaction.replace(R.id.project_fragment_container, fragment);
         transaction.commit();
     }
 
+    // Client information tab
     private void clientIntentFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -99,16 +101,15 @@ public class ProjectListItemActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    // Map with red buttons tab
     private void imageViewFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         Bundle bundle = new Bundle();
         bundle.putString("image", intentClientImage);
+        bundle.putString("name", intentClientName);
         fragment.setArguments(bundle);
         transaction.replace(R.id.project_fragment_container, fragment);
         transaction.commit();
     }
-
-
-
 }

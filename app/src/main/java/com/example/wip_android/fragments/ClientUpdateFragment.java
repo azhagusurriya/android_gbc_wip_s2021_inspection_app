@@ -64,27 +64,26 @@ import java.util.List;
 
 public class ClientUpdateFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
+    // Variables
     private final String TAG = this.getClass().getCanonicalName();
     private TextInputLayout edtUpdateClientName, edtUpdateStreetAddress, edtUpdateCity, edtUpdateClientPhone;
     private Button btnUpdateClientInfo;
     private ImageView ivUpdateClientImage;
     private AutoCompleteTextView spnUpdateProvince;
     private TextView apUpdateGalleryBtn;
-
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser firebaseUser;
     private Uri contentUri;
     private String uploadedImageurl;
     private Bitmap updateOldDrawable, updateNewDrawable;
-
     private String currentClientDocumentID;
-
     private ClientUpdateViewModel mViewModel;
 
     public static ClientUpdateFragment newInstance() {
         return new ClientUpdateFragment();
     }
 
+    // Default function
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
@@ -104,6 +103,7 @@ public class ClientUpdateFragment extends Fragment implements View.OnClickListen
         this.spnUpdateProvince = view.findViewById(R.id.spnUpdateProvince);
         this.spnUpdateProvince.setOnItemSelectedListener(this);
 
+        // Province list
         List<String> provinces = new ArrayList<String>();
         provinces.add("Alberta");
         provinces.add("British Columbia");
@@ -147,7 +147,6 @@ public class ClientUpdateFragment extends Fragment implements View.OnClickListen
     }
 
     private void getDocumentId() {
-
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
         CollectionReference deliveryRef = rootRef.collection("Client");
         Query nameQuery = deliveryRef.whereEqualTo("clientName", this.getArguments().getString("name"));
@@ -256,7 +255,6 @@ public class ClientUpdateFragment extends Fragment implements View.OnClickListen
 
                         }
                     });
-
         } catch (Exception ex) {
             Log.e(TAG, ex.toString());
             Log.e(TAG, ex.getLocalizedMessage());
@@ -299,7 +297,6 @@ public class ClientUpdateFragment extends Fragment implements View.OnClickListen
 
     // validate fields
     private Boolean validateData() {
-
         if (this.edtUpdateClientName.getEditText().getText().toString().isEmpty()) {
             this.edtUpdateClientName.setError("Please enter Client Name");
             return false;
@@ -312,7 +309,6 @@ public class ClientUpdateFragment extends Fragment implements View.OnClickListen
             this.edtUpdateCity.setError("Please enter City");
             return false;
         }
-
         if (this.edtUpdateClientPhone.getEditText().getText().toString().isEmpty()) {
             this.edtUpdateClientPhone.setError("PPlease enter phone number");
         }

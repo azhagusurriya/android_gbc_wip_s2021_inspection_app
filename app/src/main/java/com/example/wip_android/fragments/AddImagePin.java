@@ -4,6 +4,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -18,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,9 +32,16 @@ import com.example.wip_android.models.ClientInfo;
 import com.example.wip_android.models.DeficiencyInfo;
 import com.example.wip_android.models.ProjectInfo;
 import com.example.wip_android.viewmodels.AddImagePinViewModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -58,6 +67,7 @@ public class AddImagePin extends Fragment {
     private String COLLECTION_PROJECT = "Project";
     private String COLLECTION_DEFICIENCY = "Deficiencies";
     private String clientName;
+    private String uploadedImageUrl;
 
     // Default function
     @Override
@@ -86,19 +96,19 @@ public class AddImagePin extends Fragment {
         contentUri = Uri.parse(imageFromProjectScreen);
         imageView = (ImageView) view.findViewById(R.id.imageView);
         imageView.setImageURI(contentUri);
+        uploadImage();
 
         // Get Name
         this.clientName = bundle.getString("Client Name");
-        System.out.println(this.clientName);
 
         // Floating Button
-        fabSaveMarker = (FloatingActionButton) view.findViewById(R.id.fabSaveMarker);
-        fabSaveMarker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                saveMarkerButtonPressed();
-            }
-        });
+//        fabSaveMarker = (FloatingActionButton) view.findViewById(R.id.fabSaveMarker);
+//        fabSaveMarker.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                saveMarkerButtonPressed();
+//            }
+//        });
 
         return view;
     }
@@ -110,6 +120,7 @@ public class AddImagePin extends Fragment {
             public void onClick(View v) {
 
                 // Get important data
+
                 String currentButtonId = String.valueOf(button.getId());
                 ProjectInfo projectInfo = createProjectInfo();
                 DeficiencyInfo deficiencyInfo = createDeficiencyInfo(currentButtonId);
@@ -164,7 +175,7 @@ public class AddImagePin extends Fragment {
 
         // Other
         String referenceId = "";
-        String imageLink = "";
+        String imageLink = uploadedImageUrl;
         String employeeIdOfRegisteration = "ID";
         boolean completion = false;
 
@@ -228,7 +239,6 @@ public class AddImagePin extends Fragment {
                                                 .set(deficiencyInfo);
                                     }
                                 });
-
                     }
 
                 });
@@ -256,16 +266,40 @@ public class AddImagePin extends Fragment {
         layout.addView(addedButton);
     }
 
+    // Uploading image to Firebase and get the Url of the image
+    private void uploadImage() {
+        // Create loading object
+        final ProgressDialog pd = new ProgressDialog(getActivity());
+        pd.setMessage("Loading");
+        pd.show();
+        // Check if there is an image
+        if (contentUri != null) {
+            // Create file reference
+            Uri file = Uri.fromFile(new File(String.valueOf(contentUri)));
+            String fileExt = MimeTypeMap.getFileExtensionFromUrl(file.toString());
+            final StorageReference fileRef = FirebaseStorage.getInstance().getReference().child("uploads")
+                    .child(System.currentTimeMillis() + "." + fileExt);
+            // Upload image to Firebase Storage
+            fileRef.putFile(contentUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                    fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            String url = uri.toString();
+                            uploadedImageUrl = url;
+                            pd.dismiss();
+                        }
+                    });
+                }
+            });
+        }
+    }
+
     // Go to deficiency fragment
     public void saveMarkerButtonPressed() {
-
         Intent intent = new Intent(getActivity(), DeficiencyTabLayoutActivity.class);
         startActivity(intent);
-
-        // switchFragment = new DeficiencyFragment();
-        // transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        // transaction.replace(R.id.project_layout,
-        // switchFragment).addToBackStack(null).commit();
     }
 
     @Override
