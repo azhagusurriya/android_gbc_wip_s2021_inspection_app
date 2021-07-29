@@ -58,6 +58,6 @@
     <string name="Glossary_term">Enter new term</string>
     <string name="glossary_description">Enter term description</string>
     <string name="category">Category</string>
-    
     <string name="done">done</string>
+    <string name="addDeficiency">Add Deficiency</string>
 </resources>

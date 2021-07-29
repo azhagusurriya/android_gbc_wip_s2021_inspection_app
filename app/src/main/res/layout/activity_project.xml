@@ -1,143 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/project_layout"
     tools:context=".activities.ProjectActivity">
 
-
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="10dp">
 
             <TextView
                 android:text="Project Name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:layout_weight="3"
-                android:id="@+id/projectName"
-                android:gravity="center"/>
-
-            <TextView
-                android:id="@+id/editClientInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="20dp"
-                android:text="edit client info"
-                android:clickable="true" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center">
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                android:id="@+id/projectName" />
 
             <TextView
                 android:text="6675 Rexwood Rd., Missisauga, Ontario"
-                android:layout_weight="3"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:id="@+id/projectAddress"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:gravity="center"/>
+                android:textSize="18dp" />
 
-            <TextView
-                android:id="@+id/convertToPDF"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="20dp"
-                android:text="convert to PDF"
-                android:clickable="true" />
+        <ImageView
+            android:id="@+id/projectImage"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="20dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/roof" />
 
-        </LinearLayout>
 
+        <TextView
+            android:id="@+id/pickImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="20dp"
+            android:textColor="#3351fc"
+            android:text="Pick Image"
+            android:clickable="true"
+            android:onClick="pickImage"/>
+
+        <Button
+            android:id="@+id/btnAddDeficiency"
+            android:layout_width="180dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="55dp"
+            android:layout_gravity="center"
+            android:background="@color/logo"
+            android:onClick="addDeficiency"
+            android:clickable="true"
+            android:text="@string/addDeficiency"
+            />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4"
-        android:layout_margin="10dp"
-        android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:scaleType="centerInside"
-                android:layout_weight="3"
-                android:src="@drawable/roof"
-                android:id="@+id/projectImage"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="4"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/pickImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:textSize="20dp"
-                    android:textColor="#3351fc"
-                    android:layout_weight="1"
-                    android:text="Pick Image"
-                    android:clickable="true"
-                    android:onClick="pickImage"/>
-
-                <TextView
-                    android:id="@+id/addDeficiency"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_margin="10dp"
-                    android:textSize="18dp"
-                    android:layout_weight="1"
-                    android:textColor="#3351fc"
-                    android:text="+ Add Deficiency"
-                    android:onClick="addDeficiency"
-                    android:clickable="true" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="85dp"
-                    android:layout_weight="3" />
-
-                <TextView
-                    android:id="@+id/goToMainList"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:textSize="18dp"
-                    android:layout_weight="1"
-                    android:text="go to main list"
-                    android:clickable="true" />
-
-
-            </LinearLayout>
-        </LinearLayout>
-
-
-</LinearLayout>
+</FrameLayout>

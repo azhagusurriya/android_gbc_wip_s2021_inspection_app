@@ -28,25 +28,47 @@ public class AddProjectRepository {
 
     }
 
+
     public void createNewClient(ClientInfo clientInfo) {
         try {
-            db.collection(COLLECTION_NAME).add(clientInfo)
-                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                        @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            Log.d(TAG, "Document added with ID : " + documentReference.getId());
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.e(TAG, "Error adding document to the store " + e);
-                        }
-                    });
+            db.collection(COLLECTION_NAME).document(clientInfo.getClientName()).set(clientInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    Log.d(TAG, "Document added with ID as client name");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.e(TAG, "Error adding document to the store " + e);
+                }
+            });
 
         } catch (Exception ex) {
             Log.e(TAG, ex.toString());
             Log.e(TAG, ex.getLocalizedMessage());
         }
     }
+
+
+//    public void createNewClient(ClientInfo clientInfo) {
+//        try {
+//            db.collection(COLLECTION_NAME).add(clientInfo)
+//                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                        @Override
+//                        public void onSuccess(DocumentReference documentReference) {
+//                            Log.d(TAG, "Document added with ID : " + documentReference.getId());
+//                        }
+//                    }).addOnFailureListener(new OnFailureListener() {
+//                        @Override
+//                        public void onFailure(@NonNull Exception e) {
+//                            Log.e(TAG, "Error adding document to the store " + e);
+//                        }
+//                    });
+//
+//        } catch (Exception ex) {
+//            Log.e(TAG, ex.toString());
+//            Log.e(TAG, ex.getLocalizedMessage());
+//        }
+//    }
 
 }
