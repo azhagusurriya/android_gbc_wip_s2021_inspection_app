@@ -24,13 +24,18 @@ import android.widget.Toast;
 import com.example.wip_android.MainActivity;
 import com.example.wip_android.R;
 import com.example.wip_android.activities.AddProjectActivity;
+import com.example.wip_android.activities.ChangePasswordActivity;
 import com.example.wip_android.activities.SignInActivity;
 import com.example.wip_android.models.User;
 import com.example.wip_android.fragments.HomeFragment;
 import com.example.wip_android.viewmodels.ProfileViewModel;
 import com.example.wip_android.viewmodels.UserViewModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
 
@@ -40,7 +45,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private final String TAG = this.getClass().getCanonicalName();
     private Button btnUpdateAccount;
     private Button btnDeleteAccount;
-    private Button btnGetAccountInfo;
+    private Button btnChangePassword;
     private TextView tvEmail;
     private TextView tvEmployeeID;
     private EditText edtPassword;
@@ -50,7 +55,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private TextInputLayout edtContactNumber;
     private UserViewModel userViewModel;
     private User userInfo;
+    private User newUserInfo;
     private String userID;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final String COLLECTION_NAME = "Users";
     private MainActivity mainActivity;
 
     public static ProfileFragment newInstance() {
@@ -73,14 +81,18 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         this.edtContactNumber = root.findViewById(R.id.edtUContactNumber);
         this.btnUpdateAccount = root.findViewById(R.id.btnUpdateAccount);
         this.btnDeleteAccount = root.findViewById(R.id.btnDeleteAccount);
-        this.btnGetAccountInfo = root.findViewById(R.id.btnGetAccountInfo);
+        this.btnChangePassword = root.findViewById(R.id.btnChangePassword);
         this.btnUpdateAccount.setOnClickListener(this);
         this.btnDeleteAccount.setOnClickListener(this);
-        this.btnGetAccountInfo.setOnClickListener(this);
+        this.btnChangePassword.setOnClickListener(this);
         this.clearFields();
 
-        userID = this.userViewModel.getUserRepository().loggedInUserID.getValue();
-        userInfo = this.userViewModel.getUpdateUserInfo(userID);
+//        userID = this.userViewModel.getUserRepository().loggedInUserID.getValue();
+
+        getUpdateUserInfo();
+
+//        userInfo = this.userViewModel.getUpdateUserInfo(userID);
+
 
         this.userViewModel.getUserRepository().userDeleteStatus.observe(getActivity(), new Observer<String>() {
             @Override
@@ -133,8 +145,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     }
                     break;
                 }
-                case R.id.btnGetAccountInfo: {
-                    this.getAccountInfo();
+                case R.id.btnChangePassword: {
+                    this.navigateToChangePassword();
                     break;
                 }
                 case R.id.btnDeleteAccount: {
@@ -153,6 +165,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private void navigateToHome() {
         Intent intent = new Intent(getActivity(), SignInActivity.class);
+        startActivity(intent);
+    }
+
+   private void navigateToChangePassword(){
+        Intent intent = new Intent(getActivity(), ChangePasswordActivity.class);
         startActivity(intent);
     }
 
@@ -193,19 +210,19 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         return true;
     }
 
-    private void getAccountInfo() {
-        Log.d(TAG, "onCreateView: user info in the profile fragment: " + userInfo.getEmail());
-
-        if (userInfo != null) {
-            this.tvEmployeeID.setText("Employee ID: " + this.userViewModel.getUserRepository().newUserInfo.getEmpID());
-            this.tvEmail.setText("E-mail: " + this.userViewModel.getUserRepository().newUserInfo.getEmail());
-            this.edtFirstname.getEditText().setText(this.userViewModel.getUserRepository().newUserInfo.getFirstName());
-            // this.edtConfirmPassword.setText(this.userViewModel.getUserRepository().newUserInfo.getPassword());
-            // this.edtPassword.setText(this.userViewModel.getUserRepository().newUserInfo.getPassword());
-            this.edtLastname.getEditText().setText(this.userViewModel.getUserRepository().newUserInfo.getLastName());
-            this.edtContactNumber.getEditText().setText(this.userViewModel.getUserRepository().newUserInfo.getPhone());
-        }
-    }
+//    private void getAccountInfo() {
+////        Log.d(TAG, "onCreateView: user info in the profile fragment: " + userInfo.getEmail());
+//
+////        if (userInfo != null) {
+//            this.tvEmployeeID.setText("Employee ID: " + this.userViewModel.getUserRepository().newUserInfo.getEmpID());
+//            this.tvEmail.setText("E-mail: " + this.userViewModel.getUserRepository().newUserInfo.getEmail());
+//            this.edtFirstname.getEditText().setText(this.userViewModel.getUserRepository().newUserInfo.getFirstName());
+//            // this.edtConfirmPassword.setText(this.userViewModel.getUserRepository().newUserInfo.getPassword());
+//            // this.edtPassword.setText(this.userViewModel.getUserRepository().newUserInfo.getPassword());
+//            this.edtLastname.getEditText().setText(this.userViewModel.getUserRepository().newUserInfo.getLastName());
+//            this.edtContactNumber.getEditText().setText(this.userViewModel.getUserRepository().newUserInfo.getPhone());
+////        }
+//    }
 
     private void updateUserToDB() {
         User newUser = new User();
@@ -217,5 +234,42 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         newUser.setPhone(this.edtContactNumber.getEditText().getText().toString());
 
         this.userViewModel.updateUser(newUser);
+    }
+
+//Get info from firebase
+    public void getUpdateUserInfo() {
+        userID = this.userViewModel.getUserRepository().loggedInUserID.getValue();
+
+        db.collection(COLLECTION_NAME).document(userID).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+
+                            DocumentSnapshot documentSnapshot = task.getResult();
+                            if (documentSnapshot != null) {
+
+                                newUserInfo = documentSnapshot.toObject(User.class);
+                                getUserValues();
+                            }
+
+                        } else {
+
+                        }
+                    }
+                });
+
+    }
+
+    private void getUserValues() {
+
+        this.tvEmployeeID.setText("Employee ID: " + newUserInfo.getEmpID());
+        this.tvEmail.setText("E-mail: " + newUserInfo.getEmail());
+        this.edtFirstname.getEditText().setText(newUserInfo.getFirstName());
+        // this.edtConfirmPassword.setText(this.userViewModel.getUserRepository().newUserInfo.getPassword());
+        // this.edtPassword.setText(this.userViewModel.getUserRepository().newUserInfo.getPassword());
+        this.edtLastname.getEditText().setText(newUserInfo.getLastName());
+        this.edtContactNumber.getEditText().setText(newUserInfo.getPhone());
+
     }
 }
