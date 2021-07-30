@@ -31,6 +31,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.wip_android.MainActivity;
 import com.example.wip_android.R;
 import com.example.wip_android.models.DeficiencyInfo;
@@ -58,8 +59,6 @@ public class DeficiencyAfterFragment extends Fragment {
 
     // Variables
     private List<String> listItems = new ArrayList<>();
-    private ArrayAdapter<String> adapter;
-    private String selected;
     private TextInputLayout edtIssueAfter;
     private View view;
     private Button pickIssueImageAfter;
@@ -73,24 +72,23 @@ public class DeficiencyAfterFragment extends Fragment {
     private ImageView ivAfter;
     private Uri contentUri;
     private String uploadedImageUrl;
-    private Fragment switchFragment;
-    private FragmentTransaction transaction;
     private FirebaseUser firebaseUser;
     private String currentUserEmail;
     private DeficiencyAfterViewModel mViewModel;
+    private String existedImageAfter;
 
     // Default function
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_deficiency, container, false);
+        view = inflater.inflate(R.layout.deficiency_after_fragment, container, false);
 
         // Get data and UI components
         this.firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         this.currentUserEmail = firebaseUser.getEmail();
-        this.ivAfter = view.findViewById(R.id.ivBefore);
-        this.edtIssueAfter = view.findViewById(R.id.edtIssue);
+        this.ivAfter = view.findViewById(R.id.ivAfter);
+        this.edtIssueAfter = view.findViewById(R.id.edtIssueAfter);
 
         // Bar Title
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
@@ -104,26 +102,39 @@ public class DeficiencyAfterFragment extends Fragment {
         Bundle bundle = getActivity().getIntent().getExtras();
         buttonId = bundle.getString("buttonNumber");
         clientName = bundle.getString("clientName");
+
+        // If it is either DeficiencyImageViewFragment or GlossaryActivity
         System.out.println(previousActivity);
+        if (bundle.containsKey("imageLinkAfter")) {
+            String imageLinkAfter = bundle.getString("imageLinkAfter");
+            if (!imageLinkAfter.equals("")) {
+                Glide.with(this).load(imageLinkAfter).into(ivAfter);
+                existedImageAfter = imageLinkAfter;
+            }
+        }
+        if (bundle.containsKey("commentAfter")) {
+            String commentAfter = bundle.getString("commentAfter");
+            edtIssueAfter.getEditText().setText(commentAfter);
+        }
 
         // Pick an image from the gallery
-//        this.pickIssueImageAfter = view.findViewById(R.id.pickIssueImageAfter);
-//        pickIssueImageAfter.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                startActivityForResult(gallery, GALLERY_REQUEST_CODE);
-//            }
-//        });
+        this.pickIssueImageAfter = view.findViewById(R.id.pickIssueImageAfter);
+        pickIssueImageAfter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(gallery, GALLERY_REQUEST_CODE);
+            }
+        });
 
         // Save and come back to HomeScreen
-//        this.btnSaveAfter = view.findViewById(R.id.btnSaveAfter);
-//        btnSaveAfter.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                uploadImage(buttonId);
-//            }
-//        });
+        this.btnSaveAfter = view.findViewById(R.id.btnSaveAfter);
+        btnSaveAfter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                uploadImage(buttonId);
+            }
+        });
 
         return view;
     }
@@ -189,6 +200,13 @@ public class DeficiencyAfterFragment extends Fragment {
                     });
                 }
             });
+        } else {
+            if (existedImageAfter != null) {
+                uploadedImageUrl = existedImageAfter;
+                pd.dismiss();
+                updateFirebaseData(buttonId);
+                goToHome();
+            }
         }
     }
 
@@ -213,17 +231,19 @@ public class DeficiencyAfterFragment extends Fragment {
                                                                 .toObject(DeficiencyInfo.class);
 
                                                         // Images
-                                                        String imageLinkBefore = uploadedImageUrl;
-                                                        String imageLinkAfter = currentDeficiencyInfo
-                                                                .getImageLinkAfter();
+                                                        String imageLinkBefore = currentDeficiencyInfo
+                                                                .getImageLinkBefore();
+                                                        String imageLinkAfter = uploadedImageUrl;
 
                                                         // Comments
-                                                        String commentBefore = currentDeficiencyInfo.getCommentBefore();
+                                                        String commentAfter = currentDeficiencyInfo.getCommentAfter();
+                                                        System.out.println(
+                                                                "TEXT: " + edtIssueAfter.getEditText().getText());
                                                         if (edtIssueAfter.getEditText().getText() != null) {
-                                                            commentBefore = String
+                                                            commentAfter = String
                                                                     .valueOf(edtIssueAfter.getEditText().getText());
                                                         }
-                                                        String commentAfter = currentDeficiencyInfo.getCommentAfter();
+                                                        String commentBefore = currentDeficiencyInfo.getCommentBefore();
 
                                                         // Dates
                                                         Date deficiencyDateOfRegistration = currentDeficiencyInfo

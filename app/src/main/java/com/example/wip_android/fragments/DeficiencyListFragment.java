@@ -58,7 +58,7 @@ public class DeficiencyListFragment extends Fragment {
     // Default function
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+            @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.deficiency_list_fragment, container, false);
 
         // Generate list View from ArrayList
@@ -67,14 +67,14 @@ public class DeficiencyListFragment extends Fragment {
 
         // Get variables
         clientName = this.getArguments().getString("name");
+
+        // Get data from Firebase
         getDeficiencyFromFirebase();
 
         return view;
     }
 
     private void displayListView() {
-
-
         // Create an adapter from the String Array
         dataAdapter = new MyCustomAdapter(getActivity(), R.layout.state_info, stateList);
 
@@ -106,7 +106,7 @@ public class DeficiencyListFragment extends Fragment {
 
             ViewHolder holder = null;
             if (convertView == null) {
-                LayoutInflater vi = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                LayoutInflater vi = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = vi.inflate(R.layout.state_info, null);
                 holder = new ViewHolder();
                 holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
@@ -117,7 +117,7 @@ public class DeficiencyListFragment extends Fragment {
                     public void onClick(View v) {
                         CheckBox cb = (CheckBox) v;
                         States _state = (States) cb.getTag();
-                        System.out.println("ITEM: "+cb.getText());
+                        System.out.println("ITEM: " + cb.getText());
                         _state.setSelected(cb.isChecked());
                     }
                 });
@@ -137,60 +137,46 @@ public class DeficiencyListFragment extends Fragment {
     // Upload information to Firebase Database
     public void getDeficiencyFromFirebase() {
         // Check and get current project information
-        db.collection(COLLECTION_CLIENT)
-                .whereEqualTo("clientName", clientName)
-                .get()
+        db.collection(COLLECTION_CLIENT).whereEqualTo("clientName", clientName).get()
                 .addOnCompleteListener(secondTask -> {
                     if (secondTask.isSuccessful()) {
-                        String clientId = secondTask
-                                .getResult()
-                                .getDocuments()
-                                .get(0)
-                                .getId();
-                        db.collection(COLLECTION_CLIENT)
-                                .document(clientId)
-                                .collection(COLLECTION_PROJECT)
-                                .get()
+                        String clientId = secondTask.getResult().getDocuments().get(0).getId();
+                        db.collection(COLLECTION_CLIENT).document(clientId).collection(COLLECTION_PROJECT).get()
                                 .addOnCompleteListener(thirdTask -> {
                                     if (thirdTask.isSuccessful()) {
-                                        String projectId = thirdTask
-                                                .getResult()
-                                                .getDocuments()
-                                                .get(0)
-                                                .getId();
-                                        ProjectInfo projectInfo = thirdTask
-                                                .getResult()
-                                                .getDocuments()
-                                                .get(0)
+                                        String projectId = thirdTask.getResult().getDocuments().get(0).getId();
+                                        ProjectInfo projectInfo = thirdTask.getResult().getDocuments().get(0)
                                                 .toObject(ProjectInfo.class);
 
-                                        db.collection(COLLECTION_CLIENT)
-                                                .document(clientId)
-                                                .collection(COLLECTION_PROJECT)
-                                                .document(projectId)
-                                                .collection(COLLECTION_DEFICIENCY)
-                                                .get()
+                                        db.collection(COLLECTION_CLIENT).document(clientId)
+                                                .collection(COLLECTION_PROJECT).document(projectId)
+                                                .collection(COLLECTION_DEFICIENCY).get()
                                                 .addOnCompleteListener(newTask -> {
                                                     if (newTask.isSuccessful()) {
-                                                        for (int i = 0; i < newTask.getResult().getDocuments().size(); i++) {
-                                                            String newId = newTask.getResult().getDocuments().get(i).getId();
-                                                            DeficiencyInfo deficiencyInfo = newTask.
-                                                                    getResult().
-                                                                    getDocuments().
-                                                                    get(i).toObject(DeficiencyInfo.class);
+                                                        for (int i = 0; i < newTask.getResult().getDocuments()
+                                                                .size(); i++) {
+                                                            String newId = newTask.getResult().getDocuments().get(i)
+                                                                    .getId();
+                                                            DeficiencyInfo deficiencyInfo = newTask.getResult()
+                                                                    .getDocuments().get(i)
+                                                                    .toObject(DeficiencyInfo.class);
                                                             String commentBefore = deficiencyInfo.getCommentBefore();
+                                                            if (commentBefore.equals("")) {
+                                                                commentBefore = deficiencyInfo.getCommentAfter();
+                                                            }
                                                             boolean isDone = deficiencyInfo.isCompletion();
-                                                            States _states = new States( commentBefore, isDone);
+                                                            States _states = new States(commentBefore, isDone);
                                                             stateList.add(_states);
                                                         }
 
                                                         // Create an adapter from the String Array
-                                                        dataAdapter = new MyCustomAdapter(getActivity(), R.layout.state_info, stateList);
+                                                        dataAdapter = new MyCustomAdapter(getActivity(),
+                                                                R.layout.state_info, stateList);
 
                                                         // Assign adapter to ListView
                                                         listView.setAdapter(dataAdapter);
                                                     }
-                                                    });
+                                                });
                                     }
                                 });
                     }
@@ -202,7 +188,6 @@ public class DeficiencyListFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(DeficiencyListViewModel.class);
-        // TODO: Use the ViewModel
     }
 
 }

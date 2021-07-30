@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import com.bumptech.glide.Glide;
 import com.example.wip_android.R;
 import com.example.wip_android.activities.DeficiencyTabLayoutActivity;
+import com.example.wip_android.activities.ProjectActivity;
 import com.example.wip_android.models.DeficiencyInfo;
 import com.example.wip_android.models.ProjectInfo;
 import com.example.wip_android.viewmodels.DeficiencyImageViewViewModel;
@@ -35,6 +36,8 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class DeficiencyImageViewFragment extends Fragment {
@@ -50,6 +53,7 @@ public class DeficiencyImageViewFragment extends Fragment {
     private ImageView imageView;
     private float x, y;
     private String buttonTitle;
+    private DeficiencyInfo issueToGet = new DeficiencyInfo();
 
     public static DeficiencyImageViewFragment newInstance() {
         return new DeficiencyImageViewFragment();
@@ -58,11 +62,11 @@ public class DeficiencyImageViewFragment extends Fragment {
     // Default function
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+            @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.deficiency_image_view_fragment, container, false);
 
-//        this.deficiency_imageView = view.findViewById(R.id.deficiency_imageView);
-//        Glide.with(this).load(this.getArguments().getString("image")).into(deficiency_imageView);
+        // this.deficiency_imageView = view.findViewById(R.id.deficiency_imageView);
+        // Glide.with(this).load(this.getArguments().getString("image")).into(deficiency_imageView);
         imageView = (ImageView) view.findViewById(R.id.deficiency_imageView);
         clientName = this.getArguments().getString("name");
         getFirebaseData();
@@ -75,23 +79,13 @@ public class DeficiencyImageViewFragment extends Fragment {
     View.OnClickListener handleOnClick(final Button button) {
         return new View.OnClickListener() {
             public void onClick(View v) {
-                System.out.println("CLICKED");
                 // Get important data
+                String currentButtonId = String.valueOf(button.getId());
+                System.out.println(currentButtonId);
+                DeficiencyInfo deficiencyInfo = createDeficiencyInfo(currentButtonId);
 
-//                String currentButtonId = String.valueOf(button.getId());
-//                ProjectInfo projectInfo = createProjectInfo();
-//                DeficiencyInfo deficiencyInfo = createDeficiencyInfo(currentButtonId);
-//
-//                // Update firebase
-//                updateFirebaseData(currentButtonId, projectInfo, deficiencyInfo);
-//
-//                // Go to deficiency screen
-//                Intent intent = new Intent(getActivity(), DeficiencyTabLayoutActivity.class);
-//                intent.putExtra("test", "TEST");
-//                intent.putExtra("FROM_ACTIVITY", "AddImagePin");
-//                intent.putExtra("buttonNumber", currentButtonId);
-//                intent.putExtra("clientName", clientName);
-//                startActivity(intent);
+                // Update firebase
+                updateFirebaseData(currentButtonId, deficiencyInfo);
             }
         };
     }
@@ -99,17 +93,17 @@ public class DeficiencyImageViewFragment extends Fragment {
     // When the red button is long clicked, delete it
     View.OnLongClickListener listener = new View.OnLongClickListener() {
         public boolean onLongClick(View v) {
-
-//            ConstraintLayout layout = (ConstraintLayout) getActivity().findViewById(R.id.imageViewLayout);
-//            Button clickedButton = (Button) v;
-            System.out.println("LONG CLICKED");
-//            for (int i = 0; i < buttonList.size(); i++) {
-//                if (buttonList.get(i).getId() == clickedButton.getId()) {
-//                    buttonList.remove(i);
-//                    break;
-//                }
-//            }
-//            layout.removeView(clickedButton);
+            System.out.println("LONG CLICK");
+            // ConstraintLayout layout = (ConstraintLayout)
+            // getActivity().findViewById(R.id.imageViewLayout);
+            // Button clickedButton = (Button) v;
+            // for (int i = 0; i < buttonList.size(); i++) {
+            // if (buttonList.get(i).getId() == clickedButton.getId()) {
+            // buttonList.remove(i);
+            // break;
+            // }
+            // }
+            // layout.removeView(clickedButton);
             return true;
         }
     };
@@ -137,6 +131,35 @@ public class DeficiencyImageViewFragment extends Fragment {
         });
     }
 
+    // Create DeficiencyInfo object
+    public DeficiencyInfo createDeficiencyInfo(String buttonId) {
+
+        // Images
+        String imageLinkBefore = "";
+        String imageLinkAfter = "";
+
+        // Comments
+        String commentBefore = "";
+        String commentAfter = "";
+
+        // Dates
+        Date deficiencyDateOfRegistration = new Date();
+        Date deficiencyDateOfCompletion = new Date();
+        Date deficiencyLastUpdated = new Date();
+
+        // Other
+        String title = buttonId;
+        String employeeIdOfRegisteration = "";
+        boolean deficiencyCompletion = false;
+
+        // Create object
+        DeficiencyInfo deficiencyInfo = new DeficiencyInfo(title, imageLinkBefore, imageLinkAfter, commentBefore,
+                commentAfter, employeeIdOfRegisteration, deficiencyCompletion, deficiencyDateOfRegistration,
+                deficiencyDateOfCompletion, deficiencyLastUpdated);
+
+        return deficiencyInfo;
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -154,7 +177,8 @@ public class DeficiencyImageViewFragment extends Fragment {
                                 .addOnCompleteListener(thirdTask -> {
                                     if (thirdTask.isSuccessful()) {
                                         String projectId = thirdTask.getResult().getDocuments().get(0).getId();
-                                        ProjectInfo projectInfo = thirdTask.getResult().getDocuments().get(0).toObject(ProjectInfo.class);
+                                        ProjectInfo projectInfo = thirdTask.getResult().getDocuments().get(0)
+                                                .toObject(ProjectInfo.class);
 
                                         Glide.with(this).load(projectInfo.getImageLink()).into(imageView);
                                         imageView.setVisibility(View.VISIBLE);
@@ -164,7 +188,8 @@ public class DeficiencyImageViewFragment extends Fragment {
                                             y = projectInfo.getButtonLocationY().get(i).floatValue();
                                             buttonTitle = projectInfo.getButtonTitle().get(i);
                                             Button addedButton;
-                                            ConstraintLayout layout = (ConstraintLayout) getActivity().findViewById(R.id.imageViewLayout);
+                                            ConstraintLayout layout = (ConstraintLayout) getActivity()
+                                                    .findViewById(R.id.imageViewLayout);
                                             addedButton = new Button(getActivity());
                                             addedButton.setText(String.valueOf(buttonTitle));
                                             addedButton.setX(x);
@@ -179,17 +204,61 @@ public class DeficiencyImageViewFragment extends Fragment {
                                             addedButton.setOnLongClickListener(listener);
                                             layout.addView(addedButton);
                                         }
-
-
-
-//                                        System.out.println(db.collection(COLLECTION_CLIENT).document(clientId)
-//                                                .collection(COLLECTION_PROJECT).document(projectId)
-//                                                .collection(COLLECTION_DEFICIENCY).getId());
-
                                     }
                                 });
                     }
 
+                });
+    }
+
+    // Upload information to Firebase
+    public void updateFirebaseData(String buttonId, DeficiencyInfo deficiencyInfo) {
+        // First task
+        db.collection(COLLECTION_CLIENT).whereEqualTo("clientName", clientName).get()
+                .addOnCompleteListener(secondTask -> {
+                    if (secondTask.isSuccessful()) {
+                        String clientId = secondTask.getResult().getDocuments().get(0).getId();
+
+                        // Upload the new DeficiencyInfo
+                        db.collection(COLLECTION_CLIENT).document(clientId).collection(COLLECTION_PROJECT).get()
+                                .addOnCompleteListener(thirdTask -> {
+                                    if (thirdTask.isSuccessful()) {
+                                        String projectId = thirdTask.getResult().getDocuments().get(0).getId();
+
+                                        db.collection(COLLECTION_CLIENT).document(clientId)
+                                                .collection(COLLECTION_PROJECT).document(projectId)
+                                                .collection(COLLECTION_DEFICIENCY).get()
+                                                .addOnCompleteListener(lastTask -> {
+                                                    if (lastTask.isSuccessful()) {
+                                                        for (int i = 0; i < lastTask.getResult().getDocuments()
+                                                                .size(); i++) {
+                                                            if ((lastTask.getResult().getDocuments().get(i).getId())
+                                                                    .equals(buttonId)) {
+                                                                issueToGet = lastTask.getResult().getDocuments().get(i)
+                                                                        .toObject(DeficiencyInfo.class);
+                                                                Intent mainIntent = new Intent(getActivity(),
+                                                                        DeficiencyTabLayoutActivity.class);
+                                                                mainIntent.putExtra("FROM_ACTIVITY",
+                                                                        "DeficiencyImageViewFragment");
+                                                                mainIntent.putExtra("buttonNumber", buttonId);
+                                                                mainIntent.putExtra("clientName", clientName);
+                                                                mainIntent.putExtra("imageLinkBefore",
+                                                                        issueToGet.getImageLinkBefore());
+                                                                mainIntent.putExtra("imageLinkAfter",
+                                                                        issueToGet.getImageLinkAfter());
+                                                                mainIntent.putExtra("commentBefore",
+                                                                        issueToGet.getCommentBefore());
+                                                                mainIntent.putExtra("commentAfter",
+                                                                        issueToGet.getCommentAfter());
+                                                                startActivity(mainIntent);
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                });
+                                    }
+                                });
+                    }
                 });
     }
 

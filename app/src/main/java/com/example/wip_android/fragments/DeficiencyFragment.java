@@ -32,11 +32,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.wip_android.MainActivity;
 import com.example.wip_android.R;
 import com.example.wip_android.activities.AddProjectActivity;
 import com.example.wip_android.activities.GlossaryActivity;
 import com.example.wip_android.activities.ProjectActivity;
+import com.example.wip_android.models.ClientInfo;
 import com.example.wip_android.models.DeficiencyInfo;
 import com.example.wip_android.models.GlossaryItem;
 import com.example.wip_android.models.ProjectInfo;
@@ -87,6 +89,11 @@ public class DeficiencyFragment extends Fragment {
     private FragmentTransaction transaction;
     private FirebaseUser firebaseUser;
     private String currentUserEmail;
+    private DeficiencyInfo issueToGet;
+    private String existedImageBefore;
+    private String currentImage;
+    private String existedImageLinkAfter;
+    private String existedCommentAfter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -112,12 +119,25 @@ public class DeficiencyFragment extends Fragment {
         Bundle bundle = getActivity().getIntent().getExtras();
         buttonId = bundle.getString("buttonNumber");
         clientName = bundle.getString("clientName");
-        System.out.println(previousActivity);
 
         // If it is GlossaryActivity, get glossary item
         if (previousActivity.equals("GlossaryActivity")) {
-            String chosenItem = bundle.getString("test");
+            String chosenItem = bundle.getString("item");
+            if (bundle.containsKey("currentImage")) {
+                currentImage = bundle.getString("currentImage");
+                Glide.with(this).load(currentImage).into(ivBefore);
+            }
             edtIssue.getEditText().setText(chosenItem);
+        } else if (previousActivity.equals("DeficiencyImageViewFragment")) {
+            String imageLinkBefore = bundle.getString("imageLinkBefore");
+            String commentBefore = bundle.getString("commentBefore");
+            existedImageLinkAfter = bundle.getString("imageLinkAfter");
+            existedCommentAfter = bundle.getString("commentAfter");
+            if (!imageLinkBefore.equals("")) {
+                Glide.with(this).load(imageLinkBefore).into(ivBefore);
+                existedImageBefore = imageLinkBefore;
+            }
+            edtIssue.getEditText().setText(commentBefore);
         }
 
         // Go to glossary
@@ -164,7 +184,42 @@ public class DeficiencyFragment extends Fragment {
         Intent mainIntent = new Intent(getActivity(), GlossaryActivity.class);
         mainIntent.putExtra("buttonNumber", buttonId);
         mainIntent.putExtra("clientName", clientName);
-        startActivity(mainIntent);
+        mainIntent.putExtra("imageLinkAfter", existedImageLinkAfter);
+        mainIntent.putExtra("commentAfter", existedCommentAfter);
+
+        // Get image, so it does not disappear when the user goes to Glossary
+        System.out.println("CONTENT URI: " + contentUri);
+        if (contentUri != null) {
+            Uri file = Uri.fromFile(new File(String.valueOf(contentUri)));
+            String fileExt = MimeTypeMap.getFileExtensionFromUrl(file.toString());
+            final StorageReference fileRef = FirebaseStorage.getInstance().getReference().child("uploads")
+                    .child(System.currentTimeMillis() + "." + fileExt);
+            fileRef.putFile(contentUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                    fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            String url = uri.toString();
+                            currentImage = url;
+                            if (currentImage != null) {
+                                mainIntent.putExtra("currentImage", currentImage);
+                            }
+                            startActivity(mainIntent);
+                        }
+                    });
+                }
+            });
+        } else {
+            if (existedImageBefore != null) {
+                currentImage = existedImageBefore;
+                if (currentImage != null) {
+                    mainIntent.putExtra("currentImage", currentImage);
+                }
+            }
+            startActivity(mainIntent);
+        }
+
     }
 
     // Gallery methods
@@ -221,6 +276,20 @@ public class DeficiencyFragment extends Fragment {
                     });
                 }
             });
+        } else {
+            if (existedImageBefore != null) {
+                uploadedImageUrl = existedImageBefore;
+                pd.dismiss();
+                updateFirebaseData(buttonId);
+                goToHome();
+            } else {
+                if (currentImage != null) {
+                    uploadedImageUrl = currentImage;
+                    pd.dismiss();
+                    updateFirebaseData(buttonId);
+                    goToHome();
+                }
+            }
         }
     }
 

@@ -77,11 +77,9 @@ public class ProjectActivity extends AppCompatActivity implements ProjectAdapter
             actionBar.setTitle(Html.fromHtml("<font color='#ffffff'>Add Deficiency Image</font>"));
         }
 
-
         // Back button
         assert getSupportActionBar() != null; // null check
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // show back button
-
 
         // UI Components
         selectedImage = findViewById(R.id.projectImage);
@@ -103,30 +101,28 @@ public class ProjectActivity extends AppCompatActivity implements ProjectAdapter
             address = mIntent.getStringExtra("newAddress");
             name = mIntent.getStringExtra("newName");
             this.clientInfo = (ClientInfo) mIntent.getExtras().getSerializable("clientInfo");
-            System.out.println(this.clientInfo.getClientCity());
             this.projectName.setText(name);
             this.projectAddress.setText(address);
         }
 
-//        // Deficiency List
-//        deficiencyList = new ArrayList<>();
-//        deficiencyList.add("Foundation Wall Cracks");
-//        deficiencyList.add("Faulty Roofs");
-//        deficiencyList.add("Sump Pump Problems");
-//        deficiencyList.add("Wall Cracks");
-//
-//        // Deficiency Recycler View
-//        recyclerView = findViewById(R.id.recyclerView);
-//        recyclerAdapter = new ProjectAdapter(deficiencyList, this);
-//        recyclerView.setAdapter(recyclerAdapter);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-//        recyclerView.addItemDecoration(dividerItemDecoration);
+        // // Deficiency List
+        // deficiencyList = new ArrayList<>();
+        // deficiencyList.add("Foundation Wall Cracks");
+        // deficiencyList.add("Faulty Roofs");
+        // deficiencyList.add("Sump Pump Problems");
+        // deficiencyList.add("Wall Cracks");
+        //
+        // // Deficiency Recycler View
+        // recyclerView = findViewById(R.id.recyclerView);
+        // recyclerAdapter = new ProjectAdapter(deficiencyList, this);
+        // recyclerView.setAdapter(recyclerAdapter);
+        // recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        // DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,
+        // DividerItemDecoration.VERTICAL);
+        // recyclerView.addItemDecoration(dividerItemDecoration);
     }
 
     public void addDeficiency(View view) {
-        System.out.println("test");
-
         switchFragment = new AddImagePin();
         transaction = getSupportFragmentManager().beginTransaction();
 
@@ -141,7 +137,7 @@ public class ProjectActivity extends AppCompatActivity implements ProjectAdapter
         // goToAddMarker();
     }
 
-//Going back to previous activity
+    // Going back to previous activity
     @Override
     public boolean onSupportNavigateUp() {
         finish();
@@ -149,8 +145,6 @@ public class ProjectActivity extends AppCompatActivity implements ProjectAdapter
         startActivity(mainIntent);
         return true;
     }
-
-
 
     // Choose image from gallery
     public void pickImage(View view) {
@@ -204,9 +198,10 @@ public class ProjectActivity extends AppCompatActivity implements ProjectAdapter
 
         if (id == R.id.action_map) {
             Log.d(TAG, "onOptionsItemSelected: Map selected ");
-//            switchFragment = new MapFragment();
-//            transaction = getSupportFragmentManager().beginTransaction();
-//            transaction.replace(R.id.project_layout, switchFragment).addToBackStack(null).commit();
+            // switchFragment = new MapFragment();
+            // transaction = getSupportFragmentManager().beginTransaction();
+            // transaction.replace(R.id.project_layout,
+            // switchFragment).addToBackStack(null).commit();
 
             Intent mainIntent = new Intent(this, MapScreenshotActivity.class);
             startActivity(mainIntent);

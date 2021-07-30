@@ -39,6 +39,9 @@ public class GlossaryActivity extends AppCompatActivity implements GlossaryAdapt
     private String COLLECTION_NAME = "Glossary";
     private String buttonId;
     private String clientName;
+    private String currentImage;
+    private String existedImageLinkAfter;
+    private String existedCommentAfter;
 
     // Default Function
     @Override
@@ -53,6 +56,15 @@ public class GlossaryActivity extends AppCompatActivity implements GlossaryAdapt
         Bundle bundle = getIntent().getExtras();
         buttonId = bundle.getString("buttonNumber");
         clientName = bundle.getString("clientName");
+        if (bundle.containsKey("currentImage")) {
+            currentImage = bundle.getString("currentImage");
+        }
+        if (bundle.containsKey("imageLinkAfter")) {
+            existedImageLinkAfter = bundle.getString("imageLinkAfter");
+        }
+        if (bundle.containsKey("commentAfter")) {
+            existedCommentAfter = bundle.getString("commentAfter");
+        }
     }
 
     // Add a new item to glossary
@@ -116,12 +128,21 @@ public class GlossaryActivity extends AppCompatActivity implements GlossaryAdapt
     // Choose item and come back to DeficiencyActivity
     @Override
     public void onNoteClick(int position) {
-        String test = this.recyclerAdapter.getGlossaryList().get(position).getContent();
+        String item = this.recyclerAdapter.getGlossaryList().get(position).getContent();
         Intent intent = new Intent(this, DeficiencyTabLayoutActivity.class);
-        intent.putExtra("test", test);
+        intent.putExtra("item", item);
         intent.putExtra("buttonNumber", buttonId);
         intent.putExtra("clientName", clientName);
         intent.putExtra("FROM_ACTIVITY", "GlossaryActivity");
+        if (currentImage != null) {
+            intent.putExtra("currentImage", currentImage);
+        }
+        if (existedImageLinkAfter != null) {
+            intent.putExtra("imageLinkAfter", existedImageLinkAfter);
+        }
+        if (existedCommentAfter != null) {
+            intent.putExtra("commentAfter", existedCommentAfter);
+        }
         startActivity(intent);
     }
 
