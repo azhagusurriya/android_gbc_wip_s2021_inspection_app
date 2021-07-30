@@ -27,6 +27,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Android_gbc_wip_s2021_inspection_app">
         <activity
+            android:name=".activities.ChangePasswordActivity"
+            android:exported="true" />
+        <activity
             android:name=".activities.MapScreenshotActivity"
             android:exported="true" />
         <activity
@@ -36,7 +39,7 @@
             android:name=".activities.DeficiencyTabLayoutActivity"
             android:exported="true" />
         <activity android:name=".activities.DeficiencyActivity" />
-        <activity android:name=".activities.ProjectActivity"></activity>
+        <activity android:name=".activities.ProjectActivity" />
         <activity android:name=".activities.GlossaryActivity" />
 
         <meta-data

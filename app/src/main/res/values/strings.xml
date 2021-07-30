@@ -60,4 +60,5 @@
     <string name="category">Category</string>
     <string name="done">done</string>
     <string name="addDeficiency">Add Deficiency</string>
+    <string name="change_password">Change Password</string>
 </resources>
