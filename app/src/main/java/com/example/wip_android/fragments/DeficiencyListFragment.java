@@ -35,6 +35,7 @@ import com.example.wip_android.viewmodels.DeficiencyListViewModel;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DeficiencyListFragment extends Fragment {
 
@@ -118,6 +119,8 @@ public class DeficiencyListFragment extends Fragment {
                         CheckBox cb = (CheckBox) v;
                         States _state = (States) cb.getTag();
                         System.out.println("ITEM: " + cb.getText());
+                        System.out.println("ID: "+_state.getId());
+                        setCompletionFirebase(_state.getId());
                         _state.setSelected(cb.isChecked());
                     }
                 });
@@ -132,6 +135,75 @@ public class DeficiencyListFragment extends Fragment {
 
             return convertView;
         }
+    }
+
+    // Set completed in Firebase
+    public void setCompletionFirebase(String deficiencyId) {
+        db.collection(COLLECTION_CLIENT).whereEqualTo("clientName", clientName).get()
+                .addOnCompleteListener(secondTask -> {
+                    if (secondTask.isSuccessful()) {
+                        String clientId = secondTask.getResult().getDocuments().get(0).getId();
+                        db.collection(COLLECTION_CLIENT).document(clientId).collection(COLLECTION_PROJECT).get()
+                                .addOnCompleteListener(thirdTask -> {
+                                    if (thirdTask.isSuccessful()) {
+                                        String projectId = thirdTask.getResult().getDocuments().get(0).getId();
+                                        db.collection(COLLECTION_CLIENT).document(clientId)
+                                                .collection(COLLECTION_PROJECT).document(projectId)
+                                                .collection(COLLECTION_DEFICIENCY)
+                                                .get()
+                                                .addOnCompleteListener(newTask -> {
+                                                    for (int i = 0; i < newTask.getResult().getDocuments().size(); i++) {
+                                                        System.out.print("ID NUMBER: "+ newTask.getResult().getDocuments().get(i).getId());
+                                                        if (deficiencyId.equals(newTask.getResult().getDocuments().get(i).getId())) {
+                                                            System.out.print("IS EQUAL");
+                                                            DeficiencyInfo deficiencyInfo = newTask.getResult().getDocuments().get(i).toObject(DeficiencyInfo.class);
+
+                                                            // Images
+                                                            String imageLinkBefore = deficiencyInfo.getImageLinkBefore();
+                                                            String imageLinkAfter = deficiencyInfo.getImageLinkAfter();
+
+                                                            // Comments
+                                                            String commentBefore = deficiencyInfo.getCommentBefore();
+                                                            String commentAfter = deficiencyInfo.getCommentAfter();
+
+                                                            // Dates
+                                                            Date deficiencyDateOfRegistration = deficiencyInfo.getDateOfRegistration();
+                                                            Date deficiencyDateOfCompletion = new Date();
+                                                            Date deficiencyLastUpdated = new Date();
+
+                                                            // Other
+                                                            String title = deficiencyInfo.getTitle();
+                                                            String employeeIdOfRegisteration = deficiencyInfo.getEmployeeIdOfRegisteration();
+                                                            boolean currentCompletion = deficiencyInfo.isCompletion();
+                                                            boolean deficiencyCompletion;
+                                                            if (currentCompletion == false) {
+                                                                deficiencyCompletion = true;
+                                                            } else {
+                                                                deficiencyCompletion = false;
+                                                            }
+
+                                                            // Create object
+                                                            DeficiencyInfo newDeficiencyInfo = new DeficiencyInfo(title, imageLinkBefore, imageLinkAfter, commentBefore,
+                                                                    commentAfter, employeeIdOfRegisteration, deficiencyCompletion, deficiencyDateOfRegistration,
+                                                                    deficiencyDateOfCompletion, deficiencyLastUpdated);
+
+                                                            db.collection(COLLECTION_CLIENT)
+                                                                    .document(clientId)
+                                                                    .collection(COLLECTION_PROJECT)
+                                                                    .document(projectId)
+                                                                    .collection(COLLECTION_DEFICIENCY)
+                                                                    .document(deficiencyId)
+                                                                    .set(newDeficiencyInfo);
+
+                                                            break;
+                                                        }
+                                                    }
+                                                });
+                                    }
+                                });
+                    }
+
+                });
     }
 
     // Upload information to Firebase Database
@@ -164,9 +236,11 @@ public class DeficiencyListFragment extends Fragment {
                                                             if (commentBefore.equals("")) {
                                                                 commentBefore = deficiencyInfo.getCommentAfter();
                                                             }
-                                                            boolean isDone = deficiencyInfo.isCompletion();
-                                                            States _states = new States(commentBefore, isDone);
-                                                            stateList.add(_states);
+                                                            if (!commentBefore.equals("")) {
+                                                                boolean isDone = deficiencyInfo.isCompletion();
+                                                                States _states = new States(commentBefore, isDone, newId);
+                                                                stateList.add(_states);
+                                                            }
                                                         }
 
                                                         // Create an adapter from the String Array

@@ -77,7 +77,6 @@ public class AddImagePin extends Fragment {
             @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.add_image_pin_fragment, container, false);
 
-
         // Bar title
         ActionBar actionBar = getActivity().getActionBar();
         if (actionBar != null) {
@@ -87,14 +86,11 @@ public class AddImagePin extends Fragment {
         // Add new red button when screen is touched
         view.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
-
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     x = event.getX();
                     y = event.getY();
-
                     addButton(x, y);
                 }
-
                 return true;
             }
         });
@@ -110,15 +106,6 @@ public class AddImagePin extends Fragment {
         // Get Name
         this.clientName = bundle.getString("Client Name");
 
-        // Floating Button
-//        fabSaveMarker = (FloatingActionButton) view.findViewById(R.id.fabSaveMarker);
-//        fabSaveMarker.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                saveMarkerButtonPressed();
-//            }
-//        });
-
         return view;
     }
 
@@ -129,7 +116,6 @@ public class AddImagePin extends Fragment {
             public void onClick(View v) {
 
                 // Get important data
-
                 String currentButtonId = String.valueOf(button.getId());
                 ProjectInfo projectInfo = createProjectInfo();
                 DeficiencyInfo deficiencyInfo = createDeficiencyInfo(currentButtonId);
@@ -139,7 +125,6 @@ public class AddImagePin extends Fragment {
 
                 // Go to deficiency screen
                 Intent intent = new Intent(getActivity(), DeficiencyTabLayoutActivity.class);
-                intent.putExtra("test", "TEST");
                 intent.putExtra("FROM_ACTIVITY", "AddImagePin");
                 intent.putExtra("buttonNumber", currentButtonId);
                 intent.putExtra("clientName", clientName);

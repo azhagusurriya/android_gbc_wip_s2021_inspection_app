@@ -6,22 +6,11 @@
 * Numeric keyboard for telephone
 * Create logic for password
 * Remember Me
-* Hide password must be the default
+* Hidden password must be the default
 
 ## Settings
 
 * Profile change button
-* Password change button
-
-## Map Tab Bar
-
-* Click on the red button
-* Long click on the red button
-* DeficiencyAfter comments
-
-## List Tab Bar
-
-* Change Firebase data when check and uncheck items
 
 ## HomeFragment
 

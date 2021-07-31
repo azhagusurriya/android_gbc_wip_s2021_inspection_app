@@ -4,11 +4,13 @@ public class States {
 
     String name = null;
     boolean selected = false;
+    String id;
 
-    public States(String name, boolean selected) {
+    public States(String name, boolean selected, String id) {
         super();
         this.name = name;
         this.selected = selected;
+        this.id = id;
     }
 
     public String getName() {
@@ -27,4 +29,11 @@ public class States {
         this.selected = selected;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }
