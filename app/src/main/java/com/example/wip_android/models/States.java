@@ -2,10 +2,12 @@ package com.example.wip_android.models;
 
 public class States {
 
+    // Variables
     String name = null;
     boolean selected = false;
     String id;
 
+    // Constructor
     public States(String name, boolean selected, String id) {
         super();
         this.name = name;
@@ -13,6 +15,7 @@ public class States {
         this.id = id;
     }
 
+    // Getters and setters
     public String getName() {
         return name;
     }

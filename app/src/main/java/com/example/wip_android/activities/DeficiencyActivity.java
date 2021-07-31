@@ -35,7 +35,7 @@ public class DeficiencyActivity extends AppCompatActivity implements AdapterView
 
         // Bar Title
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null){
+        if (actionBar != null) {
             actionBar.setTitle(Html.fromHtml("<font color='#ffffff'>Add Deficiency</font>"));
         }
 
@@ -53,7 +53,7 @@ public class DeficiencyActivity extends AppCompatActivity implements AdapterView
         spinner.setOnItemSelectedListener(this);
 
         Intent mIntent = getIntent();
-        String previousActivity= mIntent.getStringExtra("FROM_ACTIVITY");
+        String previousActivity = mIntent.getStringExtra("FROM_ACTIVITY");
         System.out.println(previousActivity);
 
         this.edtIssue = findViewById(R.id.edtIssue);
@@ -63,7 +63,6 @@ public class DeficiencyActivity extends AppCompatActivity implements AdapterView
             String chosenItem = bundle.getString("test");
             edtIssue.getEditText().setText(chosenItem);
         }
-
 
     }
 
@@ -91,6 +90,5 @@ public class DeficiencyActivity extends AppCompatActivity implements AdapterView
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-
 
 }

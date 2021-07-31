@@ -102,7 +102,6 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-        // TODO: Use the ViewModel
     }
 
     // Add Project Floating Button

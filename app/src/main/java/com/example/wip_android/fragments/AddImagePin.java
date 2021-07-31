@@ -300,7 +300,6 @@ public class AddImagePin extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(AddImagePinViewModel.class);
-        // TODO: Use the ViewModel
     }
 
 }

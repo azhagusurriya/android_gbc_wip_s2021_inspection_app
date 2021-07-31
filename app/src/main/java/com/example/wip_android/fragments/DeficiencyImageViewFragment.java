@@ -111,16 +111,15 @@ public class DeficiencyImageViewFragment extends Fragment {
     // When the red button is long clicked, delete it
     View.OnLongClickListener listener = new View.OnLongClickListener() {
         public boolean onLongClick(View v) {
-             ConstraintLayout layout = (ConstraintLayout)
-             getActivity().findViewById(R.id.imageViewLayout);
-             Button clickedButton = (Button) v;
-             for (int i = 0; i < buttonList.size(); i++) {
+            ConstraintLayout layout = (ConstraintLayout) getActivity().findViewById(R.id.imageViewLayout);
+            Button clickedButton = (Button) v;
+            for (int i = 0; i < buttonList.size(); i++) {
                 if (buttonList.get(i).getId() == clickedButton.getId()) {
                     buttonList.remove(i);
-                break;
+                    break;
                 }
-             }
-             layout.removeView(clickedButton);
+            }
+            layout.removeView(clickedButton);
             return true;
         }
     };
@@ -333,40 +332,53 @@ public class DeficiencyImageViewFragment extends Fragment {
                                                                         issueToGet.getCommentAfter());
 
                                                                 db.collection(COLLECTION_CLIENT).document(clientId)
-                                                                        .collection(COLLECTION_PROJECT).document(projectId)
-                                                                        .set(projectInfo);
+                                                                        .collection(COLLECTION_PROJECT)
+                                                                        .document(projectId).set(projectInfo);
 
                                                                 // Delete buttons
-                                                                db.collection(COLLECTION_CLIENT)
-                                                                        .document(clientId)
+                                                                db.collection(COLLECTION_CLIENT).document(clientId)
                                                                         .collection(COLLECTION_PROJECT)
                                                                         .document(projectId)
-                                                                        .collection(COLLECTION_DEFICIENCY)
-                                                                        .get()
-                                                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                                            @Override
-                                                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                                                if (task.isSuccessful()) {
-                                                                                    ArrayList<String> buttonIdList = new ArrayList<>();
-                                                                                    for (int i = 0; i < buttonList.size(); i++) {
-                                                                                        String e = String.valueOf(buttonList.get(i).getId());
-                                                                                        buttonIdList.add(e);
-                                                                                    }
-                                                                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                                                                        String s = document.getId();
-                                                                                        if (!buttonIdList.contains(s)) {
-                                                                                            db.collection(COLLECTION_CLIENT)
-                                                                                                    .document(clientId)
-                                                                                                    .collection(COLLECTION_PROJECT)
-                                                                                                    .document(projectId)
-                                                                                                    .collection(COLLECTION_DEFICIENCY)
-                                                                                                    .document(s).delete();
-                                                                                            System.out.println("DELETED: "+s);
+                                                                        .collection(COLLECTION_DEFICIENCY).get()
+                                                                        .addOnCompleteListener(
+                                                                                new OnCompleteListener<QuerySnapshot>() {
+                                                                                    @Override
+                                                                                    public void onComplete(
+                                                                                            @NonNull Task<QuerySnapshot> task) {
+                                                                                        if (task.isSuccessful()) {
+                                                                                            ArrayList<String> buttonIdList = new ArrayList<>();
+                                                                                            for (int i = 0; i < buttonList
+                                                                                                    .size(); i++) {
+                                                                                                String e = String
+                                                                                                        .valueOf(
+                                                                                                                buttonList
+                                                                                                                        .get(i)
+                                                                                                                        .getId());
+                                                                                                buttonIdList.add(e);
+                                                                                            }
+                                                                                            for (QueryDocumentSnapshot document : task
+                                                                                                    .getResult()) {
+                                                                                                String s = document
+                                                                                                        .getId();
+                                                                                                if (!buttonIdList
+                                                                                                        .contains(s)) {
+                                                                                                    db.collection(
+                                                                                                            COLLECTION_CLIENT)
+                                                                                                            .document(
+                                                                                                                    clientId)
+                                                                                                            .collection(
+                                                                                                                    COLLECTION_PROJECT)
+                                                                                                            .document(
+                                                                                                                    projectId)
+                                                                                                            .collection(
+                                                                                                                    COLLECTION_DEFICIENCY)
+                                                                                                            .document(s)
+                                                                                                            .delete();
+                                                                                                }
+                                                                                            }
                                                                                         }
                                                                                     }
-                                                                                }
-                                                                            }
-                                                                        });
+                                                                                });
 
                                                                 startActivity(mainIntent);
                                                                 break;
@@ -380,46 +392,53 @@ public class DeficiencyImageViewFragment extends Fragment {
                                                                     .set(projectInfo);
 
                                                             // Delete buttons
-                                                            db.collection(COLLECTION_CLIENT)
-                                                                    .document(clientId)
-                                                                    .collection(COLLECTION_PROJECT)
-                                                                    .document(projectId)
-                                                                    .collection(COLLECTION_DEFICIENCY)
-                                                                    .get()
-                                                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                                        @Override
-                                                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                                            if (task.isSuccessful()) {
-                                                                                ArrayList<String> buttonIdList = new ArrayList<>();
-                                                                                for (int i = 0; i < buttonList.size(); i++) {
-                                                                                    String e = String.valueOf(buttonList.get(i).getId());
-                                                                                    buttonIdList.add(e);
-                                                                                }
-                                                                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                                                                    String s = document.getId();
-                                                                                    if (!buttonIdList.contains(s)) {
-                                                                                        db.collection(COLLECTION_CLIENT)
-                                                                                                .document(clientId)
-                                                                                                .collection(COLLECTION_PROJECT)
-                                                                                                .document(projectId)
-                                                                                                .collection(COLLECTION_DEFICIENCY)
-                                                                                                .document(s).delete();
-                                                                                        System.out.println("DELETED: "+s);
+                                                            db.collection(COLLECTION_CLIENT).document(clientId)
+                                                                    .collection(COLLECTION_PROJECT).document(projectId)
+                                                                    .collection(COLLECTION_DEFICIENCY).get()
+                                                                    .addOnCompleteListener(
+                                                                            new OnCompleteListener<QuerySnapshot>() {
+                                                                                @Override
+                                                                                public void onComplete(
+                                                                                        @NonNull Task<QuerySnapshot> task) {
+                                                                                    if (task.isSuccessful()) {
+                                                                                        ArrayList<String> buttonIdList = new ArrayList<>();
+                                                                                        for (int i = 0; i < buttonList
+                                                                                                .size(); i++) {
+                                                                                            String e = String.valueOf(
+                                                                                                    buttonList.get(i)
+                                                                                                            .getId());
+                                                                                            buttonIdList.add(e);
+                                                                                        }
+                                                                                        for (QueryDocumentSnapshot document : task
+                                                                                                .getResult()) {
+                                                                                            String s = document.getId();
+                                                                                            if (!buttonIdList
+                                                                                                    .contains(s)) {
+                                                                                                db.collection(
+                                                                                                        COLLECTION_CLIENT)
+                                                                                                        .document(
+                                                                                                                clientId)
+                                                                                                        .collection(
+                                                                                                                COLLECTION_PROJECT)
+                                                                                                        .document(
+                                                                                                                projectId)
+                                                                                                        .collection(
+                                                                                                                COLLECTION_DEFICIENCY)
+                                                                                                        .document(s)
+                                                                                                        .delete();
+                                                                                            }
+                                                                                        }
                                                                                     }
                                                                                 }
-                                                                            }
-                                                                            }
-                                                                        });
+                                                                            });
 
-                                                            db.collection(COLLECTION_CLIENT)
-                                                                    .document(clientId)
-                                                                    .collection(COLLECTION_PROJECT)
-                                                                    .document(projectId)
+                                                            db.collection(COLLECTION_CLIENT).document(clientId)
+                                                                    .collection(COLLECTION_PROJECT).document(projectId)
                                                                     .collection(COLLECTION_DEFICIENCY)
-                                                                    .document(buttonId)
-                                                                    .set(deficiencyInfo);
+                                                                    .document(buttonId).set(deficiencyInfo);
 
-                                                            Intent intent = new Intent(getActivity(), DeficiencyTabLayoutActivity.class);
+                                                            Intent intent = new Intent(getActivity(),
+                                                                    DeficiencyTabLayoutActivity.class);
                                                             intent.putExtra("FROM_ACTIVITY", "newDeficiency");
                                                             intent.putExtra("buttonNumber", buttonId);
                                                             intent.putExtra("clientName", clientName);

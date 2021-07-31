@@ -184,10 +184,11 @@ public class AddProjectActivity extends AppCompatActivity
 
         if (id == R.id.action_map) {
             Log.d(TAG, "onOptionsItemSelected: Map selected ");
-//            switchFragment = new MapFragment();
-//            transaction = getSupportFragmentManager().beginTransaction();
-//            transaction.replace(R.id.add_project_layout, switchFragment).addToBackStack(null).commit();
-//
+            // switchFragment = new MapFragment();
+            // transaction = getSupportFragmentManager().beginTransaction();
+            // transaction.replace(R.id.add_project_layout,
+            // switchFragment).addToBackStack(null).commit();
+            //
             Intent mainIntent = new Intent(this, MapScreenshotActivity.class);
             startActivity(mainIntent);
             return true;
@@ -206,7 +207,7 @@ public class AddProjectActivity extends AppCompatActivity
                     break;
                 }
                 case R.id.btnSaveInfo: {
-//                     this.goToProjectDeficiencyList();
+                    // this.goToProjectDeficiencyList();
                     if (this.validateData()) {
                         Log.d(TAG, "onClick: Save Button clicked");
 
