@@ -62,6 +62,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class AddProjectActivity extends AppCompatActivity
         implements View.OnClickListener, AdapterView.OnItemSelectedListener, Serializable {
@@ -307,6 +308,13 @@ public class AddProjectActivity extends AppCompatActivity
 
         // uploadImageToFirebase(imageFileName,contentUri);
 
+        String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+        String firstEightCharDocumentId = this.edtClientName.getEditText().getText().toString().substring(0, 8);
+        String documentID = firstEightCharDocumentId +"_"+ currentTime +"_"+ currentDate;
+        Log.d(TAG, "validateAddProject: Current Document ID: " + documentID);
+
+        newClient.setDocumentid(documentID);
         newClient.setClientName(this.edtClientName.getEditText().getText().toString());
         newClient.setClientStreetAddress(this.edtStreetAddress.getEditText().getText().toString());
         newClient.setClientCity(this.edtCity.getEditText().getText().toString());

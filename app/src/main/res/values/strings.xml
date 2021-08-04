@@ -61,4 +61,7 @@
     <string name="done">done</string>
     <string name="addDeficiency">Add Deficiency</string>
     <string name="change_password">Change Password</string>
+    <string name="OldPassword">Old Password</string>
+    <string name="CurrentPassword">Current Password</string>
+    <string name="newPassword">New Password</string>
 </resources>
