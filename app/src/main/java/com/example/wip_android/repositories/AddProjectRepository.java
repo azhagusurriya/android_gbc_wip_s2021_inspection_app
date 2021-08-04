@@ -31,7 +31,7 @@ public class AddProjectRepository {
 
     public void createNewClient(ClientInfo clientInfo) {
         try {
-            db.collection(COLLECTION_NAME).document(clientInfo.getClientName()).set(clientInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
+            db.collection(COLLECTION_NAME).document(clientInfo.getDocumentid()).set(clientInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void unused) {
                     Log.d(TAG, "Document added with ID as client name");

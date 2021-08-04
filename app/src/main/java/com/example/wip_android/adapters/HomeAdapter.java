@@ -1,5 +1,9 @@
 package com.example.wip_android.adapters;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +14,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wip_android.R;
 import com.example.wip_android.models.ClientInfo;
+import com.example.wip_android.models.GlossaryDeleteDialog;
 import com.example.wip_android.models.GlossaryItem;
 
 import java.util.ArrayList;
@@ -22,6 +28,13 @@ import java.util.List;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> implements Filterable {
 
+//Interface for long click
+
+    public interface OnRecyclerItemLongClickListener {
+
+        void onRecyclerItemLongClick();
+    }
+
     // Variables
     private List<ClientInfo> homeList;
     private List<ClientInfo> homeListAll;
@@ -29,6 +42,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> im
     private onNoteListener mOnNoteListener;
     private ArrayList<Integer> mSectionPositions;
     private List<ClientInfo> homeItems;
+    private final String TAG = this.getClass().getCanonicalName();
 
     // Adapter
     public HomeAdapter(onNoteListener onNoteListener, List<ClientInfo> homeItems) {
@@ -73,6 +87,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> im
         ImageView imageView;
         TextView projectTitle, rowCountTextView, projectAddress, projectDate;
         HomeAdapter.onNoteListener onNoteListener;
+        OnRecyclerItemLongClickListener onRecyclerItemLongClickListener;
 
         public ViewHolder(@NonNull View itemView, onNoteListener onNoteListener) {
             super(itemView);
@@ -84,7 +99,70 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> im
             rowCountTextView = itemView.findViewById(R.id.title);
             this.onNoteListener = onNoteListener;
             itemView.setOnClickListener(this);
+
+
+
+            // Long Press to delete an item
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View itemView) {
+
+                    Log.d(TAG, "onLongClick: Long clicked");
+
+//                    onRecyclerItemLongClickListener.onRecyclerItemLongClick();
+
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(itemView.getContext());
+            alertDialogBuilder.setTitle("Delete ClientInfo");
+            alertDialogBuilder.setMessage("Would you like to delete the selected clientInfo?");
+        alertDialogBuilder.setCancelable(true);
+        alertDialogBuilder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+
+        alertDialogBuilder.setPositiveButton("Delete ClientInfo", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                deleteSelectedClientInfo();
+            }
+
+            private void deleteSelectedClientInfo() {
+                Log.d(TAG, "deleteSelectedClientInfo: Delete button check");
+
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+
+                    return false;
+                }
+            });
+
+
         }
+
+
+        public void showAlertDialogButtonClicked(View view) {
+
+            // setup the alert builder
+            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+            builder.setTitle("AlertDialog");
+            builder.setMessage("Would you like to continue learning how to use Android alerts?");
+
+            // add the buttons
+            builder.setPositiveButton("Continue", null);
+            builder.setNegativeButton("Cancel", null);
+
+            // create and show the alert dialog
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+
+
+
 
         @Override
         public void onClick(View view) {

@@ -89,6 +89,7 @@ public class AddProjectActivity extends AppCompatActivity
     private Bitmap oldDrawable, newDrawable;
     private ClientInfo clientInfoToPass;
     private List<String> userList = new ArrayList<>();
+    private String firstEightCharDocumentId;
 
     // Default function
     @Override
@@ -310,7 +311,16 @@ public class AddProjectActivity extends AppCompatActivity
 
         String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
-        String firstEightCharDocumentId = this.edtClientName.getEditText().getText().toString().substring(0, 8);
+        String strClientName = this.edtClientName.getEditText().getText().toString();
+
+        if(strClientName.length() >= 8){
+             firstEightCharDocumentId = strClientName.substring(0, 8);
+        }
+        else{
+            firstEightCharDocumentId = strClientName;
+        }
+
+
         String documentID = firstEightCharDocumentId +"_"+ currentTime +"_"+ currentDate;
         Log.d(TAG, "validateAddProject: Current Document ID: " + documentID);
 

@@ -1,5 +1,7 @@
 package com.example.wip_android.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -45,7 +47,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener {
+public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener, HomeAdapter.OnRecyclerItemLongClickListener {
 
     // Variables
     private HomeViewModel mViewModel;
@@ -210,4 +212,32 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
                 });
     }
 
+    @Override
+    public void onRecyclerItemLongClick() {
+        Log.d(TAG, "onRecyclerItemLongClick: Home fragment function longclick works");
+//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+//        alertDialogBuilder.setTitle("Delete ClientInfo");
+//        alertDialogBuilder.setMessage("Would you like to delete the selected clientInfo?");
+//        alertDialogBuilder.setCancelable(true);
+//        alertDialogBuilder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int id) {
+//                dialog.cancel();
+//            }
+//        });
+//
+//        alertDialogBuilder.setPositiveButton("Launch missile", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                
+//                deleteSelectedClientInfo();
+//            }
+//
+//            private void deleteSelectedClientInfo() {
+//                Log.d(TAG, "deleteSelectedClientInfo: Delete button check");
+//            }
+//        });
+//
+//        AlertDialog alertDialog = alertDialogBuilder.create();
+//        alertDialog.show();
+    }
 }
