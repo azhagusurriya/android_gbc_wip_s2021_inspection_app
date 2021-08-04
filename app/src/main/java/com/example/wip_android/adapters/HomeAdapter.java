@@ -129,7 +129,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> im
             }
 
             private void deleteSelectedClientInfo() {
-                Log.d(TAG, "deleteSelectedClientInfo: Delete button check");
+                Log.d(TAG, "deleteSelectedClientInfo: Delete button checkk");
 
             }
         });
