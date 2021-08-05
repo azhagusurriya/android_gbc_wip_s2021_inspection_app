@@ -8,13 +8,14 @@
 * Remember Me
 * Hidden password must be the default
 
-## Settings
+## Tabs
 
-* Profile change button
+* When image is not picked on After/Before, it is downloading forever
+* Change name "List" to "Issues"
+* When image on After is added, check the item (if there is no image, don't let it check)
 
 ## HomeFragment
 
-* All/Ongoing/Done on the search bar
 * When there is no image, click on the item and go to ProjectActivity
 
 ## AddProjectActivity
