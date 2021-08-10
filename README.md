@@ -10,9 +10,7 @@
 
 ## Tabs
 
-* When image is not picked on After/Before, it is downloading forever
-* Change name "List" to "Issues"
-* When image on After is added, check the item (if there is no image, don't let it check)
+* When an image on After is added, check the item (if there is no image, don't let it check)
 
 ## HomeFragment
 

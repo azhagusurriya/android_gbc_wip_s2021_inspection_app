@@ -118,8 +118,6 @@ public class DeficiencyListFragment extends Fragment {
                     public void onClick(View v) {
                         CheckBox cb = (CheckBox) v;
                         States _state = (States) cb.getTag();
-                        System.out.println("ITEM: " + cb.getText());
-                        System.out.println("ID: " + _state.getId());
                         setCompletionFirebase(_state.getId());
                         _state.setSelected(cb.isChecked());
                     }

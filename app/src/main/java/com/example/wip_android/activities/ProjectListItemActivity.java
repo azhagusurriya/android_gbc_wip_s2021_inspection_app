@@ -47,7 +47,7 @@ public class ProjectListItemActivity extends AppCompatActivity {
 
         // Tabs
         tabLayout.addTab(tabLayout.newTab().setText("Map"));
-        tabLayout.addTab(tabLayout.newTab().setText("List"));
+        tabLayout.addTab(tabLayout.newTab().setText("Issues"));
         tabLayout.addTab(tabLayout.newTab().setText("Customer"));
 
         imageViewFragment(new DeficiencyImageViewFragment());
