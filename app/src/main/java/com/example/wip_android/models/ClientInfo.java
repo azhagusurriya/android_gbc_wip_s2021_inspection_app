@@ -11,7 +11,7 @@ import java.util.Date;
 public class ClientInfo implements Serializable {
 
     // Variables
-    private String clientImage;
+    private String[] clientImage;
     private String clientName;
     private String clientStreetAddress;
     private String clientCity;
@@ -26,7 +26,7 @@ public class ClientInfo implements Serializable {
     public ClientInfo() {
     }
 
-    public ClientInfo(String clientImage, String clientName, String clientStreetAddress, String clientCity, String clientProvince, String clientPhoneNumber, boolean completion, String department, Date dateOfRegistration, String documentid) {
+    public ClientInfo(String[] clientImage, String clientName, String clientStreetAddress, String clientCity, String clientProvince, String clientPhoneNumber, boolean completion, String department, Date dateOfRegistration, String documentid) {
         this.clientImage = clientImage;
         this.clientName = clientName;
         this.clientStreetAddress = clientStreetAddress;
@@ -39,7 +39,7 @@ public class ClientInfo implements Serializable {
         this.documentid = documentid;
     }
 
-    public ClientInfo(String clientImage, String clientName, String clientStreetAddress, String clientCity,
+    public ClientInfo(String[] clientImage, String clientName, String clientStreetAddress, String clientCity,
                       String clientProvince, String clientPhoneNumber) {
         this.clientImage = clientImage;
         this.clientName = clientName;
@@ -52,7 +52,7 @@ public class ClientInfo implements Serializable {
 
     }
 
-    public ClientInfo(String clientImage, String clientName, String clientStreetAddress, String clientCity,
+    public ClientInfo(String[] clientImage, String clientName, String clientStreetAddress, String clientCity,
             String clientProvince, String clientPhoneNumber, boolean completion, String department,
             Date dateOfRegistration) {
         this.clientImage = clientImage;
@@ -67,7 +67,7 @@ public class ClientInfo implements Serializable {
     }
 
     // Getters and Setters
-    public void setClientImage(String clientImage) {
+    public void setClientImage(String[] clientImage) {
         this.clientImage = clientImage;
     }
 
@@ -111,7 +111,7 @@ public class ClientInfo implements Serializable {
         this.clientPhoneNumber = clientPhoneNumber;
     }
 
-    public String getClientImage() {
+    public String[] getClientImage() {
         return clientImage;
     }
 

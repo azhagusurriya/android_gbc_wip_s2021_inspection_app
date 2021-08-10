@@ -57,7 +57,7 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
     private HomeAdapter homeRecyclerAdapter;
     private List<String> homeList;
     public List<ClientInfo> clientInfoList;
-    private final String COLLECTION_NAME = "Client";
+    private final String COLLECTION_NAME = "Clients";
     private final String COLLECTION_USER = "Users";
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private List<String> homeTitleList;
@@ -120,7 +120,7 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
         String name = this.homeRecyclerAdapter.getHomeList().get(position).getClientName();
         String city = this.homeRecyclerAdapter.getHomeList().get(position).getClientCity();
         String province = this.homeRecyclerAdapter.getHomeList().get(position).getClientProvince();
-        String image = this.homeRecyclerAdapter.getHomeList().get(position).getClientImage();
+        String[] image = this.homeRecyclerAdapter.getHomeList().get(position).getClientImage();
         String phone = this.homeRecyclerAdapter.getHomeList().get(position).getClientPhoneNumber();
         Intent intent = new Intent(getActivity(), ProjectListItemActivity.class);
 

@@ -16,7 +16,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class AddProjectRepository {
 
     private final String TAG = this.getClass().getCanonicalName();
-    private final String COLLECTION_NAME = "Client";
+    private final String COLLECTION_NAME = "Clients";
     private final FirebaseFirestore db;
     public ClientInfo newClientInfo = new ClientInfo();
     private FirebaseAuth mAuth;

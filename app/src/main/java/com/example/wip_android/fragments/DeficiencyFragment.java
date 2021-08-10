@@ -78,7 +78,7 @@ public class DeficiencyFragment extends Fragment {
     private String buttonId;
     private Bitmap oldDrawable, newDrawable;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private String COLLECTION_CLIENT = "Client";
+    private String COLLECTION_CLIENT = "Clients";
     private String COLLECTION_PROJECT = "Project";
     private String COLLECTION_DEFICIENCY = "Deficiencies";
     private String clientName;

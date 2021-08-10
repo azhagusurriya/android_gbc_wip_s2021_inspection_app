@@ -85,7 +85,7 @@ public class AddProjectActivity extends AppCompatActivity
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser firebaseUser;
     private Uri contentUri;
-    private String uploadedImageurl;
+    private String[] uploadedImageurl;
     private Bitmap oldDrawable, newDrawable;
     private ClientInfo clientInfoToPass;
     private List<String> userList = new ArrayList<>();
