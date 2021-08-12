@@ -1,5 +1,6 @@
 package com.example.wip_android.activities;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -7,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.widget.LinearLayout;
 
@@ -24,7 +26,7 @@ public class ProjectListItemActivity extends AppCompatActivity {
     private final String TAG = this.getClass().getCanonicalName();
     private TabLayout tabLayout;
     private LinearLayout container;
-    private String intentClientName, intentClientAddress, intentClientCity, intentClientProvince, intentClientPhone,
+    private String intentDocumentId, intentClientName, intentClientAddress, intentClientCity, intentClientProvince, intentClientPhone,
             intentClientImage;
 
     // Default function
@@ -33,8 +35,16 @@ public class ProjectListItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_list_item);
 
+
+
+
+        // Back button
+        assert getSupportActionBar() != null; // null check
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // show back button
+
         // Data between tabs
         Intent i = getIntent();
+        intentDocumentId = i.getStringExtra("documentId");
         intentClientName = i.getStringExtra("name");
         intentClientAddress = i.getStringExtra("address");
         intentClientCity = i.getStringExtra("city");
@@ -44,6 +54,14 @@ public class ProjectListItemActivity extends AppCompatActivity {
 
         tabLayout = (TabLayout) findViewById(R.id.projectTabLayout);
         container = (LinearLayout) findViewById(R.id.project_fragment_container);
+
+
+        // Action bar settings
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(Html.fromHtml("<font color='#ffffff'> " + intentDocumentId + " </font>"));
+        }
+
 
         // Tabs
         tabLayout.addTab(tabLayout.newTab().setText("Map"));
@@ -73,6 +91,12 @@ public class ProjectListItemActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 
     private void replaceFragment(Fragment fragment) {

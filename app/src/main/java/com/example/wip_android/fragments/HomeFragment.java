@@ -118,6 +118,8 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
     // When RecyclerView item is clicked do something
     @Override
     public void onNoteClick(int position) {
+
+        String documentId = this.homeRecyclerAdapter.getHomeList().get(position).getDocumentid();
         String address = this.homeRecyclerAdapter.getHomeList().get(position).getClientStreetAddress();
         String name = this.homeRecyclerAdapter.getHomeList().get(position).getClientName();
         String city = this.homeRecyclerAdapter.getHomeList().get(position).getClientCity();
@@ -126,6 +128,7 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
         String phone = this.homeRecyclerAdapter.getHomeList().get(position).getClientPhoneNumber();
         Intent intent = new Intent(getActivity(), ProjectListItemActivity.class);
 
+        intent.putExtra("documentId", documentId);
         intent.putExtra("address", address);
         intent.putExtra("name", name);
         intent.putExtra("city", city);

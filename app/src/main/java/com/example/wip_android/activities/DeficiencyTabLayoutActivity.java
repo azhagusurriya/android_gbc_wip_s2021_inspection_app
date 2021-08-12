@@ -1,5 +1,6 @@
 package com.example.wip_android.activities;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -7,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -27,6 +29,7 @@ public class DeficiencyTabLayoutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deficiency_tab_layout);
+
 
         tabLayout = (TabLayout) findViewById(R.id.deficiencyTabLayout);
         container = (LinearLayout) findViewById(R.id.deficiency_fragment_container);
@@ -55,6 +58,22 @@ public class DeficiencyTabLayoutActivity extends AppCompatActivity {
             }
         });
 
+        // Action bar settings
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(Html.fromHtml("<font color='#ffffff'>Deficiency Before/After</font>"));
+        }
+
+        // Back button
+        assert getSupportActionBar() != null; // null check
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // show back button
+
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 
     private void replaceFragment(Fragment fragment) {
