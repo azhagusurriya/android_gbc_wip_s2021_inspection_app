@@ -47,7 +47,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener, HomeAdapter.OnRecyclerItemLongClickListener {
+public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener, HomeAdapter.OnRecyclerItemLongClickListener{
 
     // Variables
     private HomeViewModel mViewModel;
@@ -65,6 +65,8 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
     private ClientInfo chosenItem;
     private String currentUserEmail;
     private FirebaseUser firebaseUser;
+    private HomeAdapter.OnRecyclerItemLongClickListener onRecyclerItemLongClickListener;
+    private String department;
 
     // Default function
     @Override
@@ -182,7 +184,7 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
                         this.homeSubtitleList.add(clientInfoList.get(i).getClientName());
                     }
                     // Display on recycler view
-                    this.homeRecyclerAdapter = new HomeAdapter(this, clientInfoList);
+                    this.homeRecyclerAdapter = new HomeAdapter(this, clientInfoList, this);
                     this.homeRecyclerView.setAdapter(this.homeRecyclerAdapter);
                     this.homeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                     DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),
@@ -203,7 +205,7 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             if (task.getResult().getDocuments().size() != 0) {
-                                String department = task.getResult().getDocuments().get(0).toObject(User.class)
+                                 department = task.getResult().getDocuments().get(0).toObject(User.class)
                                         .getDepartment();
                                 refreshHomeRecyclerView(department);
                             }
@@ -212,32 +214,42 @@ public class HomeFragment extends Fragment implements HomeAdapter.onNoteListener
                 });
     }
 
-    @Override
-    public void onRecyclerItemLongClick() {
-        Log.d(TAG, "onRecyclerItemLongClick: Home fragment function longclick works");
-//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
-//        alertDialogBuilder.setTitle("Delete ClientInfo");
-//        alertDialogBuilder.setMessage("Would you like to delete the selected clientInfo?");
-//        alertDialogBuilder.setCancelable(true);
-//        alertDialogBuilder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int id) {
-//                dialog.cancel();
-//            }
-//        });
-//
-//        alertDialogBuilder.setPositiveButton("Launch missile", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                
-//                deleteSelectedClientInfo();
-//            }
-//
-//            private void deleteSelectedClientInfo() {
-//                Log.d(TAG, "deleteSelectedClientInfo: Delete button check");
-//            }
-//        });
-//
-//        AlertDialog alertDialog = alertDialogBuilder.create();
-//        alertDialog.show();
-    }
+
+
+
+        @Override
+        public void onRecyclerItemLongClick (int position) {
+            Log.d(TAG, "onRecyclerItemLongClick: Home fragment function longclick works");
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+            alertDialogBuilder.setTitle("Delete ClientInfo");
+            alertDialogBuilder.setMessage("Would you like to delete the selected clientInfo?");
+            alertDialogBuilder.setCancelable(true);
+            alertDialogBuilder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.cancel();
+                }
+            });
+
+            alertDialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    deleteSelectedClientInfo();
+                }
+
+                private void deleteSelectedClientInfo() {
+                    Log.d(TAG, "deleteSelectedClientInfo: Delete button check");
+                    String clientId = homeRecyclerAdapter.getHomeList().get(position).getDocumentid();
+                    Log.d(TAG, "deleteSelectedClientInfo: Client Document Id: " + clientId);
+
+                    db.collection(COLLECTION_NAME).document(clientId).delete();
+                    refreshHomeRecyclerView(department);
+
+                }
+            });
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+        }
+
 }

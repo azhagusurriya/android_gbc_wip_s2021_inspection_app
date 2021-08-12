@@ -28,12 +28,7 @@ import java.util.List;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> implements Filterable {
 
-//Interface for long click
 
-    public interface OnRecyclerItemLongClickListener {
-
-        void onRecyclerItemLongClick();
-    }
 
     // Variables
     private List<ClientInfo> homeList;
@@ -43,15 +38,27 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> im
     private ArrayList<Integer> mSectionPositions;
     private List<ClientInfo> homeItems;
     private final String TAG = this.getClass().getCanonicalName();
+    private OnRecyclerItemLongClickListener onRecyclerItemLongClickListener;
+
 
     // Adapter
-    public HomeAdapter(onNoteListener onNoteListener, List<ClientInfo> homeItems) {
+    public HomeAdapter(onNoteListener onNoteListener, List<ClientInfo> homeItems, OnRecyclerItemLongClickListener onRecyclerItemLongClickListener) {
         this.homeList = homeItems;
         this.mOnNoteListener = onNoteListener;
         this.homeItems = homeItems;
         this.homeListAll = new ArrayList<ClientInfo>();
         this.homeListAll.addAll(homeItems);
+        this.onRecyclerItemLongClickListener = onRecyclerItemLongClickListener;
     }
+
+//    public HomeAdapter(onNoteListener onNoteListener, List<ClientInfo> homeItems) {
+//        this.homeList = homeItems;
+//        this.mOnNoteListener = onNoteListener;
+//        this.homeItems = homeItems;
+//        this.homeListAll = new ArrayList<ClientInfo>();
+//        this.homeListAll.addAll(homeItems);
+//    }
+
 
     // Recycler View Settings
     @NonNull
@@ -59,7 +66,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> im
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.row_home_item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view, mOnNoteListener);
+        ViewHolder viewHolder = new ViewHolder(view, mOnNoteListener, onRecyclerItemLongClickListener);
 
         return viewHolder;
     }
@@ -89,7 +96,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> im
         HomeAdapter.onNoteListener onNoteListener;
         OnRecyclerItemLongClickListener onRecyclerItemLongClickListener;
 
-        public ViewHolder(@NonNull View itemView, onNoteListener onNoteListener) {
+        public ViewHolder(@NonNull View itemView, onNoteListener onNoteListener,OnRecyclerItemLongClickListener onRecyclerItemLongClickListener ) {
             super(itemView);
 
             imageView = itemView.findViewById(R.id.imageView);
@@ -99,7 +106,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> im
             rowCountTextView = itemView.findViewById(R.id.title);
             this.onNoteListener = onNoteListener;
             itemView.setOnClickListener(this);
-
+            this.onRecyclerItemLongClickListener = onRecyclerItemLongClickListener;
 
 
             // Long Press to delete an item
@@ -109,33 +116,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> im
 
                     Log.d(TAG, "onLongClick: Long clicked");
 
-//                    onRecyclerItemLongClickListener.onRecyclerItemLongClick();
-
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(itemView.getContext());
-            alertDialogBuilder.setTitle("Delete ClientInfo");
-            alertDialogBuilder.setMessage("Would you like to delete the selected clientInfo?");
-        alertDialogBuilder.setCancelable(true);
-        alertDialogBuilder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
-
-        alertDialogBuilder.setPositiveButton("Delete ClientInfo", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                deleteSelectedClientInfo();
-            }
-
-            private void deleteSelectedClientInfo() {
-                Log.d(TAG, "deleteSelectedClientInfo: Delete button checkk");
-
-            }
-        });
-
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
+                    onRecyclerItemLongClickListener.onRecyclerItemLongClick(getAdapterPosition());
 
                     return false;
                 }
@@ -143,7 +124,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> im
 
 
         }
-
 
         public void showAlertDialogButtonClicked(View view) {
 
@@ -160,9 +140,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> im
             AlertDialog dialog = builder.create();
             dialog.show();
         }
-
-
-
 
         @Override
         public void onClick(View view) {
@@ -213,4 +190,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> im
     public List<ClientInfo> getHomeList() {
         return homeList;
     }
+
+
+    //Interface for long click
+
+    public interface OnRecyclerItemLongClickListener {
+
+        void onRecyclerItemLongClick(int position);
+    }
+
 }
