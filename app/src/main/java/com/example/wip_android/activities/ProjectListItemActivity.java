@@ -35,9 +35,6 @@ public class ProjectListItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_list_item);
 
-
-
-
         // Back button
         assert getSupportActionBar() != null; // null check
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // show back button
@@ -61,7 +58,6 @@ public class ProjectListItemActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setTitle(Html.fromHtml("<font color='#ffffff'> " + intentDocumentId + " </font>"));
         }
-
 
         // Tabs
         tabLayout.addTab(tabLayout.newTab().setText("Map"));
