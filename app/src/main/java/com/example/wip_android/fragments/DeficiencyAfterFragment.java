@@ -203,10 +203,10 @@ public class DeficiencyAfterFragment extends Fragment {
         } else {
             if (existedImageAfter != null) {
                 uploadedImageUrl = existedImageAfter;
-                pd.dismiss();
-                updateFirebaseData(buttonId);
-                goToHome();
             }
+            pd.dismiss();
+            updateFirebaseData(buttonId);
+            goToHome();
         }
     }
 
@@ -233,12 +233,16 @@ public class DeficiencyAfterFragment extends Fragment {
                                                         // Images
                                                         String imageLinkBefore = currentDeficiencyInfo
                                                                 .getImageLinkBefore();
-                                                        String imageLinkAfter = uploadedImageUrl;
+                                                        String imageLinkAfter = "";
+                                                        if (uploadedImageUrl == null) {
+                                                            imageLinkAfter = currentDeficiencyInfo
+                                                                    .getImageLinkBefore();
+                                                        } else {
+                                                            imageLinkAfter = uploadedImageUrl;
+                                                        }
 
                                                         // Comments
                                                         String commentAfter = currentDeficiencyInfo.getCommentAfter();
-                                                        System.out.println(
-                                                                "TEXT: " + edtIssueAfter.getEditText().getText());
                                                         if (edtIssueAfter.getEditText().getText() != null) {
                                                             commentAfter = String
                                                                     .valueOf(edtIssueAfter.getEditText().getText());
@@ -257,6 +261,10 @@ public class DeficiencyAfterFragment extends Fragment {
                                                         String employeeIdOfRegisteration = currentDeficiencyInfo
                                                                 .getEmployeeIdOfRegisteration();
                                                         boolean deficiencyCompletion = false;
+                                                        if (imageLinkAfter != "") {
+                                                            deficiencyCompletion = true;
+                                                        }
+
 
                                                         // Create object
                                                         DeficiencyInfo newDeficiencyInfo = new DeficiencyInfo(title,

@@ -8,13 +8,12 @@
 * Remember Me
 * Hidden password must be the default
 
-## Settings
+## Tabs
 
-* Profile change button
+* When an image on After is added, check the item (if there is no image, don't let it check)
 
 ## HomeFragment
 
-* All/Ongoing/Done on the search bar
 * When there is no image, click on the item and go to ProjectActivity
 
 ## AddProjectActivity

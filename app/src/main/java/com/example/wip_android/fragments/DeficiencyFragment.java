@@ -285,10 +285,10 @@ public class DeficiencyFragment extends Fragment {
             } else {
                 if (currentImage != null) {
                     uploadedImageUrl = currentImage;
-                    pd.dismiss();
-                    updateFirebaseData(buttonId);
-                    goToHome();
                 }
+                pd.dismiss();
+                updateFirebaseData(buttonId);
+                goToHome();
             }
         }
     }
@@ -314,7 +314,13 @@ public class DeficiencyFragment extends Fragment {
                                                                 .toObject(DeficiencyInfo.class);
 
                                                         // Images
-                                                        String imageLinkBefore = uploadedImageUrl;
+                                                        String imageLinkBefore = "";
+                                                        if (uploadedImageUrl == null) {
+                                                            imageLinkBefore = currentDeficiencyInfo
+                                                                    .getImageLinkBefore();
+                                                        } else {
+                                                            imageLinkBefore = uploadedImageUrl;
+                                                        }
                                                         String imageLinkAfter = currentDeficiencyInfo
                                                                 .getImageLinkAfter();
 
@@ -338,6 +344,9 @@ public class DeficiencyFragment extends Fragment {
                                                         String employeeIdOfRegisteration = currentDeficiencyInfo
                                                                 .getEmployeeIdOfRegisteration();
                                                         boolean deficiencyCompletion = false;
+                                                        if (imageLinkAfter != "") {
+                                                            deficiencyCompletion = true;
+                                                        }
 
                                                         // Create object
                                                         DeficiencyInfo newDeficiencyInfo = new DeficiencyInfo(title,
