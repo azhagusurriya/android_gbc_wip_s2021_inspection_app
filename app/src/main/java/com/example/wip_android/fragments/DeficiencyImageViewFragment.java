@@ -386,7 +386,6 @@ public class DeficiencyImageViewFragment extends Fragment {
                                                         }
                                                         // Add new deficiency
                                                         if (buttonExists == false) {
-                                                            System.out.println("BUTTON DOES NOT EXIST");
                                                             db.collection(COLLECTION_CLIENT).document(clientId)
                                                                     .collection(COLLECTION_PROJECT).document(projectId)
                                                                     .set(projectInfo);

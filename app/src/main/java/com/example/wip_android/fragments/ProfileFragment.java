@@ -87,12 +87,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         this.btnChangePassword.setOnClickListener(this);
         this.clearFields();
 
-//        userID = this.userViewModel.getUserRepository().loggedInUserID.getValue();
+        // userID = this.userViewModel.getUserRepository().loggedInUserID.getValue();
 
         getUpdateUserInfo();
 
-//        userInfo = this.userViewModel.getUpdateUserInfo(userID);
-
+        // userInfo = this.userViewModel.getUpdateUserInfo(userID);
 
         this.userViewModel.getUserRepository().userDeleteStatus.observe(getActivity(), new Observer<String>() {
             @Override
@@ -168,7 +167,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         startActivity(intent);
     }
 
-   private void navigateToChangePassword(){
+    private void navigateToChangePassword() {
         Intent intent = new Intent(getActivity(), ChangePasswordActivity.class);
         startActivity(intent);
     }
@@ -210,19 +209,24 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         return true;
     }
 
-//    private void getAccountInfo() {
-////        Log.d(TAG, "onCreateView: user info in the profile fragment: " + userInfo.getEmail());
-//
-////        if (userInfo != null) {
-//            this.tvEmployeeID.setText("Employee ID: " + this.userViewModel.getUserRepository().newUserInfo.getEmpID());
-//            this.tvEmail.setText("E-mail: " + this.userViewModel.getUserRepository().newUserInfo.getEmail());
-//            this.edtFirstname.getEditText().setText(this.userViewModel.getUserRepository().newUserInfo.getFirstName());
-//            // this.edtConfirmPassword.setText(this.userViewModel.getUserRepository().newUserInfo.getPassword());
-//            // this.edtPassword.setText(this.userViewModel.getUserRepository().newUserInfo.getPassword());
-//            this.edtLastname.getEditText().setText(this.userViewModel.getUserRepository().newUserInfo.getLastName());
-//            this.edtContactNumber.getEditText().setText(this.userViewModel.getUserRepository().newUserInfo.getPhone());
-////        }
-//    }
+    // private void getAccountInfo() {
+    //// Log.d(TAG, "onCreateView: user info in the profile fragment: " +
+    // userInfo.getEmail());
+    //
+    //// if (userInfo != null) {
+    // this.tvEmployeeID.setText("Employee ID: " +
+    // this.userViewModel.getUserRepository().newUserInfo.getEmpID());
+    // this.tvEmail.setText("E-mail: " +
+    // this.userViewModel.getUserRepository().newUserInfo.getEmail());
+    // this.edtFirstname.getEditText().setText(this.userViewModel.getUserRepository().newUserInfo.getFirstName());
+    // //
+    // this.edtConfirmPassword.setText(this.userViewModel.getUserRepository().newUserInfo.getPassword());
+    // //
+    // this.edtPassword.setText(this.userViewModel.getUserRepository().newUserInfo.getPassword());
+    // this.edtLastname.getEditText().setText(this.userViewModel.getUserRepository().newUserInfo.getLastName());
+    // this.edtContactNumber.getEditText().setText(this.userViewModel.getUserRepository().newUserInfo.getPhone());
+    //// }
+    // }
 
     private void updateUserToDB() {
         User newUser = new User();
@@ -236,7 +240,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         this.userViewModel.updateUser(newUser);
     }
 
-//Get info from firebase
+    // Get info from firebase
     public void getUpdateUserInfo() {
         userID = this.userViewModel.getUserRepository().loggedInUserID.getValue();
 

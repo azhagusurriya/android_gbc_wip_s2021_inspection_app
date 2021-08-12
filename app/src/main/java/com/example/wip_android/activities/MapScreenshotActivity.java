@@ -51,7 +51,6 @@ import java.util.Date;
 
 public class MapScreenshotActivity extends AppCompatActivity {
 
-
     private GoogleMap mMap;
     private FloatingActionButton fabTakeScreenshotButton;
     private Fragment switchFragment;
@@ -60,19 +59,16 @@ public class MapScreenshotActivity extends AppCompatActivity {
     FusedLocationProviderClient fusedClient;
     private final String TAG = this.getClass().getCanonicalName();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_screenshot);
-
 
         // Action bar settings
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle(Html.fromHtml("<font color='#ffffff'>Google Map</font>"));
         }
-
 
         // Back button
         assert getSupportActionBar() != null; // null check
@@ -87,38 +83,34 @@ public class MapScreenshotActivity extends AppCompatActivity {
             }
         });
 
-        //Assign values
-        supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.google_map);
+        // Assign values
+        supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.google_map);
 
-        //Initialize fussed location
+        // Initialize fussed location
         fusedClient = LocationServices.getFusedLocationProviderClient(this);
 
-
-        //check permission
-        if(ActivityCompat.checkSelfPermission(MapScreenshotActivity.this,
+        // check permission
+        if (ActivityCompat.checkSelfPermission(MapScreenshotActivity.this,
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            //wHEN PERMISSION GRANTED
+            // wHEN PERMISSION GRANTED
 
             // Call method
             getCurrentLocation();
 
-        }else{
-//        when permission denied
-//            request permission
+        } else {
+            // when permission denied
+            // request permission
             ActivityCompat.requestPermissions(MapScreenshotActivity.this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},44);
+                    new String[] { Manifest.permission.ACCESS_FINE_LOCATION }, 44);
         }
 
     }
-
 
     @Override
     public boolean onSupportNavigateUp() {
         finish();
         return true;
     }
-
 
     // Initializing Snapshot Method
     public void takeMapScreenshot() {
@@ -170,7 +162,6 @@ public class MapScreenshotActivity extends AppCompatActivity {
         mMap.snapshot(callback);
     }
 
-
     private void saveImage(Bitmap bitmap, @NonNull String name) throws IOException {
         boolean saved;
         OutputStream fos;
@@ -202,8 +193,7 @@ public class MapScreenshotActivity extends AppCompatActivity {
         fos.flush();
         fos.close();
 
-//        Dialog box
-
+        // Dialog box
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -220,22 +210,19 @@ public class MapScreenshotActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
     }
 
-    private void getCurrentLocation(){
-//initialize task location
+    private void getCurrentLocation() {
+        // initialize task location
 
-        @SuppressLint("MissingPermission") Task<Location> task = fusedClient.getLastLocation();
+        @SuppressLint("MissingPermission")
+        Task<Location> task = fusedClient.getLastLocation();
         task.addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
-//                when success
-                if(location != null){
-//                    Sync map
+                // when success
+                if (location != null) {
+                    // Sync map
 
                     supportMapFragment.getMapAsync(new OnMapReadyCallback() {
                         @Override
@@ -245,21 +232,22 @@ public class MapScreenshotActivity extends AppCompatActivity {
                             googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
                             setupGoogleMapScreenSetting(googleMap);
 
-//                    Initialize lat lng
+                            // Initialize lat lng
 
-                            LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());
+                            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
-//                    Create marker option
-                            MarkerOptions options = new MarkerOptions().position(latLng).title("I am Here").snippet("My Current Location");
+                            // Create marker option
+                            MarkerOptions options = new MarkerOptions().position(latLng).title("I am Here")
+                                    .snippet("My Current Location");
 
-//                    zoom map
-                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,24));
+                            // zoom map
+                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 24));
 
-//                            camera position
-                            CameraPosition cPosition = CameraPosition.builder().target(latLng).zoom(24).bearing(0).tilt(45)
-                                    .build();
+                            // camera position
+                            CameraPosition cPosition = CameraPosition.builder().target(latLng).zoom(24).bearing(0)
+                                    .tilt(45).build();
 
-//                    add marker on map
+                            // add marker on map
 
                             googleMap.addMarker(options);
 
@@ -272,18 +260,17 @@ public class MapScreenshotActivity extends AppCompatActivity {
 
     }
 
-
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 44) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                when permission granted
-//                call method
+                // when permission granted
+                // call method
                 getCurrentLocation();
             }
         }
-
 
     }
 
@@ -301,14 +288,14 @@ public class MapScreenshotActivity extends AppCompatActivity {
         myUiSettings.setRotateGesturesEnabled(true);
     }
 
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event)
-//    {
-//        if ((keyCode == KeyEvent.KEYCODE_BACK))
-//        {
-//            finish();
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
+    // @Override
+    // public boolean onKeyDown(int keyCode, KeyEvent event)
+    // {
+    // if ((keyCode == KeyEvent.KEYCODE_BACK))
+    // {
+    // finish();
+    // }
+    // return super.onKeyDown(keyCode, event);
+    // }
 
 }

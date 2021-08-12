@@ -38,9 +38,9 @@ public class PinView extends SubsamplingScaleImageView {
     private void initialise() {
         float density = getResources().getDisplayMetrics().densityDpi;
         pin = BitmapFactory.decodeResource(this.getResources(), android.R.drawable.ic_input_add);
-        float w = (density/420f) * pin.getWidth();
-        float h = (density/420f) * pin.getHeight();
-        pin = Bitmap.createScaledBitmap(pin, (int)w, (int)h, true);
+        float w = (density / 420f) * pin.getWidth();
+        float h = (density / 420f) * pin.getHeight();
+        pin = Bitmap.createScaledBitmap(pin, (int) w, (int) h, true);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class PinView extends SubsamplingScaleImageView {
 
         if (sPin != null && pin != null) {
             sourceToViewCoord(sPin, vPin);
-            float vX = vPin.x - (pin.getWidth()/2);
+            float vX = vPin.x - (pin.getWidth() / 2);
             float vY = vPin.y - pin.getHeight();
             canvas.drawBitmap(pin, vX, vY, paint);
         }

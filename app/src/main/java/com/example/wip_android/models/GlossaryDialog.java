@@ -24,7 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GlossaryDialog extends AppCompatDialogFragment implements View.OnClickListener  {
+public class GlossaryDialog extends AppCompatDialogFragment implements View.OnClickListener {
 
     // Variables
     private GlossaryDialogInterface glossaryDialogInterface;
@@ -46,8 +46,7 @@ public class GlossaryDialog extends AppCompatDialogFragment implements View.OnCl
         edtGlossaryDescription = view.findViewById(R.id.edtGlossaryDescription);
 
         this.spnCategoryGlossary = view.findViewById(R.id.spnCategoryGlossary);
-//        this.spnCategoryGlossary.setOnItemSelectedListener(this);
-
+        // this.spnCategoryGlossary.setOnItemSelectedListener(this);
 
         // Province list
         List<String> Category = new ArrayList<String>();
@@ -63,11 +62,6 @@ public class GlossaryDialog extends AppCompatDialogFragment implements View.OnCl
         Category.add("Tall Cones");
         Category.add("Others");
 
-//        ArrayAdapter<String> provinceAdapter = new ArrayAdapter<String>(this, R.layout.category_dropdown_item,
-//                Category);
-//        spnCategoryGlossary.setAdapter(provinceAdapter);
-
-
         // Dialog
         builder.setView(view).setTitle("Add New Term")
                 // Negative button
@@ -82,10 +76,10 @@ public class GlossaryDialog extends AppCompatDialogFragment implements View.OnCl
                     public void onClick(DialogInterface dialog, int which) {
                         String glossaryContent = edtGlossaryContent.getEditText().getText().toString();
                         String glossaryDescription = edtGlossaryDescription.getEditText().getText().toString();
-//                        String glossaryCategory = spnCategoryGlossary.getText().toString();
+                        // String glossaryCategory = spnCategoryGlossary.getText().toString();
                         String glossarySection = (glossaryContent.charAt(0) + "").toUpperCase();
-                        newGlossaryItem = new GlossaryItem("Others", glossaryContent, "Admin",
-                                glossaryDescription, glossarySection);
+                        newGlossaryItem = new GlossaryItem("Others", glossaryContent, "Admin", glossaryDescription,
+                                glossarySection);
                         glossaryDialogInterface.addNewGlossaryItem(newGlossaryItem);
 
                     }
@@ -104,7 +98,6 @@ public class GlossaryDialog extends AppCompatDialogFragment implements View.OnCl
     public void onClick(View v) {
 
     }
-
 
     public interface GlossaryDialogInterface {
         void addNewGlossaryItem(GlossaryItem newGlossaryItem);

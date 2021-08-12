@@ -283,7 +283,6 @@ public class ClientUpdateFragment extends Fragment implements View.OnClickListen
                 ivUpdateClientImage.setImageURI(contentUri);
 
                 this.updateNewDrawable = ((BitmapDrawable) ivUpdateClientImage.getDrawable()).getBitmap();
-
             }
         }
     }

@@ -2,7 +2,7 @@ package com.example.wip_android;
 
 public class Circle {
     private float x;
-    private float y ;
+    private float y;
     private int radius;
 
     public Circle(float x, float y, int radius) {
@@ -40,10 +40,6 @@ public class Circle {
 
     @Override
     public String toString() {
-        return "Circle{" +
-                "x=" + x +
-                ", y=" + y +
-                ", radius=" + radius +
-                '}';
+        return "Circle{" + "x=" + x + ", y=" + y + ", radius=" + radius + '}';
     }
 }

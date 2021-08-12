@@ -8,7 +8,6 @@
     android:padding="16dp"
     android:orientation="vertical">
 
-
     <TextView
         android:id="@+id/tvUEmployeeID"
         android:layout_width="match_parent"
@@ -79,27 +78,6 @@
             android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
-
-<!--    <EditText-->
-<!--        android:id="@+id/edtUPassword"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:hint="@string/password"-->
-<!--        android:inputType="textPassword"-->
-<!--        android:layout_marginStart="8dp"-->
-<!--        android:layout_marginTop="12dp"-->
-<!--        android:layout_marginEnd="8dp"-->
-<!--        />-->
-<!--    <EditText-->
-<!--        android:id="@+id/edtUConfirmPassword"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:hint="@string/confirm_password"-->
-<!--        android:inputType="textPassword"-->
-<!--        android:layout_marginStart="8dp"-->
-<!--        android:layout_marginTop="12dp"-->
-<!--        android:layout_marginEnd="8dp"-->
-<!--        />-->
 
     <Button
         android:id="@+id/btnUpdateAccount"

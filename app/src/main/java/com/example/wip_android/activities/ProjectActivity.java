@@ -104,22 +104,6 @@ public class ProjectActivity extends AppCompatActivity implements ProjectAdapter
             this.projectName.setText(name);
             this.projectAddress.setText(address);
         }
-
-        // // Deficiency List
-        // deficiencyList = new ArrayList<>();
-        // deficiencyList.add("Foundation Wall Cracks");
-        // deficiencyList.add("Faulty Roofs");
-        // deficiencyList.add("Sump Pump Problems");
-        // deficiencyList.add("Wall Cracks");
-        //
-        // // Deficiency Recycler View
-        // recyclerView = findViewById(R.id.recyclerView);
-        // recyclerAdapter = new ProjectAdapter(deficiencyList, this);
-        // recyclerView.setAdapter(recyclerAdapter);
-        // recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        // DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,
-        // DividerItemDecoration.VERTICAL);
-        // recyclerView.addItemDecoration(dividerItemDecoration);
     }
 
     public void addDeficiency(View view) {
@@ -132,9 +116,6 @@ public class ProjectActivity extends AppCompatActivity implements ProjectAdapter
         switchFragment.setArguments(bundle);
 
         transaction.replace(R.id.project_layout, switchFragment).addToBackStack(null).commit();
-
-        // goToAddDeficiency();
-        // goToAddMarker();
     }
 
     // Going back to previous activity
@@ -198,11 +179,6 @@ public class ProjectActivity extends AppCompatActivity implements ProjectAdapter
 
         if (id == R.id.action_map) {
             Log.d(TAG, "onOptionsItemSelected: Map selected ");
-            // switchFragment = new MapFragment();
-            // transaction = getSupportFragmentManager().beginTransaction();
-            // transaction.replace(R.id.project_layout,
-            // switchFragment).addToBackStack(null).commit();
-
             Intent mainIntent = new Intent(this, MapScreenshotActivity.class);
             startActivity(mainIntent);
             return true;

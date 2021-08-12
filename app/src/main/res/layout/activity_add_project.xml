@@ -105,24 +105,6 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-<!--    <com.google.android.material.textfield.TextInputLayout-->
-<!--        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"-->
-<!--        android:id="@+id/edtProvince"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginBottom="12dp"-->
-<!--        android:hint="@string/province"-->
-<!--        app:endIconMode="clear_text"-->
-<!--        app:endIconTint="@color/black"-->
-<!--        tools:ignore="MissingConstraints">-->
-
-<!--        <com.google.android.material.textfield.TextInputEditText-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content" />-->
-
-<!--    </com.google.android.material.textfield.TextInputLayout>-->
-
-
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:id="@+id/edtClientPhone"

@@ -26,7 +26,9 @@ public class ClientInfo implements Serializable {
     public ClientInfo() {
     }
 
-    public ClientInfo(String clientImage, String clientName, String clientStreetAddress, String clientCity, String clientProvince, String clientPhoneNumber, boolean completion, String department, Date dateOfRegistration, String documentid) {
+    public ClientInfo(String clientImage, String clientName, String clientStreetAddress, String clientCity,
+            String clientProvince, String clientPhoneNumber, boolean completion, String department,
+            Date dateOfRegistration, String documentid) {
         this.clientImage = clientImage;
         this.clientName = clientName;
         this.clientStreetAddress = clientStreetAddress;
@@ -40,7 +42,7 @@ public class ClientInfo implements Serializable {
     }
 
     public ClientInfo(String clientImage, String clientName, String clientStreetAddress, String clientCity,
-                      String clientProvince, String clientPhoneNumber) {
+            String clientProvince, String clientPhoneNumber) {
         this.clientImage = clientImage;
         this.clientName = clientName;
         this.clientStreetAddress = clientStreetAddress;

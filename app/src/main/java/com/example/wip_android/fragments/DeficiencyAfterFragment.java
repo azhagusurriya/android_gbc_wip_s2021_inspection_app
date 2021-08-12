@@ -235,8 +235,7 @@ public class DeficiencyAfterFragment extends Fragment {
                                                                 .getImageLinkBefore();
                                                         String imageLinkAfter = "";
                                                         if (uploadedImageUrl == null) {
-                                                            imageLinkAfter = currentDeficiencyInfo
-                                                                    .getImageLinkBefore();
+                                                            imageLinkAfter = currentDeficiencyInfo.getImageLinkBefore();
                                                         } else {
                                                             imageLinkAfter = uploadedImageUrl;
                                                         }
@@ -264,7 +263,6 @@ public class DeficiencyAfterFragment extends Fragment {
                                                         if (imageLinkAfter != "") {
                                                             deficiencyCompletion = true;
                                                         }
-
 
                                                         // Create object
                                                         DeficiencyInfo newDeficiencyInfo = new DeficiencyInfo(title,

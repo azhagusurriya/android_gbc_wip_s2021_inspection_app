@@ -36,7 +36,7 @@
             android:layout_height="300dp"
             android:layout_marginTop="20dp"
             android:scaleType="centerInside"
-            android:src="@drawable/roof" />
+            android:src="@drawable/logo" />
 
 
         <TextView
@@ -59,8 +59,7 @@
             android:background="@color/logo"
             android:onClick="addDeficiency"
             android:clickable="true"
-            android:text="@string/addDeficiency"
-            />
+            android:text="@string/addDeficiency"/>
     </LinearLayout>
 
 </FrameLayout>

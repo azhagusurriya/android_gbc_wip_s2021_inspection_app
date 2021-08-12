@@ -30,7 +30,6 @@ public class DeficiencyTabLayoutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deficiency_tab_layout);
 
-
         tabLayout = (TabLayout) findViewById(R.id.deficiencyTabLayout);
         container = (LinearLayout) findViewById(R.id.deficiency_fragment_container);
 

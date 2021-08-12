@@ -28,8 +28,6 @@ import java.util.List;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> implements Filterable {
 
-
-
     // Variables
     private List<ClientInfo> homeList;
     private List<ClientInfo> homeListAll;
@@ -40,9 +38,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> im
     private final String TAG = this.getClass().getCanonicalName();
     private OnRecyclerItemLongClickListener onRecyclerItemLongClickListener;
 
-
     // Adapter
-    public HomeAdapter(onNoteListener onNoteListener, List<ClientInfo> homeItems, OnRecyclerItemLongClickListener onRecyclerItemLongClickListener) {
+    public HomeAdapter(onNoteListener onNoteListener, List<ClientInfo> homeItems,
+            OnRecyclerItemLongClickListener onRecyclerItemLongClickListener) {
         this.homeList = homeItems;
         this.mOnNoteListener = onNoteListener;
         this.homeItems = homeItems;
@@ -50,15 +48,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> im
         this.homeListAll.addAll(homeItems);
         this.onRecyclerItemLongClickListener = onRecyclerItemLongClickListener;
     }
-
-//    public HomeAdapter(onNoteListener onNoteListener, List<ClientInfo> homeItems) {
-//        this.homeList = homeItems;
-//        this.mOnNoteListener = onNoteListener;
-//        this.homeItems = homeItems;
-//        this.homeListAll = new ArrayList<ClientInfo>();
-//        this.homeListAll.addAll(homeItems);
-//    }
-
 
     // Recycler View Settings
     @NonNull
@@ -80,7 +69,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> im
         holder.rowCountTextView.setText(String.valueOf(position));
         holder.projectTitle.setText(this.homeList.get(position).getClientName());
         holder.projectAddress.setText(this.homeList.get(position).getClientStreetAddress());
-        holder.projectDate.setText(android.text.format.DateFormat.format("yyyy-MM-dd", this.homeList.get(position).getDateOfRegistration()));
+        holder.projectDate.setText(android.text.format.DateFormat.format("yyyy-MM-dd",
+                this.homeList.get(position).getDateOfRegistration()));
     }
 
     @Override
@@ -96,7 +86,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> im
         HomeAdapter.onNoteListener onNoteListener;
         OnRecyclerItemLongClickListener onRecyclerItemLongClickListener;
 
-        public ViewHolder(@NonNull View itemView, onNoteListener onNoteListener,OnRecyclerItemLongClickListener onRecyclerItemLongClickListener ) {
+        public ViewHolder(@NonNull View itemView, onNoteListener onNoteListener,
+                OnRecyclerItemLongClickListener onRecyclerItemLongClickListener) {
             super(itemView);
 
             imageView = itemView.findViewById(R.id.imageView);
@@ -107,7 +98,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> im
             this.onNoteListener = onNoteListener;
             itemView.setOnClickListener(this);
             this.onRecyclerItemLongClickListener = onRecyclerItemLongClickListener;
-
 
             // Long Press to delete an item
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -121,8 +111,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> im
                     return false;
                 }
             });
-
-
         }
 
         public void showAlertDialogButtonClicked(View view) {
@@ -191,8 +179,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> im
         return homeList;
     }
 
-
-    //Interface for long click
+    // Interface for long click
 
     public interface OnRecyclerItemLongClickListener {
 

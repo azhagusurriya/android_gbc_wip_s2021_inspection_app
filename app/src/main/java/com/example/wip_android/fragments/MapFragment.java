@@ -129,31 +129,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_map, container, false);
 
-        // //Assign values
-        // supportMapFragment = (SupportMapFragment) this.getChildFragmentManager()
-        // .findFragmentById(R.id.map);
-        //
-        // //Initialize fussed location
-        // fusedClient = LocationServices.getFusedLocationProviderClient(getActivity());
-        //
-        //
-        //
-        // //check permission
-        // if (ActivityCompat.checkSelfPermission(getActivity(),
-        // Manifest.permission.ACCESS_FINE_LOCATION) ==
-        // PackageManager.PERMISSION_GRANTED) {
-        // //wHEN PERMISSION GRANTED
-        //
-        // // Call method
-        // getCurrentLocation();
-        //
-        // } else {
-        //// when permission denied
-        //// request permission
-        // ActivityCompat.requestPermissions(getActivity(),
-        // new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
-        // }
-
         mMapView = (MapView) mView.findViewById(R.id.map);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
@@ -162,9 +137,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         if (isPermissionGranted) {
             mMapView.getMapAsync(this);
             mMapView.onCreate(savedInstanceState);
-            // SupportMapFragment supportMapFragment = (SupportMapFragment)
-            // this.getChildFragmentManager().findFragmentById(R.id.map);
-            // supportMapFragment.getMapAsync(this);
         }
 
         fabTakeScreenshot = (FloatingActionButton) mView.findViewById(R.id.fabTakeScreenshot);
@@ -208,11 +180,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 try {
                     String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                     String imageFileName = "JPEG_" + timeStamp + "_";
-                    // File storageDir =
-                    // Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-                    // File file=new
-                    // File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"map.png");
-
                     saveImage(bitmap, imageFileName);
 
                     // File image = File.createTempFile(

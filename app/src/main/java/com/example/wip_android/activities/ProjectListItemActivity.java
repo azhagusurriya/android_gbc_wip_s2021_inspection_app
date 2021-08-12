@@ -26,17 +26,14 @@ public class ProjectListItemActivity extends AppCompatActivity {
     private final String TAG = this.getClass().getCanonicalName();
     private TabLayout tabLayout;
     private LinearLayout container;
-    private String intentDocumentId, intentClientName, intentClientAddress, intentClientCity, intentClientProvince, intentClientPhone,
-            intentClientImage;
+    private String intentDocumentId, intentClientName, intentClientAddress, intentClientCity, intentClientProvince,
+            intentClientPhone, intentClientImage;
 
     // Default function
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_list_item);
-
-
-
 
         // Back button
         assert getSupportActionBar() != null; // null check
@@ -55,13 +52,11 @@ public class ProjectListItemActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.projectTabLayout);
         container = (LinearLayout) findViewById(R.id.project_fragment_container);
 
-
         // Action bar settings
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle(Html.fromHtml("<font color='#ffffff'> " + intentDocumentId + " </font>"));
         }
-
 
         // Tabs
         tabLayout.addTab(tabLayout.newTab().setText("Map"));

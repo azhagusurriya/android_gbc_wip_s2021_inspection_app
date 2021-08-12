@@ -20,8 +20,7 @@ import com.example.wip_android.R;
 
 import java.util.ArrayList;
 
-
-public class AddImagePinActivity extends AppCompatActivity{
+public class AddImagePinActivity extends AppCompatActivity {
 
     private final String TAG = this.getClass().getCanonicalName();
     private PinView imageView;
@@ -36,28 +35,29 @@ public class AddImagePinActivity extends AppCompatActivity{
             actionBar.setTitle(Html.fromHtml("<font color='#ffffff'>Add Issue Marker</font>"));
         }
 
-
         imageView = findViewById(R.id.imageView);
         imageView.isClickable();
         imageView.hasOnClickListeners();
         imageView.isLongClickable();
-
-
         imageView.setImage(ImageSource.asset("sanmartino.jpg"));
 
         imageView.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
                 imageView.setPin(new PointF(1602f, 405f));
                 Log.d(TAG, "onClick: Clicked");
-                Toast.makeText(v.getContext(), "Clicked", Toast.LENGTH_SHORT).show(); }
+                Toast.makeText(v.getContext(), "Clicked", Toast.LENGTH_SHORT).show();
+            }
         });
 
         imageView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override public boolean onLongClick(View v) {
+            @Override
+            public boolean onLongClick(View v) {
                 imageView.setPin(new PointF(1602f, 405f));
                 Log.d(TAG, "onClick: Long Clicked");
                 Toast.makeText(v.getContext(), "Long clicked", Toast.LENGTH_SHORT).show();
-                return true; }
+                return true;
+            }
         });
 
     }

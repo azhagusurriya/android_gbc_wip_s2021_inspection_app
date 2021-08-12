@@ -17,7 +17,6 @@
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp">
 
-
         <ImageView
             android:id="@+id/ivUpdateClientImage"
             android:layout_width="350dp"

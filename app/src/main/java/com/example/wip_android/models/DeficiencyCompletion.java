@@ -7,7 +7,8 @@ public class DeficiencyCompletion {
     private boolean isDone;
 
     // Constructors
-    public DeficiencyCompletion() {}
+    public DeficiencyCompletion() {
+    }
 
     public DeficiencyCompletion(String name, boolean isDone) {
         this.name = name;

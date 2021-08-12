@@ -81,32 +81,31 @@ public class UserRepository {
 
     public void addUser(User user) {
         try {
-//            db.collection(COLLECTION_NAME).add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                @Override
-//                public void onSuccess(DocumentReference documentReference) {
-//                    Log.d(TAG, "Document added with ID : " + documentReference.getId());
-//                }
-//            }).addOnFailureListener(new OnFailureListener() {
-//                @Override
-//                public void onFailure(@NonNull Exception e) {
-//                    Log.e(TAG, "Error adding document to the store " + e);
-//                }
-//            });
+            // db.collection(COLLECTION_NAME).add(user).addOnSuccessListener(new
+            // OnSuccessListener<DocumentReference>() {
+            // @Override
+            // public void onSuccess(DocumentReference documentReference) {
+            // Log.d(TAG, "Document added with ID : " + documentReference.getId());
+            // }
+            // }).addOnFailureListener(new OnFailureListener() {
+            // @Override
+            // public void onFailure(@NonNull Exception e) {
+            // Log.e(TAG, "Error adding document to the store " + e);
+            // }
+            // });
 
-
-            db.collection(COLLECTION_NAME).document(user.getEmail()).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void unused) {
-                    Log.d(TAG, "Document added with ID as User EmailId");
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.e(TAG, "Error adding document to the store " + e);
-                }
-            });
-
-
+            db.collection(COLLECTION_NAME).document(user.getEmail()).set(user)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Log.d(TAG, "Document added with ID as User EmailId");
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.e(TAG, "Error adding document to the store " + e);
+                        }
+                    });
 
         } catch (Exception ex) {
             Log.e(TAG, ex.toString());

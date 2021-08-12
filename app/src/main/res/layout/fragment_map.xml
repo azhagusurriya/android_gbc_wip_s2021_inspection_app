@@ -7,17 +7,6 @@
     android:id="@+id/map_layout"
     tools:context=".fragments.MapFragment">
 
-
-<!--    <fragment-->
-<!--        android:id="@+id/map"-->
-<!--        class="com.google.android.gms.maps.MapFragment"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-
     <com.google.android.gms.maps.MapView
         android:id="@+id/map"
         android:layout_width="match_parent"
@@ -62,4 +51,3 @@
     </LinearLayout>
 
 </FrameLayout>
-

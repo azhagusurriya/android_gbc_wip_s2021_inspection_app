@@ -7,6 +7,7 @@
         <entry key="..\:/Users/mathe/OneDrive/Desktop/Android/Advanced/wip_android_project/android_gbc_wip_s2021_inspection_app/app/src/main/res/layout/activity_add_image_pin.xml" value="0.16077898550724637" />
         <entry key="..\:/Users/mathe/OneDrive/Desktop/Android/Advanced/wip_android_project/android_gbc_wip_s2021_inspection_app/app/src/main/res/layout/activity_deficiency.xml" value="0.1693840579710145" />
         <entry key="..\:/Users/mathe/OneDrive/Desktop/Android/Advanced/wip_android_project/android_gbc_wip_s2021_inspection_app/app/src/main/res/layout/activity_deficiency_tab_layout.xml" value="0.1693840579710145" />
+        <entry key="..\:/Users/mathe/OneDrive/Desktop/Android/Advanced/wip_android_project/android_gbc_wip_s2021_inspection_app/app/src/main/res/layout/activity_project.xml" value="0.17300724637681159" />
         <entry key="..\:/Users/mathe/OneDrive/Desktop/Android/Advanced/wip_android_project/android_gbc_wip_s2021_inspection_app/app/src/main/res/layout/add_image_pin_fragment.xml" value="0.1721014492753623" />
         <entry key="..\:/Users/mathe/OneDrive/Desktop/Android/Advanced/wip_android_project/android_gbc_wip_s2021_inspection_app/app/src/main/res/layout/deficiency_after_fragment.xml" value="0.1693840579710145" />
         <entry key="..\:/Users/mathe/OneDrive/Desktop/Android/Advanced/wip_android_project/android_gbc_wip_s2021_inspection_app/app/src/main/res/layout/deficiency_image_view_fragment.xml" value="0.1721014492753623" />
@@ -20,6 +21,9 @@
         <entry key="..\:/Users/mathe/OneDrive/Desktop/Android/Advanced/wip_android_project/android_gbc_wip_s2021_inspection_app/app/src/main/res/layout/province_dropdown_item.xml" value="0.20104166666666667" />
         <entry key="..\:/Users/mathe/OneDrive/Desktop/Android/Advanced/wip_android_project/android_gbc_wip_s2021_inspection_app/app/src/main/res/layout/row_glossary_item.xml" value="0.1693840579710145" />
         <entry key="..\:/Users/mathe/OneDrive/Desktop/Android/Advanced/wip_android_project/android_gbc_wip_s2021_inspection_app/app/src/main/res/layout/state_info.xml" value="0.24592391304347827" />
+        <entry key="..\:/Users/mathe/OneDrive/Desktop/Android/Advanced/wip_android_project/android_gbc_wip_s2021_inspection_app/app/src/main/res/menu/camera_map.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/mathe/OneDrive/Desktop/Android/Advanced/wip_android_project/android_gbc_wip_s2021_inspection_app/app/src/main/res/menu/glossary_menu.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/mathe/OneDrive/Desktop/Android/Advanced/wip_android_project/android_gbc_wip_s2021_inspection_app/app/src/main/res/menu/main.xml" value="0.25416666666666665" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.17916666666666667" />
         <entry key="app/src/main/res/drawable/ic_baseline_account_circle_24.xml" value="0.10092592592592593" />
         <entry key="app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.16018518518518518" />

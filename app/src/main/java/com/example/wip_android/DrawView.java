@@ -64,15 +64,7 @@ public class DrawView extends androidx.appcompat.widget.AppCompatImageView {
                     a = listCircle.get(i).getX();
                     b = listCircle.get(i).getY();
 
-                    // FILL
-                    // canvas.drawRect(x, y, (x + width) / 0.5f, (y + height) / 0.5f, paint);
                     canvas.drawCircle(a, b, radius, paint);
-                    // switchFragment = new DeficiencyFragment();
-                    // transaction =
-                    // addImagePin.getActivity().getSupportFragmentManager().beginTransaction();
-                    // transaction.replace(R.id.project_layout,
-                    // switchFragment).addToBackStack(null).commit();
-                    //// addImagePin.navigateToDeficiencyPage();
                 }
 
             } else {
@@ -80,12 +72,6 @@ public class DrawView extends androidx.appcompat.widget.AppCompatImageView {
             }
         }
     }
-
-    // public void arrayListValues(float m,float n){
-    // listCircle.add(new Circle(m,n,radius));
-    // numberOfCircles = listCircle.size();
-    // invalidate();
-    // }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {

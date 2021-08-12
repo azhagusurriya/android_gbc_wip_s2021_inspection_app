@@ -186,11 +186,6 @@ public class AddProjectActivity extends AppCompatActivity
 
         if (id == R.id.action_map) {
             Log.d(TAG, "onOptionsItemSelected: Map selected ");
-            // switchFragment = new MapFragment();
-            // transaction = getSupportFragmentManager().beginTransaction();
-            // transaction.replace(R.id.add_project_layout,
-            // switchFragment).addToBackStack(null).commit();
-            //
             Intent mainIntent = new Intent(this, MapScreenshotActivity.class);
             startActivity(mainIntent);
             return true;
@@ -307,21 +302,17 @@ public class AddProjectActivity extends AppCompatActivity
     private void validateAddProject() {
         ClientInfo newClient = new ClientInfo();
 
-        // uploadImageToFirebase(imageFileName,contentUri);
-
         String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
         String strClientName = this.edtClientName.getEditText().getText().toString();
 
-        if(strClientName.length() >= 8){
-             firstEightCharDocumentId = strClientName.substring(0, 8);
-        }
-        else{
+        if (strClientName.length() >= 8) {
+            firstEightCharDocumentId = strClientName.substring(0, 8);
+        } else {
             firstEightCharDocumentId = strClientName;
         }
 
-
-        String documentID = firstEightCharDocumentId +"_"+ currentTime +"_"+ currentDate;
+        String documentID = firstEightCharDocumentId + "_" + currentTime + "_" + currentDate;
         Log.d(TAG, "validateAddProject: Current Document ID: " + documentID);
 
         newClient.setDocumentid(documentID);
@@ -342,7 +333,7 @@ public class AddProjectActivity extends AppCompatActivity
         goToProjectDeficiencyList();
     }
 
-    // Get file extension to save into firestore
+    // Get file extension to save into Firebase
     private String getFileExtension(Uri uri) {
         ContentResolver contentResolver = getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
@@ -350,7 +341,7 @@ public class AddProjectActivity extends AppCompatActivity
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
-    // Uploading image to firestore and get the Url of the image
+    // Uploading image to Firebase and get the Url of the image
     private void uploadImage() {
 
         final ProgressDialog pd = new ProgressDialog(this);

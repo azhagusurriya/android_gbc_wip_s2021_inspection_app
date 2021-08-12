@@ -9,14 +9,11 @@
     android:gravity="center"
     android:background="@color/white">
 
-
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="centerInside"
         android:src="@drawable/logo"
-        android:id="@+id/logo"
-
-        />
+        android:id="@+id/logo"/>
 
 </LinearLayout>

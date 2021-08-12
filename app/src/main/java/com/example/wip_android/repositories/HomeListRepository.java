@@ -31,7 +31,8 @@ public class HomeListRepository {
     // Methods
     public List<ClientInfo> getHomeList(String department) {
         try {
-            db.collection(COLLECTION_NAME).whereEqualTo("department", department).orderBy("dateOfRegistration", Query.Direction.DESCENDING).get()
+            db.collection(COLLECTION_NAME).whereEqualTo("department", department)
+                    .orderBy("dateOfRegistration", Query.Direction.DESCENDING).get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
