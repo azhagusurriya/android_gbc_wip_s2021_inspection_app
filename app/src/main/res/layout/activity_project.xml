@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/project_layout"
+    tools:context=".activities.ProjectActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="10dp">
+
+            <TextView
+                android:text="Project Name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                android:id="@+id/projectName" />
+
+            <TextView
+                android:text="6675 Rexwood Rd., Missisauga, Ontario"
+                android:layout_width="wrap_content"
+                android:id="@+id/projectAddress"
+                android:layout_height="wrap_content"
+                android:textSize="18dp" />
+
+        <ImageView
+            android:id="@+id/projectImage"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="20dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/roof" />
+
+
+        <TextView
+            android:id="@+id/pickImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="20dp"
+            android:textColor="#3351fc"
+            android:text="Pick Image"
+            android:clickable="true"
+            android:onClick="pickImage"/>
+
+        <Button
+            android:id="@+id/btnAddDeficiency"
+            android:layout_width="180dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="55dp"
+            android:layout_gravity="center"
+            android:background="@color/logo"
+            android:onClick="addDeficiency"
+            android:clickable="true"
+            android:text="@string/addDeficiency"
+            />
+    </LinearLayout>
+
+</FrameLayout>

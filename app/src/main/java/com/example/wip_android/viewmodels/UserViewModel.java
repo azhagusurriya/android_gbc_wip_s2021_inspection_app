@@ -20,16 +20,25 @@ public class UserViewModel extends ViewModel {
     private UserViewModel(){
     }
 
+
+    public UserRepository getUserRepository(){
+        return userRepository;
+    }
+
     public void addUser(User user){
         this.userRepository.addUser(user);
     }
-    public UserRepository getUserRepository(){
-        return userRepository;
+
+    public void createAuthUser(User user, String password){
+        this.userRepository.createAuthUser(user,password);
     }
 
 
     public void validateUser(String email, String password){
         this.userRepository.getUser(email, password);
+    }
+    public void signInAuthUser(String email, String password){
+        this.userRepository.signInAuthUser(email, password);
     }
 
     public void updateUser(User user){
@@ -40,8 +49,8 @@ public class UserViewModel extends ViewModel {
         this.userRepository.deleteUser(userID);
     }
 
-    public void checkUser(String email){
-        this.userRepository.checkUser(email);
+    public void checkUser(String email, String employeeID){
+        this.userRepository.checkUser(email,employeeID);
     }
 
     public User getUpdateUserInfo(String userID){

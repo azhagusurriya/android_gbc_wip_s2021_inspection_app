@@ -11,4 +11,12 @@
         android:orderInCategory="100"
         android:title="@string/action_logout"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/home_action_search"
+        android:title="Search"
+        android:icon="@drawable/ic_baseline_search_24"
+        app:showAsAction="always|collapseActionView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        android:visible="false"
+        />
 </menu>

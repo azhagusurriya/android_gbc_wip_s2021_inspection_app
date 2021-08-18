@@ -7,24 +7,31 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.example.wip_android.ui.home.HomeFragment"
+        android:name="com.example.wip_android.fragments.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
-    <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.wip_android.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+<!--    <fragment-->
+<!--        android:id="@+id/nav_gallery"-->
+<!--        android:name="com.example.wip_android.ui.gallery.GalleryFragment"-->
+<!--        android:label="@string/menu_gallery"-->
+<!--        tools:layout="@layout/fragment_gallery" />-->
+
+<!--    <fragment-->
+<!--        android:id="@+id/nav_map"-->
+<!--        android:name="com.example.wip_android.fragments.MapFragment"-->
+<!--        android:label="@string/menu_map"-->
+<!--        tools:layout="@layout/fragment_map" />-->
+
+<!--    <fragment-->
+<!--        android:id="@+id/nav_updateClient"-->
+<!--        android:name="com.example.wip_android.fragments.ClientUpdateFragment"-->
+<!--        android:label="@string/menu_clientUpdate"-->
+<!--        tools:layout="@layout/client_update_fragment" />-->
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.wip_android.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
-    <fragment
         android:id="@+id/nav_profile"
-        android:name="com.example.wip_android.ProfileFragment"
+        android:name="com.example.wip_android.fragments.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>
